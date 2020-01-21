@@ -2,9 +2,12 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Signin from "./components/signin.component";
-import MainScreen from "./components/mainscreen.component";
-import Register from "./components/register.component";
+// import Navbar from "./components/navbar.component";
+import LandingPage from "./components/landingpage.component";
+// import Signin from "./components/signin.component";
+// import MainScreen from "./components/mainscreen.component";
+// import Register from "./components/register.component";
+import Routes from './components/routes';
 
 
 
@@ -12,11 +15,8 @@ function App() {
   return (
     <Router>
       <div className="container">
-        {/* <Signin /> */}
-        {/* < br /> */}
-        <Route path="/" exact　component={Signin} />
-        <Route path="/register" exact　component={Register} />
-        <Route path="/mainscreen" exact　component={MainScreen} />
+        <Route path="/" exact　component={LandingPage} />
+        <Route component={Routes} />
       </div>
     </Router>
   );

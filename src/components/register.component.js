@@ -20,9 +20,9 @@ export default class Register extends Component {
             isProperInfo: false
         }
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSetUsername = this.onSetUsername.bind(this);
         this.onSetEmail = this.onSetEmail.bind(this);
         this.onSetPassword = this.onSetPassword.bind(this);
-
     }
 
 
@@ -31,25 +31,28 @@ export default class Register extends Component {
         e.preventDefault();
 
         const user = {
+            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
         }
 
         axios.post('http://localhost:3000/users/register', user)
             .then(response => {
-                if (response.data) {
-                    console.log('success !');
+                    console.log(response);
                     this.setState({
                         isProperInfo: true
                     })
-                    return(
-                        <Redirect to="/mainscreen" />
-                    );
-                } else {
-                    console.log('fail !')
-                }
+                    // return(
+                    //     <Redirect to="/mainscreen" />
+                    // );
             })
             .catch((error) => { console.log(error) });
+    }
+
+    onSetUsername(e) {
+        this.setState({
+            username: e.target.value 
+        });
     }
 
     onSetEmail(e) {
@@ -75,6 +78,18 @@ export default class Register extends Component {
             <Container className="App">
                 <h2>Register</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
+                    <Col>
+                        <FormGroup>
+                            <Label>Username</Label>
+                            <Input
+                                type="name"
+                                name="name"
+                                id="exampleName"
+                                placeholder="John Smith"
+                                onChange={this.onSetUsername}
+                            />
+                        </FormGroup>
+                    </Col>
                     <Col>
                         <FormGroup>
                             <Label>Email</Label>

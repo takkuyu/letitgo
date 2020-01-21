@@ -103,7 +103,9 @@ export default class Signin extends Component {
                         </FormGroup>
                     </Col>
                         <Button >Submit</Button>
-                        <Link to="/register">Don't have an acount?</Link>
+                        <p className="my-1">
+                        Don't have an account? <Link to='/register'>Sign Up</Link>
+                        </p>
                 </Form>
             </Container>
         );
