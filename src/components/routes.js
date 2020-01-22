@@ -4,6 +4,8 @@ import Signin from "./signin.component";
 import MainScreen from "./mainscreen.component";
 import Register from "./register.component";
 import NewPost from "./newpost.component";
+import EditPosting from "./edit-posting.component";
+
 
 const Routes = () => {
     return (
@@ -13,6 +15,7 @@ const Routes = () => {
                 <Route path="/register" exact component={Register} />
                 <Route path="/mainscreen" exact component={MainScreen} />
                 <Route path="/newpost" exact component={NewPost} />
+                <Route path="/update/:id" exact component={EditPosting} />
             </Switch>
         </section>
     );

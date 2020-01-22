@@ -6,7 +6,7 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import MainScreen from './mainscreen.component';
+// import MainScreen from './mainscreen.component';
 
 
 
@@ -39,13 +39,14 @@ export default class Signin extends Component {
         axios.post('http://localhost:3000/users/signin', user)
             .then(response => {
                 if (response.data) {
-                    console.log('success !');
+                    // console.log(response.data);
                     this.setState({
-                        isProperUser: true
+                        isProperUser: true,
+                        username: response.data.username
                     })
-                    return(
-                        <Redirect to="/mainscreen" />
-                    );
+                    // return(
+                    //     <Redirect to="/mainscreen" />
+                    // );
                 } else {
                     console.log('fail !')
                 }
@@ -71,7 +72,12 @@ export default class Signin extends Component {
     render() {
 
         if (this.state.isProperUser) {
-            return <Redirect to='/mainscreen' />;
+            return(
+            <Redirect to={{
+                pathname:'/mainscreen',
+                state: { username: this.state.username }
+             }}/>
+            );
           }
 
         return (
