@@ -6,8 +6,10 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-
+// import ImageUploader from 'react-images-upload';
 import Navbar from "./navbar.component";
+
+let createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL;
 
 
 export default class NewPost extends Component {
@@ -15,17 +17,30 @@ export default class NewPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title:'',
+            title: '',
             image: '',
             description: '',
-            isProperInfo:false,
+            isProperInfo: false,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
-        this.onSetImage = this.onSetImage.bind(this);
+        // this.onSetImage = this.onSetImage.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
+        this.handleChangeFile = this.handleChangeFile.bind(this);
+
     }
 
+    componentDidMount(){
+        console.log(this.props)
+    }
+
+
+
+    handleChangeFile(e) {
+        let files = e.target.files;
+        let image_url = files.length === 0 ? "" : createObjectURL(files[0]);
+        this.setState({ image: image_url });
+    }
 
 
     onSubmit(e) {
@@ -39,25 +54,25 @@ export default class NewPost extends Component {
 
         axios.post('http://localhost:3000/postings/post', posting)
             .then(response => {
-                    console.log(response);
-                    this.setState({
-                        isProperInfo: true
-                    })
+                console.log(response);
+                this.setState({
+                    isProperInfo: true
+                })
             })
             .catch((error) => { console.log(error) });
     }
 
     onSetTitle(e) {
         this.setState({
-            title: e.target.value 
+            title: e.target.value
         });
     }
 
-    onSetImage(e) {
-        this.setState({
-            image: e.target.value 
-        });
-    }
+    // onSetImage(e) {
+    //     this.setState({
+    //         image: e.target.value
+    //     });
+    // }
 
     onSetDescription(e) {
         this.setState({
@@ -65,16 +80,16 @@ export default class NewPost extends Component {
         });
     }
 
-    
+
     render() {
 
         if (this.state.isProperInfo) {
             return <Redirect to='/mainscreen' />;
-          }
+        }
 
         return (
             <Container className="App">
-                <Navbar/>
+                <Navbar />
                 <h2>New Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>
@@ -91,14 +106,10 @@ export default class NewPost extends Component {
                     </Col>
                     <Col>
                         <FormGroup>
-                            <Label>Image</Label>
-                            <Input
-                                type="text"
-                                name="text"
-                                id="exampleImage"
-                                placeholder="Image link here"
-                                onChange={this.onSetImage}
-                            />
+                            <div>
+                                <input type="file" ref="file" onChange={this.handleChangeFile} />
+                                <img src={this.state.image} width='30%' />
+                            </div>
                         </FormGroup>
                     </Col>
                     <Col>
@@ -111,12 +122,12 @@ export default class NewPost extends Component {
                                 placeholder="description"
                                 onChange={this.onSetDescription}
                                 style={{
-                                    height:'200px',
+                                    height: '200px',
                                 }}
                             />
                         </FormGroup>
                     </Col>
-                        <Button >Post</Button>
+                    <Button >Post</Button>
                 </Form>
             </Container>
         );

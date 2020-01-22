@@ -15,7 +15,7 @@ const CardList = (props) => {
                     <img width="100%" src={props.posting.image} alt="Card image cap" />
                     <CardBody>
                         <CardText>{props.posting.description}</CardText>
-                        <Link to={"/edit/" + props.posting._id} style={{marginRight:'10'}}>Edit</Link>
+                        <Link to={"/update/" + props.posting._id} style={{marginRight:'10'}}>Edit</Link>
                         <CardLink href="#" onClick={() => { props.deletePosting(props.posting._id) }}>Delete</CardLink>
                     </CardBody>
                 </Card>
