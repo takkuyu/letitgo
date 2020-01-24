@@ -14,16 +14,16 @@ export default class EditPosting extends Component {
             title: '',
             image: '',
             description: '',
+            loading: false,
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
-        this.onChangeImage = this.onChangeImage.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
 
     }
 
     componentDidMount() {
-        // console.log(this.props.match.params.id)
 
         axios.get('http://localhost:3000/postings/' + this.props.match.params.id)
             .then(response => {
@@ -38,6 +38,31 @@ export default class EditPosting extends Component {
             })
     }
 
+    uploadImage = async e => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'myreactapp')
+        this.setState({
+            loading: true
+        })
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        )
+        const file = await res.json()
+        // console.log(file.secure_url)
+        this.setState({
+            image: file.secure_url
+        })
+        this.setState({
+            loading: false
+        })
+    }
+
     onChangeTitle(e) {
         this.setState({
             title: e.target.value // target is textbox
@@ -48,27 +73,20 @@ export default class EditPosting extends Component {
             description: e.target.value // target is textbox
         });
     }
-    onChangeImage(e) {
-        this.setState({
-            image: e.target.value // target is textbox
-        });
-    }
 
     onSubmit(e) {
-        e.preventDefault(); 
+        e.preventDefault();
         const posting = {
             title: this.state.title,
             image: this.state.image,
             description: this.state.description,
         }
-
-        console.log(posting);
-
+        // console.log(posting);
         axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting)
             .then(res => console.log(res.data)) // this will show 'Exercise added' which is res.json() in the backend code
             .catch(console.log);
 
-        window.location = '/mainscreen'; 
+        window.location = '/mainscreen';
     }
 
 
@@ -92,14 +110,18 @@ export default class EditPosting extends Component {
                     </Col>
                     <Col>
                         <FormGroup>
-                            <Label>Image</Label>
+                            <Label>Upload Image</Label>
                             <Input
-                                type="text"
-                                name="text"
-                                value={this.state.image}
-                                id="exampleImage"
-                                onChange={this.onChangeImage}
+                                type="file"
+                                name="file"
+                                placeholder="Upload an image"
+                                onChange={this.uploadImage}
                             />
+                            {this.state.loading ? (
+                                <h3>Loading...</h3>
+                            ) : (
+                                    <img src={this.state.image} style={{ width: '300px' }} />
+                                )}
                         </FormGroup>
                     </Col>
                     <Col>
@@ -120,60 +142,6 @@ export default class EditPosting extends Component {
                     <Button >Post</Button>
                 </Form>
             </Container>
-
-            // <div>
-            //     <h3>Edit Posting</h3>
-            //     <form onSubmit={this.onSubmit}>
-            //         <div className="form-group">
-            //             <label>Username: </label>
-            //             <select ref="userInput"
-            //                 required
-            //                 className="form-control"
-            //                 value={this.state.username}
-            //                 onChange={this.onChangeUsername}>
-            //                 {
-            //                     this.state.users.map((user) => {
-            //                         return <option
-            //                             key={user}
-            //                             value={user}>{user}
-            //                         </option>;
-            //                     })
-            //                 }
-            //             </select>
-            //         </div>
-            //         <div className="form-group">
-            //             <label>Description: </label>
-            //             <input type="text"
-            //                 required
-            //                 className="form-control"
-            //                 value={this.state.description}
-            //                 onChange={this.onChangeDescription}
-            //             />
-            //         </div>
-            //         <div className="form-group">
-            //             <label>Duration (in minutes): </label>
-            //             <input
-            //                 type="text"
-            //                 className="form-control"
-            //                 value={this.state.duration}
-            //                 onChange={this.onChangeDuration}
-            //             />
-            //         </div>
-            //         <div className="form-group">
-            //             <label>Date: </label>
-            //             <div>
-            //                 {/* <DatePicker
-            //                     selected={this.state.date}
-            //                     onChange={this.onChangeDate}
-            //                 /> */}
-            //             </div>
-            //         </div>
-
-            //         <div className="form-group">
-            //             <input type="submit" value="Edit Exercise Log" className="btn btn-primary" />
-            //         </div>
-            //     </form>
-            // </div>
         );
     }
 }
