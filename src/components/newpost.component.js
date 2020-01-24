@@ -6,42 +6,57 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-// import ImageUploader from 'react-images-upload';
 import Navbar from "./navbar.component";
 
-let createObjectURL = (window.URL || window.webkitURL).createObjectURL || window.createObjectURL;
 
 
 export default class NewPost extends Component {
+
+
 
     constructor(props) {
         super(props);
         this.state = {
             title: '',
             image: '',
+            loading: false,
             description: '',
             isProperInfo: false,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
-        // this.onSetImage = this.onSetImage.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
-        this.handleChangeFile = this.handleChangeFile.bind(this);
-
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
-    componentDidMount(){
-        console.log(this.props)
+    // componentDidMount() {
+    //     console.log(this.props)
+    // }
+
+    uploadImage = async e => {
+        const files = e.target.files
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'myreactapp')
+        this.setState({
+            loading: true
+        })
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        )
+        const file = await res.json()
+        // console.log(file.secure_url)
+        this.setState({
+            image: file.secure_url
+        })
+        this.setState({
+            loading: false
+        })
     }
-
-
-
-    handleChangeFile(e) {
-        let files = e.target.files;
-        let image_url = files.length === 0 ? "" : createObjectURL(files[0]);
-        this.setState({ image: image_url });
-    }
-
 
     onSubmit(e) {
         e.preventDefault();
@@ -68,12 +83,6 @@ export default class NewPost extends Component {
         });
     }
 
-    // onSetImage(e) {
-    //     this.setState({
-    //         image: e.target.value
-    //     });
-    // }
-
     onSetDescription(e) {
         this.setState({
             description: e.target.value // target is textbox
@@ -82,6 +91,7 @@ export default class NewPost extends Component {
 
 
     render() {
+
 
         if (this.state.isProperInfo) {
             return <Redirect to='/mainscreen' />;
@@ -106,10 +116,18 @@ export default class NewPost extends Component {
                     </Col>
                     <Col>
                         <FormGroup>
-                            <div>
-                                <input type="file" ref="file" onChange={this.handleChangeFile} />
-                                <img src={this.state.image} width='30%' />
-                            </div>
+                            <Label>Upload Image</Label>
+                            <Input
+                                type="file"
+                                name="file"
+                                placeholder="Upload an image"
+                                onChange={this.uploadImage}
+                            />
+                            {this.state.loading ? (
+                                <h3>Loading...</h3>
+                            ) : (
+                                    <img src={this.state.image} style={{ width: '300px' }} />
+                                )}
                         </FormGroup>
                     </Col>
                     <Col>

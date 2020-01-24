@@ -18,9 +18,11 @@ export default class MainScreen extends Component {
         this.state = {
             postings: [],
             loginuser: '',
+            liked: ''
         };
 
         this.deletePosting = this.deletePosting.bind(this);
+        // this.getLikedPosting = this.getLikedPosting.bind(this);
 
     }
 
@@ -32,10 +34,18 @@ export default class MainScreen extends Component {
             })
             .catch((error) => { console.log(error) });
 
-                this.setState({
-                    loginuser: this.props.location.state.username
-                })
+        // this.setState({
+        //     loginuser: this.props.location.state.username
+        // })
     }
+
+    // getLikedPosting(id){
+
+    //     console.log(id)
+    //     this.setState({
+    //         liked:id
+    //     })
+    // }
 
     deletePosting(id) {
 
@@ -43,37 +53,56 @@ export default class MainScreen extends Component {
             return;
         }
 
+        // console.log('http://localhost:3000/postings/' + id)
+
+        axios.get('http://localhost:3000/postings/' + id)
+            .then(res => {
+                console.log(res.data.image)
+
+                const image = {
+                    image: res.data.image
+                }
+
+                axios.post('http://localhost:3000/likes/image', image)
+                    .then(res => {
+                        console.log(res)
+                        if (res.data === false) {
+                            return
+                        }
+                        axios.delete('http://localhost:3000/likes/' + res.data) // post with the id of the liked posting to delete
+                            .then(res => console.log(res.data))
+                            .catch(console.log);
+                    })
+                    .catch(console.log);
+            });
+
         axios.delete('http://localhost:3000/postings/' + id)
-            .then(res => console.log(res.data));
+            .then(res => {
+                console.log(res.data)
+            })
         this.setState({
             postings: this.state.postings.filter(el => el._id !== id)
         })
-
     }
 
     postingList() {
         return this.state.postings.map(posting => {
             return (
-
                 <CardList
                     posting={posting}
                     key={posting._id}
                     deletePosting={this.deletePosting}
                 />
-
             );
         })
     }
 
 
     render() {
-        // console.log('THis is a loginuser: ' + this.state.loginuser);
-
-        // console.log('THis is a postings: ' + this.state.postings);
 
         return (
             <Container className="App">
-                <Navbar loginuser={this.state.loginuser}/>
+                <Navbar loginuser={this.state.loginuser} liked={this.state.liked} />
                 <Row>
                     {this.postingList()}
                 </Row>

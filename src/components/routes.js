@@ -5,6 +5,7 @@ import MainScreen from "./mainscreen.component";
 import Register from "./register.component";
 import NewPost from "./newpost.component";
 import EditPosting from "./edit-posting.component";
+import Favorite from "./favorite.component";
 
 
 const Routes = () => {
@@ -16,6 +17,7 @@ const Routes = () => {
                 <Route path="/mainscreen" exact component={MainScreen} />
                 <Route path="/newpost" exact component={NewPost} />
                 <Route path="/update/:id" exact component={EditPosting} />
+                <Route path="/favorite" exact component={Favorite} />
             </Switch>
         </section>
     );
