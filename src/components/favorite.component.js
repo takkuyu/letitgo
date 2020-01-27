@@ -1,30 +1,54 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-    Container, Col, Form,
-    FormGroup, Label, Input,
-    Button, Row
+    Container, Col,  Row
 } from 'reactstrap';
-import {
-    Card, CardText, CardBody, CardLink,
-    CardTitle
-} from 'reactstrap';
+// import {
+//     Card, CardText, CardBody, CardLink,
+//     CardTitle
+// } from 'reactstrap';
 import Navbar from "./navbar.component";
 
 const FavoriteList = props => (
-    <Col sm="4">
-        <Card style={{ marginTop: '20px' }}>
-            <CardBody>
-                <CardTitle style={{ height: '20px' }}>{props.like.title}</CardTitle>
-            </CardBody>
-            <img width="100%" src={props.like.image} alt="Card image cap" />
-            <CardBody>
-                <CardText>{props.like.description}</CardText>
-                <Button color="danger" onClick={() => props.deleteLike(props.like._id)} style={{ display: 'inline-block' }}>Unlike</Button>
-                {/* <CardLink href="#" onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</CardLink> */}
-            </CardBody>
-        </Card>
-    </Col>
+    // <Col sm="4">
+    //     <Card style={{ marginTop: '20px' }}>
+    //         <CardBody>
+    //             <CardTitle style={{ height: '20px' }}>{props.like.title}</CardTitle>
+    //         </CardBody>
+    //         <img width="100%" src={props.like.image} alt="Card image cap" />
+    //         <CardBody>
+    //             <CardText>{props.like.description}</CardText>
+    //             <Button color="danger" onClick={() => props.deleteLike(props.like._id)} style={{ display: 'inline-block' }}>Unlike</Button>
+    //         </CardBody>
+    //     </Card>
+    // </Col>
+
+    <Col md={'4'}>
+        <div className="product">
+            <div className="in_stock_container">
+                <div className="availability" >Added on:</div>
+                <span>{props.date.getDate() + " / " + props.date.getMonth() + 1 + " / " + props.date.getFullYear()}</span>
+            </div>
+            <div className="product_image">
+                <Link to={{
+                    pathname: "/comments",
+                    id: props.like.likedId
+                }}>
+                    <img src={props.like.image} alt="" />
+                </Link>
+            </div>
+            <div className="product_content">
+                <div className="product_title">{props.like.title}</div>
+                <div className="product_price">${props.like.price}</div>
+                <div className="in_stock_container" style={{ marginTop: '10px' }}>
+                    <div className="availability" >Location:</div>
+                    <span>{props.like.location}</span>
+                </div>
+                <a style={{ cursor: 'pointer', color: "red" }} onClick={() => props.deleteLike(props.like._id)}>Unlike</a>
+            </div>
+        </div>
+    </Col >
 );
 
 
@@ -37,7 +61,8 @@ export default class Favorite extends Component {
         this.state = {
             likes: []
         }
-        // console.log(props)
+        this.deleteLike = this.deleteLike.bind(this);
+
     }
 
     componentDidMount() {
@@ -50,42 +75,23 @@ export default class Favorite extends Component {
             .catch((error) => { console.log(error) });
     }
 
-    // componentWillUnmount(){
-    //     console.log('unmounted !')
-    //     // axios.get('http://localhost:3000/likes/')
-    //     // .then(response => {
-    //     //     // console.log(response.data.title)
-    //     //     response.data.map(like => {
-    //     //         console.log(like._id)
-    //     //         if(like._id)
-    //     //         axios.delete('http://localhost:3000/postings/' + id)
-    //     //         .then(res => console.log(res.data));
-
-    //     //     })
-
-    //     // })
-    //     // .catch((error) => { console.log(error) });
-    // }
-
     deleteLike(id) {
-
-        console.log(id)
         axios.delete('http://localhost:3000/likes/' + id)
             .then(response => console.log(response.data));
 
-            console.log(this.state)
-
-        // this.setState({
-        //     likes: this.state.likes.filter(el => el._id !== id) // this filter returns all the elements in the db whose id does not match the deleted id.
-        // })
+        this.setState({
+            likes: this.state.likes.filter(el => el._id !== id) // this filter returns all the elements in the db whose id does not match the deleted id.
+        })
 
     }
 
     postingList() {
         return this.state.likes.map(like => {
+            const date = new Date(like.createdAt)
+            // console.log(d.getDate() + "/" + d.getMonth() + 1 + "/" + d.getFullYear())
             return (
-
                 <FavoriteList
+                    date={date}
                     like={like}
                     key={like._id}
                     deleteLike={this.deleteLike}

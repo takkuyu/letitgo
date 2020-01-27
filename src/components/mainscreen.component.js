@@ -3,13 +3,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {
     Container,
-    Row,
-    // FormGroup, Label, Input,
-    // Button,
+    Row
 } from 'reactstrap';
 
 import Navbar from "./navbar.component";
 import CardList from "./card.component";
+import "../styles/mainscreen.css"
 
 export default class MainScreen extends Component {
 
@@ -103,9 +102,87 @@ export default class MainScreen extends Component {
         return (
             <Container className="App">
                 <Navbar loginuser={this.state.loginuser} liked={this.state.liked} />
+                <div className="products">
+                    <Row>
+                        {this.postingList()}
+                    </Row>
+                </div>
+{/* 
                 <Row>
-                    {this.postingList()}
-                </Row>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col md={'4'}>
+                        <div className="product">
+                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
+                            <div className="product_content">
+                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
+                                <div className="product_price">$670</div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row> */}
+   
             </Container>
         );
     }

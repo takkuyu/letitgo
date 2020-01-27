@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -18,6 +18,8 @@ export default class NewPost extends Component {
         super(props);
         this.state = {
             title: '',
+            location: '',
+            price: 0,
             image: '',
             loading: false,
             description: '',
@@ -25,6 +27,8 @@ export default class NewPost extends Component {
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
+        this.onSetLocation = this.onSetLocation.bind(this);
+        this.onSetPrice = this.onSetPrice.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
     }
@@ -63,6 +67,8 @@ export default class NewPost extends Component {
 
         const posting = {
             title: this.state.title,
+            location: this.state.location,
+            price: this.state.price,
             image: this.state.image,
             description: this.state.description,
         }
@@ -80,6 +86,18 @@ export default class NewPost extends Component {
     onSetTitle(e) {
         this.setState({
             title: e.target.value
+        });
+    }
+
+    onSetLocation(e) {
+        this.setState({
+            location: e.target.value
+        });
+    }
+
+    onSetPrice(e) {
+        this.setState({
+            price: e.target.value
         });
     }
 
@@ -108,9 +126,33 @@ export default class NewPost extends Component {
                             <Input
                                 type="text"
                                 name="text"
-                                id="exampleImage"
+                                id="title"
                                 placeholder="Enter a title"
                                 onChange={this.onSetTitle}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label>Price</Label>
+                            <Input
+                                type="number"
+                                name="price"
+                                id="price"
+                                placeholder="Enter a price"
+                                onChange={this.onSetPrice}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label>Location</Label>
+                            <Input
+                                type="text"
+                                name="location"
+                                id="location"
+                                placeholder="Enter a location"
+                                onChange={this.onSetLocation}
                             />
                         </FormGroup>
                     </Col>

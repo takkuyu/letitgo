@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-    Card, CardText, CardBody, CardLink,
-    CardTitle, Col, Button
+   Col
 } from 'reactstrap';
+import "../styles/mainscreen.css"
 
 
 
@@ -23,14 +23,6 @@ export default class CardList extends Component {
 
     // state is set after render() (re-rendered), so use didUpdate, otherwise setState isn't applied
     postLikes() {
-
-        // console.log(prevProps)
-        // console.log(this.state.title)
-
-        // if(prevState){
-        //     return;
-        // }
-
         const like = {
             title: this.state.title,
             image: this.state.image,
@@ -59,17 +51,6 @@ export default class CardList extends Component {
                     image: response.data.image,
                     description: response.data.description,
                 })
-                // response.data.map(data=>{
-                //     console.log(data._id)
-                // })
-
-                // console.log('getlikes')
-
-                // axios.post('http://localhost:3000/likes/post', response.data._id)
-                //     .then(response => {
-                //         console.log(response);
-                //     })
-                //     .catch((error) => { console.log(error) });
 
                 this.postLikes();
             })
@@ -77,28 +58,61 @@ export default class CardList extends Component {
     }
 
     render() {
-        console.log(this.state.liked)
+        // console.log(this.state.liked)
         return (
-            <Col sm="4">
-                <Card style={{ marginTop: '20px' }}>
-                    <CardBody>
-                        <CardTitle style={{ height: '20px' }}>{this.props.posting.title}</CardTitle>
-                    </CardBody>
-                    <img width="100%" src={this.props.posting.image} alt="Card image cap" />
-                    <CardBody>
-                        <CardText>{this.props.posting.description}</CardText>
-                        {this.state.liked ?
-                            <Button color="secondary" style={{ display: 'inline-block' }}>Likes</Button>
+            <Col md={'4'}>
+                <div className="product">
+                    <div className="product_image">
+                        {/* <Link to="/comments">
+                            <img src={this.props.posting.image} alt="" />
+                        </Link> */}
+                        <Link to={{
+                            pathname: "/comments",
+                            id: this.props.posting._id
+                        }}>
+                            <img src={this.props.posting.image} alt="" />
+                        </Link>
+                    </div>
+                    <div className="product_content">
+                        <div className="product_title">{this.props.posting.title}</div>
+                        <div className="product_price">${this.props.posting.price}</div>
+                        <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
+                        <a style={{ cursor: 'pointer', color:"red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
+                        {/* {this.state.liked ?
+                            <Button color="secondary" style={{ marginTop: '10px' }}>Likes</Button>
                             :
                             <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button>
-                        }
-                        {/* <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button> */}
-                        <Button color="primary" style={{ display: 'inline-block', marginLeft: '20px' }}>Comments</Button>
-                        <Link to={"/update/" + this.props.posting._id} style={{ marginRight: '10' }}>Edit</Link>
-                        <CardLink href="#" onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</CardLink>
-                    </CardBody>
-                </Card>
-            </Col>
+                        } */}
+                    </div>
+                </div>
+            </Col >
+
+            // <Col sm="4">
+            //     <Card style={{ marginTop: '20px' }}>
+            //         <CardBody>
+            //             <CardTitle style={{ height: '20px' }}>{this.props.posting.title}</CardTitle>
+            //         </CardBody>
+            //         <img width="100%" src={this.props.posting.image} alt="Card image cap" />
+            //         <CardBody>
+            //             <CardText>{this.props.posting.description}</CardText>
+            //             {this.state.liked ?
+            //                 <Button color="secondary" style={{ display: 'inline-block' }}>Likes</Button>
+            //                 :
+            //                 <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button>
+            //             }
+            //             {/* <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button> */}
+            //             {/* <Link to="/comments" color="primary" style={{ display: 'inline-block', marginLeft: '20px' }}>Comments</Link> */}
+            //             <Link to={{
+            //                 pathname: "/comments",
+            //                 id: this.props.posting._id
+            //             }}
+            //                 style={{ display: 'inline-block', marginLeft: '20px' }}
+            //             >Comments</Link>
+            //             <Link to={"/update/" + this.props.posting._id} style={{ marginRight: '10' }}>Edit</Link>
+            //             <CardLink href="#" onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</CardLink>
+            //         </CardBody>
+            //     </Card>
+            // </Col>
         );
     }
 };
