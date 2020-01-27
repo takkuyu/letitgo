@@ -13,11 +13,15 @@ export default class EditPosting extends Component {
         this.state = {
             title: '',
             image: '',
+            location: '',
+            price: 0,
             description: '',
             loading: false,
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeLocation = this.onChangeLocation.bind(this);
+        this.onChangePrice = this.onChangePrice.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
 
@@ -29,6 +33,8 @@ export default class EditPosting extends Component {
             .then(response => {
                 this.setState({
                     title: response.data.title,
+                    location: response.data.location,
+                    price: response.data.price,
                     image: response.data.image,
                     description: response.data.description,
                 })
@@ -74,10 +80,24 @@ export default class EditPosting extends Component {
         });
     }
 
+    onChangeLocation(e) {
+        this.setState({
+            location: e.target.value
+        });
+    }
+
+    onChangePrice(e) {
+        this.setState({
+            price: e.target.value
+        });
+    }
+
     onSubmit(e) {
         e.preventDefault();
         const posting = {
             title: this.state.title,
+            location: this.state.location,
+            price: this.state.price,
             image: this.state.image,
             description: this.state.description,
         }
@@ -105,6 +125,32 @@ export default class EditPosting extends Component {
                                 value={this.state.title}
                                 id="exampleImage"
                                 onChange={this.onChangeTitle}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label>Price</Label>
+                            <Input
+                                type="number"
+                                name="price"
+                                value={this.state.price}
+                                id="price"
+                                placeholder="Enter a price"
+                                onChange={this.onChangePrice}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label>Location</Label>
+                            <Input
+                                type="text"
+                                name="location"
+                                value={this.state.location}
+                                id="location"
+                                placeholder="Enter a location"
+                                onChange={this.onChangeLocation}
                             />
                         </FormGroup>
                     </Col>

@@ -6,6 +6,7 @@ import Register from "./register.component";
 import NewPost from "./newpost.component";
 import EditPosting from "./edit-posting.component";
 import Favorite from "./favorite.component";
+import Comment from "./comment.component";
 
 
 const Routes = () => {
@@ -18,6 +19,7 @@ const Routes = () => {
                 <Route path="/newpost" exact component={NewPost} />
                 <Route path="/update/:id" exact component={EditPosting} />
                 <Route path="/favorite" exact component={Favorite} />
+                <Route path="/comments" exact component={Comment} />
             </Switch>
         </section>
     );
