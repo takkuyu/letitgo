@@ -108,7 +108,7 @@
 .in_stock_container span
 {
 	display: inline-block;
-	font-size: 14px;
+	/* font-size: 14px; */
 	font-size: 18px;
 	font-weight: 500;
 	color: #44a038;
@@ -142,6 +142,8 @@
 .details_text
 {
     height:200px;
+    /* max-height:200px; */
+    overflow: scroll;
 	margin-top: 49px;
 	margin-top: 30px;
 }

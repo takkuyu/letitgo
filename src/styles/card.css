@@ -1,0 +1,27 @@
+.userIcon
+{
+    padding-bottom: 10px;
+}
+.postedby
+{
+    display:inline-block;
+    font-size: 14px;
+	font-weight: 500;
+    color: #6c6a74;
+    vertical-align:middle;
+}
+.userIcon span{
+    display: inline-block;
+	font-size: 18px;
+	font-weight: 500;
+	color: #44a038;
+    margin-left: 5px;
+    /* line-height: 35px; */
+    vertical-align: middle;
+}
+.userIcon img{
+    margin-left: 5px;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+}

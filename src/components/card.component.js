@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-   Col
+    Col
 } from 'reactstrap';
 import "../styles/mainscreen.css"
+import "../styles/card.css"
 
 
 
@@ -61,7 +62,12 @@ export default class CardList extends Component {
         // console.log(this.state.liked)
         return (
             <Col md={'4'}>
-                <div className="product">
+                <div className="product" >
+                    <div className="userIcon">
+                        <div className="postedby" >Posted by:</div>
+                        <span>{this.props.posting.createdby}</span>
+                        <img src={this.props.posting.profilePic} alt="" />
+                    </div>
                     <div className="product_image">
                         {/* <Link to="/comments">
                             <img src={this.props.posting.image} alt="" />
@@ -76,8 +82,17 @@ export default class CardList extends Component {
                     <div className="product_content">
                         <div className="product_title">{this.props.posting.title}</div>
                         <div className="product_price">${this.props.posting.price}</div>
-                        <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
-                        <a style={{ cursor: 'pointer', color:"red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
+                        {
+                            this.props.posting.createdby === 'Test User' ?
+                                <div>
+                                    <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
+                                    <a style={{ cursor: 'pointer', color: "red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
+                                </div>
+                                :
+                                <div></div>
+                        }
+                        {/* // <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
+                        // <a style={{ cursor: 'pointer', color: "red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a> */}
                         {/* {this.state.liked ?
                             <Button color="secondary" style={{ marginTop: '10px' }}>Likes</Button>
                             :

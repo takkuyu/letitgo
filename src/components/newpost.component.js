@@ -12,8 +12,6 @@ import Navbar from "./navbar.component";
 
 export default class NewPost extends Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -66,6 +64,8 @@ export default class NewPost extends Component {
         e.preventDefault();
 
         const posting = {
+            createdby: 'Test User',
+            profilePic: 'https://static.wixstatic.com/media/2cd43b_c8b287b934894e50ab64c97056ba8a38~mv2_d_2240_2240_s_2.png/v1/fill/w_2240,h_2240,al_c,q_90/file.jpg',
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,

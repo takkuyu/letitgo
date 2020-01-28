@@ -10,6 +10,15 @@ import Navbar from "./navbar.component";
 import CardList from "./card.component";
 import "../styles/mainscreen.css"
 
+const SearchBox = ({ searchChange }) => {
+    return (
+        <div className="searchBar">
+            <input type="search" className="searchTerm" placeholder="What are you looking for?" onChange={searchChange} />
+            <i className="fa fa-search"></i>
+        </div>
+    );
+}
+
 export default class MainScreen extends Component {
 
     constructor(props) {
@@ -17,10 +26,12 @@ export default class MainScreen extends Component {
         this.state = {
             postings: [],
             loginuser: '',
-            liked: ''
+            liked: '',
+            searchfield: ''
         };
 
         this.deletePosting = this.deletePosting.bind(this);
+        this.onSearchChange = this.onSearchChange.bind(this);
         // this.getLikedPosting = this.getLikedPosting.bind(this);
 
     }
@@ -36,6 +47,10 @@ export default class MainScreen extends Component {
         // this.setState({
         //     loginuser: this.props.location.state.username
         // })
+    }
+
+    onSearchChange = (event) => {
+        this.setState({ searchfield: event.target.value });
     }
 
     // getLikedPosting(id){
@@ -85,7 +100,21 @@ export default class MainScreen extends Component {
     }
 
     postingList() {
-        return this.state.postings.map(posting => {
+        const fileredPosts = this.state.postings.filter(posting => {
+            return posting.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        });
+
+        // return this.state.postings.map(posting => {
+        //     return (
+        //         <CardList
+        //             posting={posting}
+        //             key={posting._id}
+        //             deletePosting={this.deletePosting}
+        //         />
+        //     );
+        // })
+
+        return fileredPosts.map(posting => {
             return (
                 <CardList
                     posting={posting}
@@ -102,12 +131,13 @@ export default class MainScreen extends Component {
         return (
             <Container className="App">
                 <Navbar loginuser={this.state.loginuser} liked={this.state.liked} />
+                <SearchBox searchChange={this.onSearchChange} />
                 <div className="products">
-                    <Row>
+                    <Row className="products-container"> 
                         {this.postingList()}
                     </Row>
                 </div>
-{/* 
+                {/* 
                 <Row>
                     <Col md={'4'}>
                         <div className="product">
@@ -182,7 +212,7 @@ export default class MainScreen extends Component {
                         </div>
                     </Col>
                 </Row> */}
-   
+
             </Container>
         );
     }
