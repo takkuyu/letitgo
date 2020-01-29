@@ -74,7 +74,8 @@ export default class CardList extends Component {
                         </Link> */}
                         <Link to={{
                             pathname: "/comments",
-                            id: this.props.posting._id
+                            id: this.props.posting._id,
+                            user: this.props.loginedUser
                         }}>
                             <img src={this.props.posting.image} alt="" />
                         </Link>
@@ -83,7 +84,7 @@ export default class CardList extends Component {
                         <div className="product_title">{this.props.posting.title}</div>
                         <div className="product_price">${this.props.posting.price}</div>
                         {
-                            this.props.posting.createdby === 'Test User' ?
+                            this.props.posting.createdby === this.props.loginedUser ?
                                 <div>
                                     <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
                                     <a style={{ cursor: 'pointer', color: "red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
