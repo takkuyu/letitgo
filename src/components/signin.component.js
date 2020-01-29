@@ -39,14 +39,16 @@ export default class Signin extends Component {
         axios.post('http://localhost:3000/users/signin', user)
             .then(response => {
                 if (response.data) {
-                    // console.log(response.data);
                     this.setState({
                         isProperUser: true,
-                        username: response.data.username
+                        // username: response.data.username
                     })
-                    // return(
-                    //     <Redirect to="/mainscreen" />
-                    // );
+
+                    user.username = response.data.username;
+
+                    axios.post('http://localhost:3000/login/post', user)
+                        .then(response => console.log(response));
+
                 } else {
                     console.log('fail !')
                 }
@@ -66,19 +68,22 @@ export default class Signin extends Component {
         });
     }
 
-    
+
 
 
     render() {
 
         if (this.state.isProperUser) {
-            return(
-            <Redirect to={{
-                pathname:'/mainscreen',
-                state: { username: this.state.username }
-             }}/>
+            return (
+                <Redirect to={{
+                    pathname: '/mainscreen',
+                    // state: {
+                    //     username: this.state.username,
+                    //     email: this.state.email
+                    // }
+                }} />
             );
-          }
+        }
 
         return (
             <Container className="App">
@@ -108,10 +113,10 @@ export default class Signin extends Component {
                             />
                         </FormGroup>
                     </Col>
-                        <Button >Submit</Button>
-                        <p className="my-1">
+                    <Button >Submit</Button>
+                    <p className="my-1">
                         Don't have an account? <Link to='/register'>Sign Up</Link>
-                        </p>
+                    </p>
                 </Form>
             </Container>
         );

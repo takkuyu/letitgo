@@ -25,9 +25,13 @@ export default class MainScreen extends Component {
         super(props);
         this.state = {
             postings: [],
-            loginuser: '',
+            // username: '',
             liked: '',
-            searchfield: ''
+            searchfield: '',
+            loginedUser: {
+                username: 'Test User',
+                email: 'test@gmail.com'
+            }
         };
 
         this.deletePosting = this.deletePosting.bind(this);
@@ -41,11 +45,17 @@ export default class MainScreen extends Component {
             .then(response => {
                 this.setState({ postings: response.data }) // get all the info of exercide fields and set it to the exercises state.
                 // console.log(this.state.postings)
+
+                // axios.get('http://localhost:3000/login/')
+                //     .then(response => console.log(response.data[response.data.length - 1]));
             })
             .catch((error) => { console.log(error) });
 
+        // if(this.props.location.state === undefined){
+        //     return;
+        // }
         // this.setState({
-        //     loginuser: this.props.location.state.username
+        //     user: this.props.location.state
         // })
     }
 
@@ -118,6 +128,7 @@ export default class MainScreen extends Component {
             return (
                 <CardList
                     posting={posting}
+                    loginedUser={this.state.loginedUser.username}
                     key={posting._id}
                     deletePosting={this.deletePosting}
                 />
@@ -127,13 +138,14 @@ export default class MainScreen extends Component {
 
 
     render() {
+        // console.log(this.state.user)
 
         return (
             <Container className="App">
-                <Navbar loginuser={this.state.loginuser} liked={this.state.liked} />
+                <Navbar username={this.state.loginedUser.username} liked={this.state.liked} />
                 <SearchBox searchChange={this.onSearchChange} />
                 <div className="products">
-                    <Row className="products-container"> 
+                    <Row className="products-container">
                         {this.postingList()}
                     </Row>
                 </div>

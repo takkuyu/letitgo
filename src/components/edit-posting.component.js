@@ -5,6 +5,8 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
+import Navbar from "./navbar.component";
+
 
 export default class EditPosting extends Component {
 
@@ -113,7 +115,7 @@ export default class EditPosting extends Component {
     render() {
         return (
             <Container className="App">
-                {/* <Navbar /> */}
+                <Navbar />
                 <h2>Edit Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>
