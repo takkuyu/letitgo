@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-    Container, Col,  Row
+    Container, Col, Row
 } from 'reactstrap';
 // import {
 //     Card, CardText, CardBody, CardLink,
@@ -33,7 +33,8 @@ const FavoriteList = props => (
             <div className="product_image">
                 <Link to={{
                     pathname: "/comments",
-                    id: props.like.likedId
+                    id: props.like.likedId,
+                    user: JSON.parse(sessionStorage.getItem('username'))
                 }}>
                     <img src={props.like.image} alt="" />
                 </Link>
@@ -103,6 +104,13 @@ export default class Favorite extends Component {
     }
 
     render() {
+        // if(this.state.likes.length === 0){
+
+        //     return(
+
+        //     );
+        // }
+
         return (
             // <Container className="App">
             //     <Navbar/>
@@ -112,7 +120,10 @@ export default class Favorite extends Component {
             <Container className="App">
                 <Navbar />
                 <Row>
-                    {this.postingList()}
+                    {!this.state.likes.length ?
+                        <h4 style={{ textAlign: 'center', width: '100%', paddingTop: '100px' }}>There are no items added to favorite</h4>
+                        : this.postingList()
+                    }
                 </Row>
             </Container>
 

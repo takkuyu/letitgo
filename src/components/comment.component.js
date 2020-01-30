@@ -38,14 +38,42 @@ export default class Comment extends Component {
     }
 
     componentDidMount() {
+
+        // console.log(JSON.parse(sessionStorage.getItem('liked')))
+
+        // this.setState({
+        //     liked: JSON.parse(sessionStorage.getItem('liked'))
+        // })
+
+        if (this.props.location.id === undefined) {
+            this.setState({
+                posting: JSON.parse(sessionStorage.getItem('posting')),
+                comments: JSON.parse(sessionStorage.getItem('comments')),
+                // liked: JSON.parse(sessionStorage.getItem('liked'))
+            })
+            return;
+        }
+        // sessionStorage.setItem('author', JSON.stringify(this.props.location.user));
+
+
         axios.get("http://localhost:3000/postings/" + this.props.location.id)
             .then(res => {
+
+                // res.data.comments.map(comment => {
+                //     console.log(comment.author)
+                // })
+
                 this.setState({
                     posting: res.data,
                     comments: res.data.comments,
                 })
             })
+    }
 
+    componentDidUpdate() {
+        sessionStorage.setItem('posting', JSON.stringify(this.state.posting));
+        sessionStorage.setItem('comments', JSON.stringify(this.state.comments));
+        // sessionStorage.setItem('liked', JSON.stringify(this.state.liked));
 
     }
 
@@ -53,7 +81,7 @@ export default class Comment extends Component {
         return this.state.comments.map(com => {
             return (
                 <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} style={{ border: 'none', borderBottom: '1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black' }}>
-                    {com}
+                    <span style={{ fontSize: '10px', color: '#44a038' }}>{com.author}</span> - {com.comment}
                 </ListGroupItem>
             );
         });
@@ -62,13 +90,20 @@ export default class Comment extends Component {
     onSubmit(e) {
         e.preventDefault();
 
+        if (this.state.comment === '') {
+            return;
+        }
+
+        // const author = JSON.parse(sessionStorage.getItem('posting'))
+
         const comment = {
+            author: JSON.parse(sessionStorage.getItem('username')),
             comment: this.state.comment
         }
 
-        axios.post('http://localhost:3000/postings/update/comments/' + this.props.location.id, comment)
+        axios.post('http://localhost:3000/postings/update/comments/' + this.state.posting._id, comment)
             .then(() => {
-                axios.get('http://localhost:3000/postings/' + this.props.location.id)
+                axios.get('http://localhost:3000/postings/' + this.state.posting._id)
                     .then(response => {
                         this.setState({
                             comments: response.data.comments,
@@ -90,6 +125,8 @@ export default class Comment extends Component {
     // state is set after render() (re-rendered), so use didUpdate, otherwise setState isn't applied
     postLikes() {
         //  console.log('likedid: '+ this.state.likedId)
+        // sessionStorage.setItem('liked', JSON.stringify(this.state.liked));
+
         const like = {
             likedId: this.state.likedId,
             createdby: this.state.createdby,
@@ -144,74 +181,31 @@ export default class Comment extends Component {
                             notification: 'Added Successfully to favorite !'
                         })
 
+                        // sessionStorage.setItem('liked', JSON.stringify(this.state.liked));
+
                         this.postLikes();
                     })
                     .catch((error) => { console.log(error) });
 
             })
-
-        // axios.get('http://localhost:3000/postings/' + id)
-        //     .then(response => {
-        //         this.setState({
-        //             createdby: response.data.createdby,
-        //             title: response.data.title,
-        //             location: response.data.location,
-        //             price: response.data.price,
-        //             image: response.data.image,
-        //             description: response.data.description,
-        //         })
-
-        //         this.postLikes();
-        //     })
-        //     .catch((error) => { console.log(error) });
     }
 
     render() {
 
+        console.log(this.state.posting)
+
         const date = new Date(this.state.posting.createdAt);
 
         return (
-            // <Container id="comment">
-            //     <Navbar />
-            //     <Row style={{ marginTop: "100px" }}>
-            //         <Col xs={6} >
-            //             <img src={this.state.posting.image} />
-            //         </Col>
-            //         <Col xs={6} >
-            //             <ListGroup style={{ overflow: 'scroll', maxHeight: "400px", height: "400px", border: "1px solid black" }}>
-            //                 {this.getComments()}
-            //             </ListGroup>
-            //             <Form className="form" onSubmit={this.onSubmit}>
-            //                 <Input
-            //                     type="text"
-            //                     name="text"
-            //                     id="comment"
-            //                     value={this.state.comment}
-            //                     placeholder="Enter a comment"
-            //                     onChange={this.onSetComment}
-            //                     style={{ marginTop: "15px" }}
-            //                 />
-            //                 <Button>Comment</Button>
-            //             </Form>
-            //         </Col>
-
-            //     </Row>
-            // </Container>
             <Container>
+                <Navbar />
                 <div className="product_details">
-                    <Navbar />
                     <div className="container">
                         <div className="row details_row">
                             {/* <!-- Product Image --> */}
                             <div className="col-lg-6">
                                 <div className="details_image">
-                                    <div className="details_image_large"><img src={this.state.posting.image} alt="" /><div className="product_extra product_new">New</div></div>
-                                    {/* <div className="details_image_thumbnails d-flex flex-row align-items-start justify-content-between">
-                                    <div className="details_image_thumbnail active" data-image="images/details_1.jpg"><img src="https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fwp-content%2Fblogs.dir%2F6%2Ffiles%2F2019%2F08%2Fhm-ariana-grande-thank-u-next-0018-h-m-ag-black-graphic-hoodie-hkd279.jpg?q=75&w=800&cbr=1&fit=max" alt="" /></div>
-                                    <div className="details_image_thumbnail" data-image="images/details_2.jpg"><img src="https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fwp-content%2Fblogs.dir%2F6%2Ffiles%2F2019%2F08%2Fhm-ariana-grande-thank-u-next-0018-h-m-ag-black-graphic-hoodie-hkd279.jpg?q=75&w=800&cbr=1&fit=max" alt="" /></div>
-                                    <div className="details_image_thumbnail" data-image="images/details_3.jpg"><img src="https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fwp-content%2Fblogs.dir%2F6%2Ffiles%2F2019%2F08%2Fhm-ariana-grande-thank-u-next-0018-h-m-ag-black-graphic-hoodie-hkd279.jpg?q=75&w=800&cbr=1&fit=max" alt="" /></div>
-                                    <div className="details_image_thumbnail" data-image="images/details_4.jpg"><img src="https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fwp-content%2Fblogs.dir%2F6%2Ffiles%2F2019%2F08%2Fhm-ariana-grande-thank-u-next-0018-h-m-ag-black-graphic-hoodie-hkd279.jpg?q=75&w=800&cbr=1&fit=max" alt="" /></div>
-                                </div> */}
+                                    <div className="details_image_large"><img src={this.state.posting.image} alt="" /></div>
                                 </div>
                             </div>
 
@@ -234,14 +228,6 @@ export default class Comment extends Component {
 
                                     {/* <!-- Product Quantity --> */}
                                     <div className="product_quantity_container">
-                                        {/* <div className="product_quantity clearfix">
-                                        <span>Qty</span>
-                                        <input id="quantity_input" type="text" pattern="[0-9]*" value="1" />
-                                        <div className="quantity_buttons">
-                                            <div id="quantity_inc_button" className="quantity_inc quantity_control"><i className="fa fa-chevron-up" aria-hidden="true" /></div>
-                                            <div id="quantity_dec_button" className="quantity_dec quantity_control"><i className="fa fa-chevron-down" aria-hidden="true" /></div>
-                                        </div>
-                                    </div> */}
                                         {
                                             this.state.posting.createdby === this.props.location.user ?
                                                 (<div style={{ marginTop: '12px' }}>
@@ -252,14 +238,13 @@ export default class Comment extends Component {
                                                 :
                                                 this.state.liked ?
                                                     (<div style={{ marginTop: '12px' }}>
-                                                        <p style={{ color: '#ff0000', height:'29px', marginLeft:'13px' }}>{this.state.notification}</p>
+                                                        <p style={{ color: '#ff0000', height: '29px', marginLeft: '13px' }}>{this.state.notification}</p>
                                                         <div style={{ marginTop: '0px' }} className="button cart_button"><a style={{ backgroundColor: 'black' }} onClick={() => this.getLikes(this.state.posting._id)}>Already Added!</a></div>
                                                     </div>)
                                                     :
                                                     <div className="button cart_button"><a onClick={() => this.getLikes(this.state.posting._id)}>Add to Favorite</a></div>
                                         }
-                                        {/* <div className="button cart_button"><a href="#" onClick={() => this.getLikes(this.state.posting._id)}>Add to Favorite</a></div> */}
-                                        {/* <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button> */}
+
                                     </div>
 
                                     {/* <!-- Share --> */}
@@ -280,7 +265,6 @@ export default class Comment extends Component {
                             <div className="col">
                                 <div className="description_title_container">
                                     <div className="description_title">Comments<span>({this.state.comments.length})</span></div>
-                                    {/* <div className="reviews_title"><a href="#">Reviews <span>(1)</span></a></div> */}
                                 </div>
                                 {/* <div className="description_text">
                                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>

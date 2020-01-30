@@ -51,6 +51,9 @@ export default class MainScreen extends Component {
             })
             .catch((error) => { console.log(error) });
 
+        sessionStorage.setItem('username', JSON.stringify(this.state.loginedUser.username));
+
+
         // if(this.props.location.state === undefined){
         //     return;
         // }
@@ -142,6 +145,9 @@ export default class MainScreen extends Component {
 
         return (
             <Container className="App">
+                {/* <div>
+                    <img src=""/>
+                </div> */}
                 <Navbar username={this.state.loginedUser.username} liked={this.state.liked} />
                 <SearchBox searchChange={this.onSearchChange} />
                 <div className="products">
@@ -149,82 +155,6 @@ export default class MainScreen extends Component {
                         {this.postingList()}
                     </Row>
                 </div>
-                {/* 
-                <Row>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col md={'4'}>
-                        <div className="product">
-                            <div className="product_image"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg2HMn87JnkCcyYo41iQSJmZJYtID_X0CPp8s2ctVrvUgp0VY&s" alt="" /></div>
-                            <div className="product_content">
-                                <div className="product_title"><a href="product.html">Smart Phone</a></div>
-                                <div className="product_price">$670</div>
-                            </div>
-                        </div>
-                    </Col>
-                </Row> */}
-
             </Container>
         );
     }
