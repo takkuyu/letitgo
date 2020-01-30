@@ -8,7 +8,7 @@ import LandingPage from "./components/landingpage.component";
 // import MainScreen from "./components/mainscreen.component";
 // import Register from "./components/register.component";
 import Routes from './components/routes';
-
+import './App.css'
 
 
 function App() {
