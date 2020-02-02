@@ -11,7 +11,7 @@ import Comment from "./comment.component";
 
 const Routes = () => {
     return (
-        <section className='container'>
+        <section >
             <Switch>
                 <Route path="/signin" exact component={Signin} />
                 <Route path="/register" exact component={Register} />

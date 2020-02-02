@@ -14,10 +14,10 @@ import './App.css'
 function App() {
   return (
     <Router>
-      <div className="container">
+      {/* <div > */}
         <Route path="/" exact　component={LandingPage} />
         <Route component={Routes} />
-      </div>
+      {/* </div> */}
     </Router>
   );
 }
