@@ -8,6 +8,7 @@ import {
 
 import Navbar from "./navbar.component";
 import CardList from "./card.component";
+import Footer from "./footer.component";
 import "../styles/mainscreen.css"
 
 const SearchBox = ({ searchChange }) => {
@@ -141,21 +142,19 @@ export default class MainScreen extends Component {
 
 
     render() {
-        // console.log(this.state.user)
-
         return (
-            <Container className="App">
-                {/* <div>
-                    <img src=""/>
-                </div> */}
-                <Navbar username={this.state.loginedUser.username} liked={this.state.liked} />
-                <SearchBox searchChange={this.onSearchChange} />
-                <div className="products">
-                    <Row className="products-container">
-                        {this.postingList()}
-                    </Row>
-                </div>
-            </Container>
+            <div>
+                <Container className="App">
+                    <Navbar username={this.state.loginedUser.username} liked={this.state.liked} />
+                    <SearchBox searchChange={this.onSearchChange} />
+                    <div className="products">
+                        <Row className="products-container">
+                            {this.postingList()}
+                        </Row>
+                    </div>
+                </Container>
+                <Footer/>
+            </div >
         );
     }
 }

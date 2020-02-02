@@ -9,6 +9,7 @@ import {
 //     CardTitle
 // } from 'reactstrap';
 import Navbar from "./navbar.component";
+import Footer from "./footer.component";
 
 const FavoriteList = props => (
     // <Col sm="4">
@@ -117,16 +118,18 @@ export default class Favorite extends Component {
             //   {/* <h1>{this.props.location.aboutProps}</h1> */}
             //   <h1>{this.state.id}</h1>
             // </Container>
-            <Container className="App">
-                <Navbar />
-                <Row>
-                    {!this.state.likes.length ?
-                        <h4 style={{ textAlign: 'center', width: '100%', paddingTop: '100px' }}>There are no items added to favorite</h4>
-                        : this.postingList()
-                    }
-                </Row>
-            </Container>
-
+            <div>
+                <Container className="App">
+                    <Navbar />
+                    <Row>
+                        {!this.state.likes.length ?
+                            <h4 style={{ textAlign: 'center', width: '100%', paddingTop: '100px' }}>There are no items added to favorite</h4>
+                            : this.postingList()
+                        }
+                    </Row>
+                </Container>
+                <Footer />
+            </div >
             // <Col sm="4">
             //     <Card style={{ marginTop: '20px' }}>
             //         <CardBody>
