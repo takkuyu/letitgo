@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -11,15 +11,19 @@ import Routes from './components/routes';
 import './App.css'
 
 
-function App() {
-  return (
-    <Router>
-      {/* <div > */}
-        <Route path="/" exact　component={LandingPage} />
-        <Route component={Routes} />
-      {/* </div> */}
-    </Router>
-  );
+export default class App extends Component() {
+
+
+  render(){
+    console.log('App.js');
+    return (
+      <Router>
+        {/* <div > */}
+          <Route path="/" exact　component={LandingPage} />
+          <Route component={Routes} />
+        {/* </div> */}
+      </Router>
+    );
+  }
 }
 
-export default App;
