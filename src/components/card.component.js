@@ -86,8 +86,8 @@ export default class CardList extends Component {
                         {
                             this.props.posting.createdby === this.props.loginedUser ?
                                 <div>
-                                    <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
-                                    <a style={{ cursor: 'pointer', color: "red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
+                                    <Link to={"/update/" + this.props.posting._id} style={{ float: 'left', paddingLeft:'30px', color:"#44a038" }}>Edit</Link>
+                                    <a style={{ cursor: 'pointer', color: "red", float:'right',paddingRight:'30px' }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
                                 </div>
                                 :
                                 <div></div>
@@ -102,33 +102,6 @@ export default class CardList extends Component {
                     </div>
                 </div>
             </Col >
-
-            // <Col sm="4">
-            //     <Card style={{ marginTop: '20px' }}>
-            //         <CardBody>
-            //             <CardTitle style={{ height: '20px' }}>{this.props.posting.title}</CardTitle>
-            //         </CardBody>
-            //         <img width="100%" src={this.props.posting.image} alt="Card image cap" />
-            //         <CardBody>
-            //             <CardText>{this.props.posting.description}</CardText>
-            //             {this.state.liked ?
-            //                 <Button color="secondary" style={{ display: 'inline-block' }}>Likes</Button>
-            //                 :
-            //                 <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button>
-            //             }
-            //             {/* <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button> */}
-            //             {/* <Link to="/comments" color="primary" style={{ display: 'inline-block', marginLeft: '20px' }}>Comments</Link> */}
-            //             <Link to={{
-            //                 pathname: "/comments",
-            //                 id: this.props.posting._id
-            //             }}
-            //                 style={{ display: 'inline-block', marginLeft: '20px' }}
-            //             >Comments</Link>
-            //             <Link to={"/update/" + this.props.posting._id} style={{ marginRight: '10' }}>Edit</Link>
-            //             <CardLink href="#" onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</CardLink>
-            //         </CardBody>
-            //     </Card>
-            // </Col>
         );
     }
 };
