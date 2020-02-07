@@ -392,24 +392,3 @@ section
 	transform-origin: top left;
 	transform: rotate(90deg);
 }
-/* .product_extra a
-{
-	display: block;
-	font-size: 16px;
-	font-weight: 500;
-	color: #FFFFFF;
-	line-height: 36px;
-}
-.product_new
-{
-	background: #6c6a74;
-}
-.product_sale
-{
-	background: #e95a5a;
-}
-.product_hot
-{
-	background: #1b1b1b;
-} */
-

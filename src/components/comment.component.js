@@ -5,7 +5,6 @@ import {
     Container, ListGroup, ListGroupItem, Input, Button, Form
 } from 'reactstrap';
 import Navbar from "./navbar.component";
-
 import "../styles/comment.css"
 
 
@@ -38,12 +37,6 @@ export default class Comment extends Component {
     }
 
     componentDidMount() {
-
-        // console.log(JSON.parse(sessionStorage.getItem('liked')))
-
-        // this.setState({
-        //     liked: JSON.parse(sessionStorage.getItem('liked'))
-        // })
 
         if (this.props.location.id === undefined) {
             this.setState({
@@ -192,8 +185,6 @@ export default class Comment extends Component {
 
     render() {
 
-        console.log(this.state.posting)
-
         const date = new Date(this.state.posting.createdAt);
 
         return (
@@ -232,17 +223,17 @@ export default class Comment extends Component {
                                             this.state.posting.createdby === this.props.location.user ?
                                                 (<div style={{ marginTop: '12px' }}>
                                                     <p>You posted this item on: <span style={{ color: '#44a038' }}>{date.getDate() + " / " + date.getMonth() + 1 + " / " + date.getFullYear()}</span></p>
-                                                    <div className="button cart_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>
+                                                    <div className="button favorite_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>
                                                 </div>
                                                 )
                                                 :
                                                 this.state.liked ?
                                                     (<div style={{ marginTop: '12px' }}>
                                                         <p style={{ color: '#ff0000', height: '29px', marginLeft: '13px' }}>{this.state.notification}</p>
-                                                        <div style={{ marginTop: '0px' }} className="button cart_button"><a style={{ backgroundColor: 'black' }} onClick={() => this.getLikes(this.state.posting._id)}>Already Added!</a></div>
+                                                        <div style={{ marginTop: '0px' }} className="button favorite_button"><a style={{ backgroundColor: 'black' }} onClick={() => this.getLikes(this.state.posting._id)}>Already Added!</a></div>
                                                     </div>)
                                                     :
-                                                    <div className="button cart_button"><a onClick={() => this.getLikes(this.state.posting._id)}>Add to Favorite</a></div>
+                                                    <div className="button favorite_button"><a onClick={() => this.getLikes(this.state.posting._id)}>Add to Favorite</a></div>
                                         }
 
                                     </div>
@@ -266,9 +257,6 @@ export default class Comment extends Component {
                                 <div className="description_title_container">
                                     <div className="description_title">Comments<span>({this.state.comments.length})</span></div>
                                 </div>
-                                {/* <div className="description_text">
-                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
-                            </div> */}
                                 <ListGroup style={{ overflow: 'scroll', maxHeight: "400px", height: "400px", border: "1px solid black" }}>
                                     {this.getComments()}
                                 </ListGroup>

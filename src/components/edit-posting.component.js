@@ -164,6 +164,7 @@ export default class EditPosting extends Component {
                                 name="file"
                                 placeholder="Upload an image"
                                 onChange={this.uploadImage}
+                                style={{marginBottom:'10px'}}
                             />
                             {this.state.loading ? (
                                 <h3>Loading...</h3>

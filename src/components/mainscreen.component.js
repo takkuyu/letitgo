@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container,
@@ -117,16 +116,6 @@ export default class MainScreen extends Component {
         const fileredPosts = this.state.postings.filter(posting => {
             return posting.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
         });
-
-        // return this.state.postings.map(posting => {
-        //     return (
-        //         <CardList
-        //             posting={posting}
-        //             key={posting._id}
-        //             deletePosting={this.deletePosting}
-        //         />
-        //     );
-        // })
 
         return fileredPosts.map(posting => {
             return (

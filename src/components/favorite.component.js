@@ -4,27 +4,10 @@ import axios from 'axios';
 import {
     Container, Col, Row
 } from 'reactstrap';
-// import {
-//     Card, CardText, CardBody, CardLink,
-//     CardTitle
-// } from 'reactstrap';
 import Navbar from "./navbar.component";
 import Footer from "./footer.component";
 
 const FavoriteList = props => (
-    // <Col sm="4">
-    //     <Card style={{ marginTop: '20px' }}>
-    //         <CardBody>
-    //             <CardTitle style={{ height: '20px' }}>{props.like.title}</CardTitle>
-    //         </CardBody>
-    //         <img width="100%" src={props.like.image} alt="Card image cap" />
-    //         <CardBody>
-    //             <CardText>{props.like.description}</CardText>
-    //             <Button color="danger" onClick={() => props.deleteLike(props.like._id)} style={{ display: 'inline-block' }}>Unlike</Button>
-    //         </CardBody>
-    //     </Card>
-    // </Col>
-
     <Col md={'4'}>
         <div className="product">
             <div className="in_stock_container">
