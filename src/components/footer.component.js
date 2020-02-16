@@ -9,17 +9,17 @@ const Footer = () => {
             <div className="container">
                 <div className="row">
                     <div className="col">
-                        <div className="footer_content d-flex flex-lg-row flex-column align-items-center justify-content-lg-start justify-content-center">
-                            <div className="footer_logo"><a href="#">Letitgo.</a></div>
-                            <div className="copyright ml-auto mr-auto">
-                                Copyright Let-it-go © 2020. All rights reserved.
+                        <div className="footer_content">
+                            <div className="footer_logo">Letitgo.</div>
+                            <div className="copyright">
+                            © 2020 - Developed by Takaya Hirose
                         </div>
-                            <div className="footer_social ml-lg-auto">
+                            <div className="footer_social">
                                 <ul>
-                                    <li><a href="#"><i className="fab fa-pinterest" aria-hidden="true" /></a></li>
-                                    <li><a href="#"><i className="fab fa-instagram" aria-hidden="true" /></a></li>
-                                    <li><a href="#"><i className="fab fa-facebook" aria-hidden="true" /></a></li>
-                                    <li><a href="#"><i className="fab fa-twitter" aria-hidden="true" /></a></li>
+                                    <li><i className="fab fa-pinterest" aria-hidden="true" /></li>
+                                    <li><i className="fab fa-instagram" aria-hidden="true" /></li>
+                                    <li><i className="fab fa-facebook" aria-hidden="true" /></li>
+                                    <li><i className="fab fa-twitter" aria-hidden="true" /></li>
                                 </ul>
                             </div>
                         </div>

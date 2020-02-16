@@ -10,12 +10,14 @@ export default class Navbar extends Component {
   render() {
     return (
       <header className="header">
-        <div className="header_container">
-        <p style={{float:"right", padding:'10px 20px 0 0', fontSize:'16px'}}>Logged in as: <span style={{color:"#44a038"}}>Test User</span></p>
+          {/* <p className="currentuser" >Logged in as: <span>Test User</span></p> */}
           <div className="container">
-            <div className="row">
-              <div className="col">
-                <div className="header_content d-flex flex-row align-items-center justify-content-start">
+                <p className="currentuser" >Logged in as: <span>Test User</span></p>
+                {/* <div className="row"> */}
+              {/* <div className="col"> */}
+                <div className="header_content d-flex align-items-center">
+                            {/* <p className="currentuser" >Logged in as: <span>Test User</span></p> */}
+
                   <div className="logo"><Link to="/mainscreen" style={{color:'#ff0000'}}>Letitgo.</Link></div>
                   <nav className="main_nav">
                     <ul>
@@ -26,9 +28,8 @@ export default class Navbar extends Component {
                   </nav>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            {/* </div> */}
+          {/* </div> */}
       </header>
     );
   }

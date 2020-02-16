@@ -114,7 +114,7 @@ export default class EditPosting extends Component {
 
     render() {
         return (
-            <Container className="App">
+            <Container className="App" style={{paddingBottom:'30px'}}>
                 <Navbar />
                 <h2>Edit Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
@@ -169,7 +169,7 @@ export default class EditPosting extends Component {
                             {this.state.loading ? (
                                 <h3>Loading...</h3>
                             ) : (
-                                    <img src={this.state.image} style={{ width: '300px' }} />
+                                    <img src={this.state.image} alt="#" style={{ width: '300px' }} />
                                 )}
                         </FormGroup>
                     </Col>
@@ -188,7 +188,7 @@ export default class EditPosting extends Component {
                             />
                         </FormGroup>
                     </Col>
-                    <Button >Post</Button>
+                    <Button style={{width:'100px'}}>Edit</Button>
                 </Form>
             </Container>
         );

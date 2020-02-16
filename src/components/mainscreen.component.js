@@ -25,7 +25,6 @@ export default class MainScreen extends Component {
         super(props);
         this.state = {
             postings: [],
-            // username: '',
             liked: '',
             searchfield: '',
             loginedUser: {
@@ -36,51 +35,42 @@ export default class MainScreen extends Component {
 
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-        // this.getLikedPosting = this.getLikedPosting.bind(this);
 
     }
 
     componentDidMount() {
         axios.get('http://localhost:3000/postings/')
             .then(response => {
-                this.setState({ postings: response.data }) // get all the info of exercide fields and set it to the exercises state.
-                // console.log(this.state.postings)
-
-                // axios.get('http://localhost:3000/login/')
-                //     .then(response => console.log(response.data[response.data.length - 1]));
+                this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
             })
             .catch((error) => { console.log(error) });
 
-        sessionStorage.setItem('username', JSON.stringify(this.state.loginedUser.username));
+        // sessionStorage.setItem('username', JSON.stringify(this.state.loginedUser.username));
 
+        // if(this.props.location.state){
 
-        // if(this.props.location.state === undefined){
-        //     return;
-        // }
+        //     const user={
+        //         username:this.props.location.state.username,
+        //         email:this.props.location.state.email
+        //     }
+
+        // sessionStorage.setItem('user', JSON.stringify(user));
         // this.setState({
-        //     user: this.props.location.state
+        //     loginedUser:JSON.parse(sessionStorage.getItem('user'))
         // })
+        // }
+
     }
 
     onSearchChange = (event) => {
         this.setState({ searchfield: event.target.value });
     }
 
-    // getLikedPosting(id){
-
-    //     console.log(id)
-    //     this.setState({
-    //         liked:id
-    //     })
-    // }
-
     deletePosting(id) {
 
         if (!window.confirm('Are you sure to delete?')) {
             return;
         }
-
-        // console.log('http://localhost:3000/postings/' + id)
 
         axios.get('http://localhost:3000/postings/' + id)
             .then(res => {
@@ -96,7 +86,7 @@ export default class MainScreen extends Component {
                         if (res.data === false) {
                             return
                         }
-                        axios.delete('http://localhost:3000/likes/' + res.data) // post with the id of the liked posting to delete
+                        axios.delete('http://localhost:3000/likes/' + res.data) 
                             .then(res => console.log(res.data))
                             .catch(console.log);
                     })
@@ -142,7 +132,7 @@ export default class MainScreen extends Component {
                         </Row>
                     </div>
                 </Container>
-                <Footer/>
+                <Footer />
             </div >
         );
     }

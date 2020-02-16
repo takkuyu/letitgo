@@ -31,9 +31,6 @@ export default class NewPost extends Component {
         this.uploadImage = this.uploadImage.bind(this);
     }
 
-    // componentDidMount() {
-    //     console.log(this.props)
-    // }
 
     uploadImage = async e => {
         const files = e.target.files
@@ -116,7 +113,7 @@ export default class NewPost extends Component {
         }
 
         return (
-            <Container className="App">
+            <Container className="App" style={{paddingBottom:'30px'}}>
                 <Navbar />
                 <h2>New Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
@@ -164,11 +161,12 @@ export default class NewPost extends Component {
                                 name="file"
                                 placeholder="Upload an image"
                                 onChange={this.uploadImage}
+                                style={{marginBottom:'10px'}}
                             />
                             {this.state.loading ? (
                                 <h3>Loading...</h3>
                             ) : (
-                                    <img src={this.state.image} style={{ width: '300px' }} />
+                                    <img src={this.state.image}  style={{ width: '300px' }} />
                                 )}
                         </FormGroup>
                     </Col>
@@ -179,7 +177,7 @@ export default class NewPost extends Component {
                                 type="textarea"
                                 name="testarea"
                                 id="Description"
-                                placeholder="description"
+                                placeholder="Describe your item here"
                                 onChange={this.onSetDescription}
                                 style={{
                                     height: '200px',
@@ -187,7 +185,7 @@ export default class NewPost extends Component {
                             />
                         </FormGroup>
                     </Col>
-                    <Button >Post</Button>
+                    <Button className='btn-danger' style={{color:'white', width:'100px'}}>Post</Button>
                 </Form>
             </Container>
         );
