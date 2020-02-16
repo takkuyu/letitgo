@@ -41,7 +41,7 @@ export default class Signin extends Component {
                 if (response.data) {
                     this.setState({
                         isProperUser: true,
-                        // username: response.data.username
+                        username: response.data.username
                     })
 
                     user.username = response.data.username;
@@ -77,10 +77,10 @@ export default class Signin extends Component {
             return (
                 <Redirect to={{
                     pathname: '/mainscreen',
-                    // state: {
-                    //     username: this.state.username,
-                    //     email: this.state.email
-                    // }
+                    state: {
+                        username: this.state.username,
+                        email: this.state.email
+                    }
                 }} />
             );
         }

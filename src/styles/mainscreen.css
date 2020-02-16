@@ -75,14 +75,7 @@ p a:hover::after
 {
 	opacity: 0.2;
 }
-::selection
-{
-	
-}
-p::selection
-{
-	
-}
+
 h1{font-size: 48px;}
 h2{font-size: 36px;}
 h3{font-size: 24px;}
@@ -95,19 +88,8 @@ h1, h2, h3, h4, h5, h6
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
-h1::selection, 
-h2::selection, 
-h3::selection, 
-h4::selection, 
-h5::selection, 
-h6::selection
-{
-	
-}
-.form-control
-{
-	color: #db5246;
-}
+
+
 section
 {
 	display: block;
@@ -327,9 +309,6 @@ section
 }
 .product
 {
-	/* width: calc((100% - 90px) / 4); */
-	/* width: 25%; */
-	/* width: 100%; */
     margin-bottom: 59px;
     text-align:center;
 }
@@ -340,7 +319,6 @@ section
 .product_image img
 {
     width: 95%;
-	/* max-width: 100%; */
     max-width: 95%;
     
     height: 400px;

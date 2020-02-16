@@ -35,7 +35,6 @@ export default class CardList extends Component {
             liked: true
         })
 
-        // console.log('test')
         axios.post('http://localhost:3000/likes/post', like)
             .then(response => {
                 console.log(response);
@@ -59,7 +58,6 @@ export default class CardList extends Component {
     }
 
     render() {
-        // console.log(this.state.liked)
         return (
             <Col md={'4'}>
                 <div className="product" >
@@ -69,9 +67,6 @@ export default class CardList extends Component {
                         <img src={this.props.posting.profilePic} alt="" />
                     </div>
                     <div className="product_image">
-                        {/* <Link to="/comments">
-                            <img src={this.props.posting.image} alt="" />
-                        </Link> */}
                         <Link to={{
                             pathname: "/comments",
                             id: this.props.posting._id,
@@ -92,13 +87,6 @@ export default class CardList extends Component {
                                 :
                                 <div></div>
                         }
-                        {/* // <Link to={"/update/" + this.props.posting._id} style={{ paddingRight: '10px' }}>Edit</Link>
-                        // <a style={{ cursor: 'pointer', color: "red" }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a> */}
-                        {/* {this.state.liked ?
-                            <Button color="secondary" style={{ marginTop: '10px' }}>Likes</Button>
-                            :
-                            <Button color="danger" onClick={() => this.getLikes(this.props.posting._id)} style={{ display: 'inline-block' }}>Likes</Button>
-                        } */}
                     </div>
                 </div>
             </Col >

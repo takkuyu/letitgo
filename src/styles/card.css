@@ -8,7 +8,7 @@
     font-size: 14px;
 	font-weight: 500;
     color: #6c6a74;
-    vertical-align:middle;
+    vertical-align:-3px;
 }
 .userIcon span{
     display: inline-block;
@@ -23,4 +23,11 @@
     border-radius:50%;
     width:40px;
     height:40px;
+}
+
+@media screen and (max-width:991px){
+    .userIcon img{
+    display: block;
+    margin: 0 auto;
+    }
 }
