@@ -44,22 +44,6 @@ export default class MainScreen extends Component {
                 this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
             })
             .catch((error) => { console.log(error) });
-
-        // sessionStorage.setItem('username', JSON.stringify(this.state.loginedUser.username));
-
-        // if(this.props.location.state){
-
-        //     const user={
-        //         username:this.props.location.state.username,
-        //         email:this.props.location.state.email
-        //     }
-
-        // sessionStorage.setItem('user', JSON.stringify(user));
-        // this.setState({
-        //     loginedUser:JSON.parse(sessionStorage.getItem('user'))
-        // })
-        // }
-
     }
 
     onSearchChange = (event) => {

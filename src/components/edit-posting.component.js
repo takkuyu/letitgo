@@ -26,7 +26,6 @@ export default class EditPosting extends Component {
         this.onChangePrice = this.onChangePrice.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-
     }
 
     componentDidMount() {
@@ -62,7 +61,6 @@ export default class EditPosting extends Component {
             }
         )
         const file = await res.json()
-        // console.log(file.secure_url)
         this.setState({
             image: file.secure_url
         })
@@ -103,12 +101,11 @@ export default class EditPosting extends Component {
             image: this.state.image,
             description: this.state.description,
         }
-        // console.log(posting);
         axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting)
-            .then(res => console.log(res.data)) // this will show 'Exercise added' which is res.json() in the backend code
+            .then(res => console.log(res.data)) 
             .catch(console.log);
 
-        window.location = '/mainscreen';
+        window.location = '/';
     }
 
 

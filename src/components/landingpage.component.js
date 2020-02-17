@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {
-    Container, Col, Form,
-    FormGroup, Label, Input,
-    Button,
-} from 'reactstrap';
-
 
 
 export default class LandingPage extends Component {

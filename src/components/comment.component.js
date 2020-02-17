@@ -17,20 +17,7 @@ export default class Comment extends Component {
             posting: [],
             comment: '',
             comments: [],
-            title: '',
-            location: '',
-            price: 0,
-            image: '',
-            description: '',
             liked: false,
-            isFavorite:{
-                pressed: false,
-                id:''
-            },
-            likedId: '',
-            createdby: '',
-            postedby: '',
-            notification: ''
         }
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -38,6 +25,7 @@ export default class Comment extends Component {
         this.getComments = this.getComments.bind(this);
         this.getLikes = this.getLikes.bind(this);
         this.postLikes = this.postLikes.bind(this);
+        this.isLikedAlready = this.isLikedAlready.bind(this);
     }
 
     componentDidMount() {
@@ -45,11 +33,11 @@ export default class Comment extends Component {
         if (this.props.location.id === undefined) {
             this.setState({
                 posting: JSON.parse(sessionStorage.getItem('posting')),
-                comments: JSON.parse(sessionStorage.getItem('comments'))
+                comments: JSON.parse(sessionStorage.getItem('comments')),
             })
+            this.isLikedAlready(JSON.parse(sessionStorage.getItem('posting'))._id);
             return;
         }
-
 
         axios.get("http://localhost:3000/postings/" + this.props.location.id)
             .then(res => {
@@ -58,23 +46,27 @@ export default class Comment extends Component {
                     comments: res.data.comments,
                 })
             })
+        this.isLikedAlready(this.props.location.id);
+    }
 
-            // console.log(this.props.location.id);
-            // console.log(JSON.parse(sessionStorage.getItem('isFavorite')).id);
-
-            if(this.props.location.id === JSON.parse(sessionStorage.getItem('isFavorite')).id){
-                console.log('true')
-            this.setState({
-                isFavorite: JSON.parse(sessionStorage.getItem('isFavorite')),
-            })
+    isLikedAlready(id) {
+        const log = {
+            likedId: id
         }
+        axios.post('http://localhost:3000/likes/isLiked', log)
+            .then(res => {
+                if (res.data !== null) {
+                    this.setState({
+                        liked: true
+                    })
+                    return;
+                }
+            })
     }
 
     componentDidUpdate() {
         sessionStorage.setItem('posting', JSON.stringify(this.state.posting));
         sessionStorage.setItem('comments', JSON.stringify(this.state.comments));
-        sessionStorage.setItem('liked', JSON.stringify(this.state.liked));
-        sessionStorage.setItem('isFavorite', JSON.stringify(this.state.isFavorite));
     }
 
     getComments() {
@@ -95,7 +87,7 @@ export default class Comment extends Component {
         }
 
         const comment = {
-            author: JSON.parse(sessionStorage.getItem('username')),
+            author: 'Test User', // since I haven't implemented user authentication yet, set this 'test user' for this version
             comment: this.state.comment
         }
 
@@ -120,17 +112,14 @@ export default class Comment extends Component {
         });
     }
 
-    postLikes() {
+    postLikes(data) {
         const like = {
-            likedId: this.state.likedId,
-            createdby: this.state.createdby,
-            title: this.state.title,
-            location: this.state.location,
-            price: this.state.price,
-            image: this.state.image,
-            description: this.state.description,
+            likedId: data._id,
+            title: data.title,
+            location: data.location,
+            price: data.price,
+            image: data.image,
         }
-
 
         axios.post('http://localhost:3000/likes/post', like)
             .then(response => {
@@ -141,54 +130,19 @@ export default class Comment extends Component {
 
 
     getLikes(id) {
-
-
-        this.setState({
-            likedId: id
-        })
-
-
-        const log = {
-            likedId: id
-        }
-
-        axios.post('http://localhost:3000/likes/isLiked', log)
-            .then(res => {
-                if (res.data !== null) {
-                    this.setState({
-                        liked: true
-                    })
-                    return;
-                }
-                
-
-                axios.get('http://localhost:3000/postings/' + id)
-                    .then(response => {
-                        this.setState({
-                            createdby: response.data.createdby,
-                            title: response.data.title,
-                            location: response.data.location,
-                            price: response.data.price,
-                            image: response.data.image,
-                            description: response.data.description,
-                            liked: true,
-                            isFavorite: {
-                                    pressed: true,
-                                    id:id
-                                }
-                            // notification: 'Added Successfully to favorite !'
-                        })
-
-                        this.postLikes();
-                    })
-                    .catch((error) => { console.log(error) });
-
+        axios.get('http://localhost:3000/postings/' + id)
+            .then(response => {
+                this.setState({
+                    liked: true,
+                })
+                this.postLikes(response.data);
             })
+            .catch((error) => { console.log(error) });
     }
 
     render() {
-
         const date = new Date(this.state.posting.createdAt);
+        const createdDay = String(date).substring(0,15);
 
         return (
             <Container>
@@ -198,7 +152,7 @@ export default class Comment extends Component {
                         <div className="row details_row">
                             <div className="col-lg-6">
                                 <div className="details_image">
-                                    <div className="details_image_large"  style={{marginBottom:'20px'}}><img src={this.state.posting.image} alt="" /></div>
+                                    <div className="details_image_large" style={{ marginBottom: '20px' }}><img src={this.state.posting.image} alt="" /></div>
                                 </div>
                             </div>
 
@@ -218,17 +172,17 @@ export default class Comment extends Component {
 
                                     <div>
                                         {
-                                            this.state.posting.createdby === this.props.location.user ?
+                                            this.state.posting.createdby === 'Test User' ?
                                                 (<div style={{ marginTop: '12px' }}>
-                                                    <p className='posted-date'>You posted this item on: <span>{date.getDate() + " / " + date.getMonth() + 1 + " / " + date.getFullYear()}</span></p>
+                                                    <p className='posted-date'>You posted this item on: <span>{createdDay}</span></p>
                                                     <div className="button favorite_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>
                                                 </div>
                                                 )
                                                 :
                                                 this.state.liked ?
-                                                    <div className="button favorite_button"><a href="#" style={{ backgroundColor: 'black' }} onClick={() => this.getLikes(this.state.posting._id)}>Added</a></div>
+                                                    <div className="button favorite_button" style={{ cursor: 'default' }}><button style={{ backgroundColor: 'black', color: '#fff', cursor: 'default' }}>Added</button></div>
                                                     :
-                                                    <div className="button favorite_button"><a onClick={() => this.getLikes(this.state.posting._id)}>Add to Favorite</a></div>
+                                                    <div className="button favorite_button" onClick={() => this.getLikes(this.state.posting._id)}><button>Add to Favorite</button></div>
                                         }
 
                                     </div>
@@ -264,7 +218,7 @@ export default class Comment extends Component {
                                         onChange={this.onSetComment}
                                     />
                                     <div className='button-container'>
-                                    <Button>Comment</Button>
+                                        <Button>Comment</Button>
                                     </div>
                                 </Form>
                             </div>

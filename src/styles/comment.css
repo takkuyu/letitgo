@@ -1,3 +1,65 @@
+.favorite_button
+{
+	width: 178px;
+	height: 61px;
+	text-align: center;
+	overflow: hidden;
+	cursor: pointer;
+	vertical-align: middle;
+    margin-left: 13px;
+    margin-top: 15px;
+}
+.favorite_button > a{
+	display: block;
+}
+.favorite_button > button, .favorite_button > a
+{
+	border: solid 2px #1b1b1b;
+	width:100%;
+	text-align: center;
+	position: relative;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 57px;
+	color: #1b1b1b;
+	background: none;
+	z-index: 1;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.favorite_button::after{
+	content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 100%;
+    background: #1b1b1b;
+    z-index: 0;
+    opacity: 0;
+    -webkit-transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+    transform: rotate3d(0, 0, 1, -45deg) translate3d(0, -3em, 0);
+    -webkit-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s, background-color 0.3s;
+    transition: transform 0.3s, opacity 0.3s, background-color 0.3s;
+}
+.favorite_button:hover::after
+{
+	opacity: 1;
+    -webkit-transform: rotate3d(0, 0, 1, 0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
+    -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+    transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+.favorite_button button:hover, .favorite_button > a:hover
+{
+	color: #FFFFFF;
+}
+
 .product_details
 {
 	width: 100%;
@@ -61,17 +123,6 @@
 .details_text p
 {
 	font-weight: 500;
-}
-.favorite_button
-{
-	display: inline-block;
-	vertical-align: middle;
-    margin-left: 13px;
-    margin-top: 15px;
-}
-.favorite_button::after
-{
-	background: #1b1b1b;
 }
 .details_share
 {
