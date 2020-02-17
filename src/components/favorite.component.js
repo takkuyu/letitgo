@@ -12,7 +12,7 @@ const FavoriteList = props => (
     <Col md={'4'}>
         <div className="product">
             <div className="favorite_container">
-                <p className="posted-date" >Added on:<span>{props.date.getDate() + " / " + props.date.getMonth() + 1 + " / " + props.date.getFullYear()}</span></p>
+                <p className="posted-date" >Added on:<span>{props.createdDay}</span></p>
             </div>
             <div className="product_image">
                 <Link to={{
@@ -30,7 +30,7 @@ const FavoriteList = props => (
                     <div className='location'>Location:</div>
                     <span>{props.like.location}</span>
                 </div>
-                <a style={{ cursor: 'pointer', color: "red" }} onClick={() => props.deleteLike(props.like._id)}>Unlike</a>
+                <span style={{ cursor: 'pointer', color: "red" }} onClick={() => props.deleteLike(props.like._id)}>Unlike</span>
             </div>
         </div>
     </Col >
@@ -72,10 +72,12 @@ export default class Favorite extends Component {
 
     postingList() {
         return this.state.likes.map(like => {
-            const date = new Date(like.createdAt)
+            const date = new Date(like.createdAt);
+            const createdDay = String(date).substring(0,15);
+
             return (
                 <FavoriteList
-                    date={date}
+                    createdDay={createdDay}
                     like={like}
                     key={like._id}
                     deleteLike={this.deleteLike}

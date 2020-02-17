@@ -7,8 +7,6 @@ import {
 import "../styles/mainscreen.css"
 import "../styles/card.css"
 
-
-
 export default class CardList extends Component {
 
     constructor(props) {
@@ -21,8 +19,6 @@ export default class CardList extends Component {
         }
     }
 
-
-    // state is set after render() (re-rendered), so use didUpdate, otherwise setState isn't applied
     postLikes() {
         const like = {
             title: this.state.title,
@@ -81,8 +77,8 @@ export default class CardList extends Component {
                         {
                             this.props.posting.createdby === this.props.loginedUser ?
                                 <div>
-                                    <Link to={"/update/" + this.props.posting._id} style={{ float: 'left', paddingLeft:'30px', color:"#44a038" }}>Edit</Link>
-                                    <a style={{ cursor: 'pointer', color: "red", float:'right',paddingRight:'30px' }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</a>
+                                    <Link to={"/update/" + this.props.posting._id} style={{ float: 'left', marginLeft: '30px', color: "#44a038" }}>Edit</Link>
+                                    <span style={{ cursor: 'pointer', color: "red", float: 'right', marginRight: '30px' }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</span>
                                 </div>
                                 :
                                 <div></div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -7,8 +7,6 @@ import {
     Button,
 } from 'reactstrap';
 import Navbar from "./navbar.component";
-
-
 
 export default class NewPost extends Component {
 
@@ -21,7 +19,8 @@ export default class NewPost extends Component {
             image: '',
             loading: false,
             description: '',
-            isProperInfo: false,
+            isPosted: false,
+            errorInputs: false,
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
@@ -48,7 +47,6 @@ export default class NewPost extends Component {
             }
         )
         const file = await res.json()
-        // console.log(file.secure_url)
         this.setState({
             image: file.secure_url
         })
@@ -74,10 +72,14 @@ export default class NewPost extends Component {
             .then(response => {
                 console.log(response);
                 this.setState({
-                    isProperInfo: true
+                    isPosted: true
                 })
             })
-            .catch((error) => { console.log(error) });
+            .catch(() => {
+                this.setState({
+                    errorInputs: true
+                })
+            });
     }
 
     onSetTitle(e) {
@@ -107,13 +109,12 @@ export default class NewPost extends Component {
 
     render() {
 
-
-        if (this.state.isProperInfo) {
-            return <Redirect to='/mainscreen' />;
+        if (this.state.isPosted) {
+            return <Redirect to='/' />;
         }
 
         return (
-            <Container className="App" style={{paddingBottom:'30px'}}>
+            <Container className="App" style={{ paddingBottom: '30px' }}>
                 <Navbar />
                 <h2>New Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
@@ -161,12 +162,12 @@ export default class NewPost extends Component {
                                 name="file"
                                 placeholder="Upload an image"
                                 onChange={this.uploadImage}
-                                style={{marginBottom:'10px'}}
+                                style={{ marginBottom: '10px' }}
                             />
                             {this.state.loading ? (
                                 <h3>Loading...</h3>
                             ) : (
-                                    <img src={this.state.image}  style={{ width: '300px' }} />
+                                    <img src={this.state.image} alt="" style={{ width: '300px' }} />
                                 )}
                         </FormGroup>
                     </Col>
@@ -185,7 +186,13 @@ export default class NewPost extends Component {
                             />
                         </FormGroup>
                     </Col>
-                    <Button className='btn-danger' style={{color:'white', width:'100px'}}>Post</Button>
+                    {
+                    this.state.errorInputs ?
+                    <h4 style={{color:'#ff0000' }}>One or more inputs are empty ! Please fill in all the inputs.</h4>
+                        :
+                    <div></div>
+                }
+                    <Button className='btn-danger' style={{ color: 'white', width: '100px' }}>Post</Button>
                 </Form>
             </Container>
         );
