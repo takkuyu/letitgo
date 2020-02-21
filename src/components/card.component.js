@@ -54,6 +54,10 @@ export default class CardList extends Component {
     }
 
     render() {
+
+        const date = new Date(this.props.posting.createdAt);
+        const createdDay = String(date).substring(0,15);
+
         return (
             <Col md={'4'}>
                 <div className="product" >
@@ -81,7 +85,9 @@ export default class CardList extends Component {
                                     <span style={{ cursor: 'pointer', color: "red", float: 'right', marginRight: '30px' }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</span>
                                 </div>
                                 :
-                                <div></div>
+                                <div>
+                                    <p style={{color:"#44a038", marginTop:'5px'}}>{createdDay}</p>
+                                </div>
                         }
                     </div>
                 </div>

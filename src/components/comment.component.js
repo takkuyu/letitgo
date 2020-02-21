@@ -164,6 +164,12 @@ export default class Comment extends Component {
                                     <div className="location_container">
                                         <div className="location">Location:</div>
                                         <span>{this.state.posting.location}</span>
+                                        <br/>
+                                        <div className="location" style={{marginTop:'15px'}}>Posted on:</div>
+                                        <span>{createdDay}</span>
+                                        <br/>
+                                        <div className="location" style={{marginTop:'15px'}}>Condition:</div>
+                                        <span>{this.state.posting.condition}</span>
                                     </div>
                                     <div className="details_text">
                                         <h4>Description</h4>
@@ -190,10 +196,10 @@ export default class Comment extends Component {
                                     <div className="details_share">
                                         <span>Share:</span>
                                         <ul>
-                                            <li><a title="pinterest" target="_blank" href="https://www.pinterest.com/"><i className="fab fa-pinterest" aria-hidden="true"></i></a></li>
-                                            <li><a title="instagram" target="_blank" href="https://www.instagram.com/"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
-                                            <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i className="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li><a href="https://twitter.com" target="_blank" title="Twitter"><i className="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                            <li><a title="pinterest" target="_blank" rel="noreferrer noopener" href="https://www.pinterest.com/"> <i className="fab fa-pinterest" aria-hidden="true"/></a></li>
+                                            <li><a title="instagram" target="_blank" rel="noreferrer noopener" href="https://www.instagram.com/"> <i className="fab fa-instagram" aria-hidden="true"/></a></li>
+                                            <li><a href="https://www.facebook.com/" rel="noreferrer noopener" target="_blank" title="Facebook"> <i className="fab fa-facebook" aria-hidden="true"/></a></li>
+                                            <li><a href="https://twitter.com" rel="noreferrer noopener" target="_blank" title="Twitter"> <i className="fab fa-twitter" aria-hidden="true"/></a></li>
                                         </ul>
                                     </div>
                                 </div>

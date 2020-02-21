@@ -17,6 +17,7 @@ export default class EditPosting extends Component {
             image: '',
             location: '',
             price: 0,
+            condition: '',
             description: '',
             loading: false,
         }
@@ -24,6 +25,7 @@ export default class EditPosting extends Component {
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeLocation = this.onChangeLocation.bind(this);
         this.onChangePrice = this.onChangePrice.bind(this);
+        this.onChangeCondition = this.onChangeCondition.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
     }
@@ -36,6 +38,7 @@ export default class EditPosting extends Component {
                     title: response.data.title,
                     location: response.data.location,
                     price: response.data.price,
+                    condition: response.data.condition,
                     image: response.data.image,
                     description: response.data.description,
                 })
@@ -71,12 +74,18 @@ export default class EditPosting extends Component {
 
     onChangeTitle(e) {
         this.setState({
-            title: e.target.value // target is textbox
+            title: e.target.value 
         });
     }
     onChangeDescription(e) {
         this.setState({
-            description: e.target.value // target is textbox
+            description: e.target.value 
+        });
+    }
+
+    onChangeCondition(e) {
+        this.setState({
+            condition: e.target.value
         });
     }
 
@@ -98,11 +107,12 @@ export default class EditPosting extends Component {
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,
+            condition: this.state.condition,
             image: this.state.image,
             description: this.state.description,
         }
         axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting)
-            .then(res => console.log(res.data)) 
+            .then(res => console.log(res.data))
             .catch(console.log);
 
         window.location = '/';
@@ -111,7 +121,7 @@ export default class EditPosting extends Component {
 
     render() {
         return (
-            <Container className="App" style={{paddingBottom:'30px'}}>
+            <Container className="App" style={{ paddingBottom: '30px' }}>
                 <Navbar />
                 <h2>Edit Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
@@ -142,6 +152,19 @@ export default class EditPosting extends Component {
                     </Col>
                     <Col>
                         <FormGroup>
+                            <Label for="select">Condition</Label>
+                            <Input type="select" name="select" id="select" onChange={this.onChangeCondition} defaultValue={this.state.condition}>
+                                <option value={this.state.condition} disabled>{this.state.condition}</option>
+                                <option>New</option>
+                                <option>Very Good</option>
+                                <option>Good</option>
+                                <option>Bad</option>
+                                <option>Very Bad</option>
+                            </Input>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
                             <Label>Location</Label>
                             <Input
                                 type="text"
@@ -161,7 +184,7 @@ export default class EditPosting extends Component {
                                 name="file"
                                 placeholder="Upload an image"
                                 onChange={this.uploadImage}
-                                style={{marginBottom:'10px'}}
+                                style={{ marginBottom: '10px' }}
                             />
                             {this.state.loading ? (
                                 <h3>Loading...</h3>
@@ -185,7 +208,7 @@ export default class EditPosting extends Component {
                             />
                         </FormGroup>
                     </Col>
-                    <Button style={{width:'100px'}}>Edit</Button>
+                    <Button style={{ width: '100px' }}>Edit</Button>
                 </Form>
             </Container>
         );

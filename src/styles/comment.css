@@ -93,7 +93,7 @@
 .location_container span
 {
 	display: inline-block;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 500;
 	color: #44a038;
 	margin-left: 5px;
@@ -113,12 +113,14 @@
 	font-weight: 500;
 	color: #6c6a74;
 	margin-top: 12px;
+	margin-bottom: 15px;
 }
 .details_text
 {
     height:270px;
     overflow: scroll;
 	margin-top: 30px;
+	margin-top: 15px;
 }
 .details_text p
 {
