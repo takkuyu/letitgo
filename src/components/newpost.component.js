@@ -17,6 +17,7 @@ export default class NewPost extends Component {
             location: '',
             price: 0,
             image: '',
+            condition: '',
             loading: false,
             description: '',
             isPosted: false,
@@ -26,6 +27,7 @@ export default class NewPost extends Component {
         this.onSetTitle = this.onSetTitle.bind(this);
         this.onSetLocation = this.onSetLocation.bind(this);
         this.onSetPrice = this.onSetPrice.bind(this);
+        this.onSetCondition = this.onSetCondition.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
     }
@@ -64,6 +66,7 @@ export default class NewPost extends Component {
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,
+            condition: this.state.condition,
             image: this.state.image,
             description: this.state.description,
         }
@@ -100,9 +103,15 @@ export default class NewPost extends Component {
         });
     }
 
+    onSetCondition(e) {
+        this.setState({
+            condition: e.target.value
+        });
+    }
+
     onSetDescription(e) {
         this.setState({
-            description: e.target.value // target is textbox
+            description: e.target.value 
         });
     }
 
@@ -140,6 +149,19 @@ export default class NewPost extends Component {
                                 placeholder="Enter a price"
                                 onChange={this.onSetPrice}
                             />
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <FormGroup>
+                            <Label for="select">Condition</Label>
+                            <Input type="select" name="select" id="select" onChange={this.onSetCondition} defaultValue="desc">
+                                <option value="desc" disabled>Choose one</option>
+                                <option>New</option>
+                                <option>Very Good</option>
+                                <option>Good</option>
+                                <option>Bad</option>
+                                <option>Very Bad</option>
+                            </Input>
                         </FormGroup>
                     </Col>
                     <Col>
@@ -187,11 +209,11 @@ export default class NewPost extends Component {
                         </FormGroup>
                     </Col>
                     {
-                    this.state.errorInputs ?
-                    <h4 style={{color:'#ff0000' }}>One or more inputs are empty ! Please fill in all the inputs.</h4>
-                        :
-                    <div></div>
-                }
+                        this.state.errorInputs ?
+                            <h4 style={{ color: '#ff0000' }}>One or more inputs are empty ! Please fill in all the inputs.</h4>
+                            :
+                            <div></div>
+                    }
                     <Button className='btn-danger' style={{ color: 'white', width: '100px' }}>Post</Button>
                 </Form>
             </Container>
