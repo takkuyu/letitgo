@@ -38,7 +38,10 @@ export default class Signin extends Component {
 
         axios.post('http://localhost:3000/users/signin', user)
             .then(response => {
+
                 if (response.data) {
+
+                    sessionStorage.setItem('userid', JSON.stringify(response.data._id));
                     this.setState({
                         isProperUser: true,
                         username: response.data.username
@@ -49,9 +52,7 @@ export default class Signin extends Component {
                     axios.post('http://localhost:3000/login/post', user)
                         .then(response => console.log(response));
 
-                } else {
-                    console.log('fail !')
-                }
+                } 
             })
             .catch((error) => { console.log(error) });
     }

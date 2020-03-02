@@ -115,7 +115,7 @@ export default class EditPosting extends Component {
             .then(res => console.log(res.data))
             .catch(console.log);
 
-        window.location = '/';
+        window.location = '/mainscreen';
     }
 
 

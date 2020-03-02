@@ -16,9 +16,8 @@ const FavoriteList = props => (
             </div>
             <div className="product_image">
                 <Link to={{
-                    pathname: "/comments",
-                    id: props.like.likedId,
-                    user: JSON.parse(sessionStorage.getItem('username'))
+                    pathname: `/postings/comments/${props.like._id}`,
+                    // id: props.like.likedId
                 }}>
                     <img src={props.like.image} alt="" />
                 </Link>
@@ -37,31 +36,42 @@ const FavoriteList = props => (
 );
 
 
-
 export default class Favorite extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            likes: []
+            likes: [],
         }
         this.deleteLike = this.deleteLike.bind(this);
-
+        this.postingList = this.postingList.bind(this);
+        this.getLikesById = this.getLikesById.bind(this);
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/likes/')
-            .then(response => {
-                this.setState({
-                    likes: response.data,
-                })
+
+        axios.get('http://localhost:3000/users/' + this.props.match.params.id)
+            .then((res) => {
+                const favorites = res.data.favorites;
+                this.getLikesById(favorites)
             })
-            .catch((error) => { console.log(error) });
+            .catch(console.log)
+    }
+
+    async getLikesById(favorites) {
+        const res = await Promise.all(favorites.map(favorite => axios.get('http://localhost:3000/postings/' + favorite).then(resp => resp.data)))
+        this.setState({
+            likes: res
+        })
     }
 
     deleteLike(id) {
-        axios.delete('http://localhost:3000/likes/' + id)
+        const deleteId = {
+            deleteId:id
+        }
+
+        axios.post('http://localhost:3000/users/deleteLike/' + this.props.match.params.id, deleteId)
             .then(response => console.log(response.data));
 
         this.setState({
@@ -73,7 +83,7 @@ export default class Favorite extends Component {
     postingList() {
         return this.state.likes.map(like => {
             const date = new Date(like.createdAt);
-            const createdDay = String(date).substring(0,15);
+            const createdDay = String(date).substring(0, 15);
 
             return (
                 <FavoriteList
@@ -94,8 +104,8 @@ export default class Favorite extends Component {
                     <Navbar />
                     <Row>
                         {!this.state.likes.length ?
-                            <div style={{ textAlign: 'center', height:'calc(100vh - 260px)', width:'100%', lineHeight:'calc(100vh - 260px)', fontSize:'20px'}}>
-                            There are no favorite items added
+                            <div style={{ textAlign: 'center', height: 'calc(100vh - 260px)', width: '100%', lineHeight: 'calc(100vh - 260px)', fontSize: '20px' }}>
+                                There are no favorite items added
                             </div>
                             : this.postingList()
                         }

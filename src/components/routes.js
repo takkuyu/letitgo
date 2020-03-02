@@ -10,6 +10,7 @@ import Comment from "./comment.component";
 
 
 const Routes = () => {
+
     return (
         <section >
             <Switch>
@@ -18,8 +19,8 @@ const Routes = () => {
                 <Route path="/mainscreen" exact component={MainScreen} />
                 <Route path="/newpost" exact component={NewPost} />
                 <Route path="/update/:id" exact component={EditPosting} />
-                <Route path="/favorite" exact component={Favorite} />
-                <Route path="/comments" exact component={Comment} />
+                <Route path="/favorite/:id" exact component={Favorite} />
+                <Route path="/postings/comments/:id" exact component={Comment} />
             </Switch>
         </section>
     );

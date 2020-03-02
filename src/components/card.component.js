@@ -68,7 +68,7 @@ export default class CardList extends Component {
                     </div>
                     <div className="product_image">
                         <Link to={{
-                            pathname: "/comments",
+                            pathname: `postings/comments/${this.props.posting._id}`,
                             id: this.props.posting._id,
                             user: this.props.loginedUser
                         }}>
