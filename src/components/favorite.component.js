@@ -82,6 +82,7 @@ export default class Favorite extends Component {
 
     postingList() {
         return this.state.likes.map(like => {
+            
             const date = new Date(like.createdAt);
             const createdDay = String(date).substring(0, 15);
 

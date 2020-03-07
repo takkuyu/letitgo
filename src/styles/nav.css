@@ -1,4 +1,3 @@
-
 .header
 {
 	position: fixed;
@@ -8,15 +7,15 @@
 	z-index: 100;
 	background: #FFFFFF;
 }
-.currentuser {
+/* .currentuser {
 	font-size:16px;
 	position:fixed;
 	top:10px;
 	left:calc(100vw - 200px);
-}
-.currentuser span{
+} */
+/* .currentuser span{
 	color:#44a038;
-}
+} */
 .header_content
 {
 	width: 100%;
@@ -42,6 +41,7 @@
 .main_nav > ul > li:not(:last-child)
 {
 	margin-right: 14vw;
+	margin-right: 10vw;
 }
 .main_nav > ul > li > a
 {

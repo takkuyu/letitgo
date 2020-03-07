@@ -18,7 +18,8 @@ export default class Comment extends Component {
             comments: [],
             liked: false,
             username: '',
-            exist: true // check if the post still exist. if it's deleted it gets false
+            exist: true, // check if the post still exist. if it's deleted it gets false,
+            nameArray: []
         }
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -26,6 +27,7 @@ export default class Comment extends Component {
         this.getComments = this.getComments.bind(this);
         this.getLiked = this.getLiked.bind(this);
         this.isLikedAlready = this.isLikedAlready.bind(this);
+        this.getAuthorById = this.getAuthorById.bind(this);
     }
 
     componentDidMount() {
@@ -37,6 +39,7 @@ export default class Comment extends Component {
                     comments: res.data.comments,
                 })
                 this.isLikedAlready(this.props.match.params.id);
+                this.getAuthorById(res.data.comments);
             })
             .catch(() => {
                 this.setState({
@@ -75,14 +78,39 @@ export default class Comment extends Component {
         sessionStorage.setItem('comments', JSON.stringify(this.state.comments));
     }
 
-    getComments() {
+    getComments(nameArray) {
+        let i = 0;
         return this.state.comments.map(com => {
-            return (
-                <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} style={{ border: 'none', borderBottom: '1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black' }}>
-                    <span style={{ fontSize: '10px', color: '#44a038' }}>{com.author}</span> - {com.comment}
-                </ListGroupItem>
-            );
+
+            if(nameArray[i] === this.state.username){
+                return (
+                    <ListGroupItem  key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} 
+                    style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black',textAlign:'right', padding:'5px 20px' }}>
+                        <p style={{ fontSize: '15px', fontWeight:'bold', color:'#ff0000', paddingBottom:'3px', lineHeight:'15px'}}>{nameArray[i++]}</p >
+                        {com.comment}
+                    </ListGroupItem>
+                );
+            }else{
+                return (
+                    <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} 
+                    style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black', padding:'5px 20px' }}>
+                       <p style={{ fontSize: '15px', fontWeight:'bold', color:'#44a038', paddingBottom:'3px', lineHeight:'15px'}}>{nameArray[i++]}</p>
+                       {com.comment}
+                    </ListGroupItem>
+                );
+            }
         });
+    }
+
+    async getAuthorById(comments) {
+        try{
+        const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
+        this.setState({
+            nameArray: nameArray
+        });
+        } catch(err){
+            console.log(err)
+        }
     }
 
     onSubmit(e) {
@@ -93,7 +121,7 @@ export default class Comment extends Component {
         }
 
         const comment = {
-            author: this.state.username, // since I haven't implemented user authentication yet, set this 'test user' for this version
+            author: JSON.parse(sessionStorage.getItem('userid')),
             comment: this.state.comment
         }
 
@@ -105,11 +133,12 @@ export default class Comment extends Component {
                             comments: response.data.comments,
                             comment: ''
                         })
+                        this.getAuthorById(response.data.comments);
+                        // window.location.reload();
                     })
                     .catch(console.log);
             })
             .catch(console.log)
-
     }
 
     onSetComment(e) {
@@ -173,7 +202,7 @@ export default class Comment extends Component {
 
                                             <div>
                                                 {
-                                                    this.state.posting.createdby === this.state.username ?
+                                                    this.state.posting.createdby === JSON.parse(sessionStorage.getItem('userid')) ?
                                                         (<div style={{ marginTop: '12px' }}>
                                                             <p className='posted-date'>You posted this item on: <span>{createdDay}</span></p>
                                                             <div className="button favorite_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>
@@ -206,8 +235,8 @@ export default class Comment extends Component {
                                         <div className="comment_title_container">
                                             <div className="comment_title">Comments<span>({this.state.comments.length})</span></div>
                                         </div>
-                                        <ListGroup id='comment-frame' style={{ overflow: 'scroll', maxHeight: "400px", height: "400px", border: "1px solid black" }}>
-                                            {this.getComments()}
+                                        <ListGroup id='comment-frame' style={{ overflow: 'scroll', maxHeight: "500px", height: "500px", border: "2px solid black" }}>
+                                            {this.getComments(this.state.nameArray)}
                                         </ListGroup>
                                         <Form className="form" onSubmit={this.onSubmit} style={{ paddingBottom: '100px' }}>
                                             <Input
@@ -227,8 +256,8 @@ export default class Comment extends Component {
                             </div>
                         </div >
                         :
-                        <div className="notFound-container" style={{ display:'table', textAlign: 'center', width: '100%', marginTop: '130px', height: 'calc(100vh - 130px)', lineHeight: 'calc(100vh - 130px)', }}>
-                            <div style={{display:'table-cell', verticalAlign:'middle'}}>
+                        <div className="notFound-container" style={{ display: 'table', textAlign: 'center', width: '100%', marginTop: '130px', height: 'calc(100vh - 130px)', lineHeight: 'calc(100vh - 130px)', }}>
+                            <div style={{ display: 'table-cell', verticalAlign: 'middle' }}>
                                 <h2>This item has been deleted !</h2>
                                 <h3>Let's find another one <Link to="/mainscreen" style={{ color: '#ff0000' }}>here</Link>!</h3>
                             </div>

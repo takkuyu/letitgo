@@ -7,6 +7,7 @@ import NewPost from "./newpost.component";
 import EditPosting from "./edit-posting.component";
 import Favorite from "./favorite.component";
 import Comment from "./comment.component";
+import Profile from "./profile.component";
 
 
 const Routes = () => {
@@ -21,6 +22,7 @@ const Routes = () => {
                 <Route path="/update/:id" exact component={EditPosting} />
                 <Route path="/favorite/:id" exact component={Favorite} />
                 <Route path="/postings/comments/:id" exact component={Comment} />
+                <Route path="/profile/:id" exact component={Profile} />
             </Switch>
         </section>
     );

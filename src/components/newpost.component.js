@@ -22,7 +22,7 @@ export default class NewPost extends Component {
             description: '',
             isPosted: false,
             errorInputs: false,
-            username: ''
+            user: {},
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
@@ -37,7 +37,7 @@ export default class NewPost extends Component {
         axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
             .then(response => {
                 this.setState({
-                    username: response.data.username
+                    user: response.data
                 })
             })
             .catch((error) => { console.log(error) });
@@ -72,8 +72,8 @@ export default class NewPost extends Component {
         e.preventDefault();
 
         const posting = {
-            createdby: this.state.username,
-            profilePic: 'https://static.wixstatic.com/media/2cd43b_c8b287b934894e50ab64c97056ba8a38~mv2_d_2240_2240_s_2.png/v1/fill/w_2240,h_2240,al_c,q_90/file.jpg',
+            createdby: JSON.parse(sessionStorage.getItem('userid')),
+            // profilePic: this.state.user.picture,
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,

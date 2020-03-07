@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -26,7 +26,6 @@ export default class Register extends Component {
     }
 
 
-
     onSubmit(e) {
         e.preventDefault();
 
@@ -34,24 +33,27 @@ export default class Register extends Component {
             username: this.state.username,
             email: this.state.email,
             password: this.state.password,
+            picture: 'https://static.wixstatic.com/media/2cd43b_c8b287b934894e50ab64c97056ba8a38~mv2_d_2240_2240_s_2.png/v1/fill/w_2240,h_2240,al_c,q_90/file.jpg',
         }
 
         axios.post('http://localhost:3000/users/register', user)
             .then(response => {
-                    console.log(response);
-                    this.setState({
-                        isProperInfo: true
-                    })
-                    // return(
-                    //     <Redirect to="/mainscreen" />
-                    // );
+                console.log(response);
+                sessionStorage.setItem('userid', JSON.stringify(response.data));
+
+                this.setState({
+                    isProperInfo: true
+                })
+                // return(
+                //     <Redirect to="/mainscreen" />
+                // );
             })
             .catch((error) => { console.log(error) });
     }
 
     onSetUsername(e) {
         this.setState({
-            username: e.target.value 
+            username: e.target.value
         });
     }
 
@@ -67,15 +69,31 @@ export default class Register extends Component {
         });
     }
 
-    
+
     render() {
 
         if (this.state.isProperInfo) {
             return <Redirect to='/mainscreen' />;
-          }
+        }
 
         return (
             <Container className="App">
+
+                <header className="header">
+                    <div className="container">
+                        <div className="header_content d-flex align-items-center">
+                            <div className="logo"><Link to="/" style={{ color: '#ff0000' }}>Letitgo.</Link></div>
+                            <nav className="main_nav">
+                                <ul>
+                                    <li><Link to="/">Home</Link></li>
+                                    <li><Link to="/signin">Login</Link></li>
+                                    <li><Link to="/register">Register</Link></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </header>
+
                 <h2>Register</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>
@@ -114,7 +132,7 @@ export default class Register extends Component {
                             />
                         </FormGroup>
                     </Col>
-                        <Button >Submit</Button>
+                    <Button >Submit</Button>
                 </Form>
             </Container>
         );

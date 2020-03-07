@@ -15,8 +15,21 @@ export default class CardList extends Component {
             title: '',
             image: '',
             description: '',
-            liked: false
+            liked: false,
+            username:'',
+            userPic:''
         }
+    }
+
+    componentDidMount(){
+        axios.get("http://localhost:3000/users/" + this.props.posting.createdby)
+        .then(res => {
+            this.setState({
+                username: res.data.username,
+                userPic: res.data.picture,
+            })
+        })
+        .catch(console.log)
     }
 
     postLikes() {
@@ -63,8 +76,8 @@ export default class CardList extends Component {
                 <div className="product" >
                     <div className="userIcon">
                         <div className="postedby" >Posted by:</div>
-                        <span>{this.props.posting.createdby}</span>
-                        <img src={this.props.posting.profilePic} alt="" />
+                        <span>{this.state.username}</span>
+                        <img src={this.state.userPic} alt="" />
                     </div>
                     <div className="product_image">
                         <Link to={{
@@ -79,7 +92,7 @@ export default class CardList extends Component {
                         <div className="product_title">{this.props.posting.title}</div>
                         <div className="product_price">${this.props.posting.price}</div>
                         {
-                            this.props.posting.createdby === this.props.loginedUser ?
+                            this.state.username === this.props.loginedUser ?
                                 <div>
                                     <Link to={"/update/" + this.props.posting._id} style={{ float: 'left', marginLeft: '30px', color: "#44a038" }}>Edit</Link>
                                     <span style={{ cursor: 'pointer', color: "red", float: 'right', marginRight: '30px' }} onClick={() => { this.props.deletePosting(this.props.posting._id) }}>Delete</span>
