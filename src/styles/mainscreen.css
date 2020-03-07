@@ -34,7 +34,10 @@
   
 .products
 {
-	width: 100%;
+  width: 100%;
+  /* height:calc(100vh - 130px); */
+  min-height: calc(100vh - 296px);
+  /* min-height: 100vh; */
 	background: #FFFFFF;
 	z-index: 2;
     padding-top: 60px;

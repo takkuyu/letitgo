@@ -1,0 +1,52 @@
+.landing-outer{
+    height:100vh;
+}
+.landing{
+    /* font-family: 'Poppins', sans-serif !important; */
+    height:calc(100vh - 130px);
+    margin:0;
+    padding-top:130px;
+    /* background-image:url("https://cdn.pixabay.com/photo/2016/03/27/07/32/light-1282314_960_720.jpg"); */
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://londonblogger.de/wp-content/uploads/2014/07/portobello-road-market-london.jpg');
+    background-size: cover;
+    background-position: center;
+    color:rgba(0, 0, 0, 0.8);
+}
+.landing-container{
+    /* display: table-cell; */
+    /* vertical-align: middle; */
+    /* height:351px; */
+    /* height:calc(100vh - 260px); */
+    padding: calc((100vh - 260px - 351px)/2) 0;
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.landing-container > .description{
+    font-size:20px;
+    color:rgb(255, 255, 255);
+    width: 100%;
+}
+
+.logo-large{
+    color:#ff0000;
+    font-size: 50px;
+}
+
+.catch-copy{
+    /* font-family: 'Ubuntu', sans-serif !important; */
+    /* -webkit-text-stroke: 2px rgb(0, 0, 0); */
+    /* color: white; */
+    text-align: left;
+    width: 100%;
+    font-size:75px;
+    /* font-size:8vh; */
+    font-weight:bold;
+    text-shadow: blanchedalmond 1px;
+    /* font-weight:500; */
+    line-height: 100px;
+    letter-spacing:5px;
+    /* color:rgba(0, 0, 0, 1.0); */
+    color:rgb(255, 255, 255, 1);
+}
