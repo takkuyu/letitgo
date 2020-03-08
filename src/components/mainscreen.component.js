@@ -43,10 +43,6 @@ export default class MainScreen extends Component {
     }
 
     componentDidMount() {
-        // if(JSON.parse(sessionStorage.getItem('userid')) == null){
-        //     console.log('not set')
-        //     window.location = '/';
-        // }
         axios.get('http://localhost:3000/postings/')
             .then(response => {
                 this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
@@ -88,7 +84,7 @@ export default class MainScreen extends Component {
         axios.delete('http://localhost:3000/postings/' + id)
             .then(res => {
                 console.log(res.data)
-            })
+            });
 
         this.setState({
             postings: this.state.postings.filter(el => el._id !== id)
@@ -111,7 +107,6 @@ export default class MainScreen extends Component {
             );
         })
     }
-
 
     render() {
         return (
