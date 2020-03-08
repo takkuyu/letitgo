@@ -32,39 +32,39 @@ export default class CardList extends Component {
         .catch(console.log)
     }
 
-    postLikes() {
-        const like = {
-            title: this.state.title,
-            image: this.state.image,
-            description: this.state.description,
-            liked: !this.state.liked,
-        }
+    // postLikes() {
+    //     const like = {
+    //         title: this.state.title,
+    //         image: this.state.image,
+    //         description: this.state.description,
+    //         liked: !this.state.liked,
+    //     }
 
-        this.setState({
-            liked: true
-        })
+    //     this.setState({
+    //         liked: true
+    //     })
 
-        axios.post('http://localhost:3000/likes/post', like)
-            .then(response => {
-                console.log(response);
-            })
-            .catch((error) => { console.log(error) });
-    }
+    //     axios.post('http://localhost:3000/likes/post', like)
+    //         .then(response => {
+    //             console.log(response);
+    //         })
+    //         .catch((error) => { console.log(error) });
+    // }
 
-    getLikes(id) {
-        axios.get('http://localhost:3000/postings/' + id)
-            .then(response => {
+    // getLikes(id) {
+    //     axios.get('http://localhost:3000/postings/' + id)
+    //         .then(response => {
 
-                this.setState({
-                    title: response.data.title,
-                    image: response.data.image,
-                    description: response.data.description,
-                })
+    //             this.setState({
+    //                 title: response.data.title,
+    //                 image: response.data.image,
+    //                 description: response.data.description,
+    //             })
 
-                this.postLikes();
-            })
-            .catch((error) => { console.log(error) });
-    }
+    //             this.postLikes();
+    //         })
+    //         .catch((error) => { console.log(error) });
+    // }
 
     render() {
 
