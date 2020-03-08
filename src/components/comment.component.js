@@ -16,27 +16,29 @@ export default class Comment extends Component {
             posting: [],
             comment: '',
             comments: [],
-            liked: false,
-            username: '',
-            exist: true, // check if the post still exist. if it's deleted it gets false,
-            nameArray: []
+            liked: false, // check if the posting is alreay liked by the current user 
+            exist: true, // check if the post still exist. if it's deleted it shows appropriate message on screen.
+            nameArray: [],
+            createdAt:''
         }
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetComment = this.onSetComment.bind(this);
         this.getComments = this.getComments.bind(this);
-        this.getLiked = this.getLiked.bind(this);
+        this.addToFavorite = this.addToFavorite.bind(this);
         this.isLikedAlready = this.isLikedAlready.bind(this);
         this.getAuthorById = this.getAuthorById.bind(this);
+        // console.log(this.props.location.state)
     }
 
     componentDidMount() {
-        window.scrollTo(0, 0)
-        axios.get("http://localhost:3000/postings/comments/" + this.props.match.params.id)
+        window.scrollTo(0, 0);
+        axios.get("http://localhost:3000/postings/" + this.props.match.params.id)
             .then(res => {
                 this.setState({
                     posting: res.data,
                     comments: res.data.comments,
+                    createdAt: String(new Date(res.data.createdAt)).substring(0, 15)
                 })
                 this.isLikedAlready(this.props.match.params.id);
                 this.getAuthorById(res.data.comments);
@@ -45,44 +47,38 @@ export default class Comment extends Component {
                 this.setState({
                     exist: false
                 })
-                return
-            })
-            .then(() => {
-                axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
-                    .then(response => {
-                        this.setState({
-                            username: response.data.username
-                        })
-                    })
-                    .catch(console.log);
-            })
-            .catch(console.log)
+            });
+    }
+
+    async getAuthorById(comments) {
+        try{
+        const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
+        this.setState({
+            nameArray: nameArray
+        });
+        } catch(err){
+            console.log(err)
+        }
     }
 
     isLikedAlready(id) {
         const userId = {
-            userId: JSON.parse(sessionStorage.getItem('userid'))
+            userId: this.props.location.state.currentUserid
         }
         axios.post('http://localhost:3000/users/checkLiked/' + id, userId)
             .then(res => {
                 if (res.data) {
                     this.setState({
-                        liked: true
+                        liked: true // indicates the posting was found on that user database, so turn this flag to true.
                     })
                 }
             })
     }
 
-    componentDidUpdate() {
-        sessionStorage.setItem('posting', JSON.stringify(this.state.posting));
-        sessionStorage.setItem('comments', JSON.stringify(this.state.comments));
-    }
-
     getComments(nameArray) {
         let i = 0;
         return this.state.comments.map(com => {
-
-            if(nameArray[i] === this.state.username){
+            if(nameArray[i] === this.props.location.state.currentUsername){
                 return (
                     <ListGroupItem  key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} 
                     style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black',textAlign:'right', padding:'5px 20px' }}>
@@ -102,29 +98,15 @@ export default class Comment extends Component {
         });
     }
 
-    async getAuthorById(comments) {
-        try{
-        const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
-        this.setState({
-            nameArray: nameArray
-        });
-        } catch(err){
-            console.log(err)
-        }
-    }
-
     onSubmit(e) {
         e.preventDefault();
-
         if (this.state.comment === '') {
             return;
         }
-
         const comment = {
-            author: JSON.parse(sessionStorage.getItem('userid')),
+            author: this.props.location.state.currentUserid,
             comment: this.state.comment
         }
-
         axios.post('http://localhost:3000/postings/update/comments/' + this.state.posting._id, comment)
             .then(() => {
                 axios.get('http://localhost:3000/postings/' + this.state.posting._id)
@@ -134,11 +116,10 @@ export default class Comment extends Component {
                             comment: ''
                         })
                         this.getAuthorById(response.data.comments);
-                        // window.location.reload();
                     })
                     .catch(console.log);
             })
-            .catch(console.log)
+            .catch(console.log);
     }
 
     onSetComment(e) {
@@ -147,13 +128,11 @@ export default class Comment extends Component {
         });
     }
 
-    getLiked(id) {
-
+    addToFavorite(id) {
         const favoriteId = {
             favoriteId: id
         }
-
-        axios.post('http://localhost:3000/users/favorite/' + JSON.parse(sessionStorage.getItem('userid')), favoriteId)
+        axios.post('http://localhost:3000/users/favorite/' + this.props.location.state.currentUserid, favoriteId)
             .then(response => {
                 console.log(response);
                 this.setState({
@@ -164,8 +143,6 @@ export default class Comment extends Component {
     }
 
     render() {
-        const date = new Date(this.state.posting.createdAt);
-        const createdDay = String(date).substring(0, 15);
         return (
             <Container>
                 <Navbar />
@@ -190,7 +167,7 @@ export default class Comment extends Component {
                                                 <span>{this.state.posting.location}</span>
                                                 <br />
                                                 <div className="location" style={{ marginTop: '15px' }}>Posted on:</div>
-                                                <span>{createdDay}</span>
+                                                <span>{this.state.createdAt}</span>
                                                 <br />
                                                 <div className="location" style={{ marginTop: '15px' }}>Condition:</div>
                                                 <span>{this.state.posting.condition}</span>
@@ -202,9 +179,9 @@ export default class Comment extends Component {
 
                                             <div>
                                                 {
-                                                    this.state.posting.createdby === JSON.parse(sessionStorage.getItem('userid')) ?
+                                                    this.state.posting.createdby === this.props.location.state.currentUserid ?
                                                         (<div style={{ marginTop: '12px' }}>
-                                                            <p className='posted-date'>You posted this item on: <span>{createdDay}</span></p>
+                                                            <p className='posted-date'>You posted this item on: <span>{this.state.createdAt}</span></p>
                                                             <div className="button favorite_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>
                                                         </div>
                                                         )
@@ -212,7 +189,7 @@ export default class Comment extends Component {
                                                         this.state.liked ?
                                                             <div className="button favorite_button" style={{ cursor: 'default' }}><button style={{ backgroundColor: 'black', color: '#fff', cursor: 'default' }}>Added</button></div>
                                                             :
-                                                            <div className="button favorite_button" onClick={() => this.getLiked(this.state.posting._id)}><button>Add to Favorite</button></div>
+                                                            <div className="button favorite_button" onClick={() => this.addToFavorite(this.state.posting._id)}><button>Add to Favorite</button></div>
                                                 }
 
                                             </div>

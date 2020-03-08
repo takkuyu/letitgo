@@ -8,32 +8,37 @@ import Navbar from "./navbar.component";
 import Footer from "./footer.component";
 
 
-const FavoriteList = props => (
+const FavoriteList = ({ createdDay, like, currentUser, deleteLike }) => {
+    return(
     <Col md={'4'}>
         <div className="product">
             <div className="favorite_container">
-                <p className="posted-date" >Added on:<span>{props.createdDay}</span></p>
+                <p className="posted-date" >Added on:<span>{createdDay}</span></p>
             </div>
             <div className="product_image">
                 <Link to={{
-                    pathname: `/postings/comments/${props.like._id}`,
-                    // id: props.like.likedId
+                    pathname: `/postings/comments/${like._id}`,
+                    state: {
+                        currentUsername: currentUser.username,
+                        currentUserid: currentUser.id,
+                    }
                 }}>
-                    <img src={props.like.image} alt="" />
+                    <img src={like.image} alt="" />
                 </Link>
             </div>
             <div className="product_content">
-                <div className="product_title">{props.like.title}</div>
-                <div className="product_price">${props.like.price}</div>
+                <div className="product_title">{like.title}</div>
+                <div className="product_price">${like.price}</div>
                 <div className="location_container" style={{ marginTop: '10px' }}>
                     <div className='location'>Location:</div>
-                    <span>{props.like.location}</span>
+                    <span>{like.location}</span>
                 </div>
-                <span style={{ cursor: 'pointer', color: "red" }} onClick={() => props.deleteLike(props.like._id)}>Unlike</span>
+                <span style={{ cursor: 'pointer', color: "red" }} onClick={() => deleteLike(like._id)}>Unlike</span>
             </div>
         </div>
     </Col >
-);
+    );
+};
 
 
 export default class Favorite extends Component {
@@ -43,6 +48,10 @@ export default class Favorite extends Component {
 
         this.state = {
             likes: [],
+            currentUser:{
+                username:'',
+                id:''
+            }
         }
         this.deleteLike = this.deleteLike.bind(this);
         this.postingList = this.postingList.bind(this);
@@ -50,9 +59,14 @@ export default class Favorite extends Component {
     }
 
     componentDidMount() {
-
-        axios.get('http://localhost:3000/users/' + this.props.match.params.id)
+        axios.get('http://localhost:3000/users/' + this.props.match.params.id) // get currentUser id from URL 
             .then((res) => {
+                this.setState({
+                    currentUser:{
+                        username: res.data.username,
+                        id: res.data._id
+                    }
+                })
                 const favorites = res.data.favorites;
                 this.getLikesById(favorites)
             })
@@ -82,7 +96,7 @@ export default class Favorite extends Component {
 
     postingList() {
         return this.state.likes.map(like => {
-            
+
             const date = new Date(like.createdAt);
             const createdDay = String(date).substring(0, 15);
 
@@ -90,6 +104,7 @@ export default class Favorite extends Component {
                 <FavoriteList
                     createdDay={createdDay}
                     like={like}
+                    currentUser={this.state.currentUser}
                     key={like._id}
                     deleteLike={this.deleteLike}
                 />

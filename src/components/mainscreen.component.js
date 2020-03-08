@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 
 import Navbar from "./navbar.component";
-import CardList from "./card.component";
+import CardList from "./CardList.component";
 import Footer from "./footer.component";
 import "../styles/mainscreen.css"
 
@@ -25,41 +25,39 @@ export default class MainScreen extends Component {
         super(props);
         this.state = {
             postings: [],
-            liked: '',
             searchfield: '',
-            loginedUser: {
+            currentUser: {
                 username: '',
-                email: ''
+                id: ''
             }
         };
 
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
 
-        if(JSON.parse(sessionStorage.getItem('userid')) == null){
+        if(JSON.parse(sessionStorage.getItem('userid')) == null){ // go back to landing page if the session variable is not set
             console.log('not set')
             window.location = '/';
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/postings/')
+        axios.get('http://localhost:3000/postings/') // get all the postings on postings table
             .then(response => {
                 this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
+                axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
+                    .then(response => {
+                        this.setState({ 
+                            currentUser: {
+                                username:response.data.username,
+                                id:response.data._id
+                            }
+                        })
+                    })
+                    .catch((error) => { console.log(error) });
             })
             .catch((error) => { console.log(error) });
 
-        axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
-            .then(response => {
-                const user = {
-                    username: response.data.username,
-                    email: response.data.email
-                }
-                this.setState({ 
-                    loginedUser: user
-                })
-            })
-            .catch((error) => { console.log(error) });
     }
 
     onSearchChange = (event) => {
@@ -80,7 +78,6 @@ export default class MainScreen extends Component {
             .then(console.log)
             .catch(console.log);
 
-
         axios.delete('http://localhost:3000/postings/' + id)
             .then(res => {
                 console.log(res.data)
@@ -97,12 +94,17 @@ export default class MainScreen extends Component {
         });
 
         return fileredPosts.map(posting => {
+
+            const date = new Date(posting.createdAt);
+            const createdAt = String(date).substring(0,15);
+
             return (
                 <CardList
                     posting={posting}
-                    loginedUser={this.state.loginedUser.username}
+                    currentUser={this.state.currentUser} // pass username, userid to cardlist component
                     key={posting._id}
                     deletePosting={this.deletePosting}
+                    createdAt = {createdAt}
                 />
             );
         })
@@ -112,7 +114,7 @@ export default class MainScreen extends Component {
         return (
             <div>
                 <Container className="App">
-                    <Navbar username={this.state.loginedUser.username} liked={this.state.liked} />
+                    <Navbar />
                     <SearchBox searchChange={this.onSearchChange} />
                     <div className="products">
                         <Row className="products-container">
