@@ -18,7 +18,7 @@ const Routes = () => {
                 <Route path="/signin" exact component={Signin} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/mainscreen" exact component={MainScreen} />
-                <Route path="/newpost" exact component={NewPost} />
+                <Route path="/newpost/:id" exact component={NewPost} />
                 <Route path="/update/:id" exact component={EditPosting} />
                 <Route path="/favorite/:id" exact component={Favorite} />
                 <Route path="/postings/comments/:id" exact component={Comment} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -18,11 +18,11 @@ export default class NewPost extends Component {
             price: 0,
             image: '',
             condition: '',
-            loading: false,
             description: '',
-            isPosted: false,
+            loading: false,
+            // isPosted: false,
             errorInputs: false,
-            user: {},
+            // user: {},
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
@@ -33,16 +33,15 @@ export default class NewPost extends Component {
         this.uploadImage = this.uploadImage.bind(this);
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
-            .then(response => {
-                this.setState({
-                    user: response.data
-                })
-            })
-            .catch((error) => { console.log(error) });
-    }
-
+    // componentDidMount() {
+    //     axios.get('http://localhost:3000/users/' + this.props.match.params.id)
+    //         .then(response => {
+    //             this.setState({
+    //                 user: response.data
+    //             })
+    //         })
+    //         .catch((error) => { console.log(error) });
+    // }
 
     uploadImage = async e => {
         const files = e.target.files
@@ -72,8 +71,7 @@ export default class NewPost extends Component {
         e.preventDefault();
 
         const posting = {
-            createdby: JSON.parse(sessionStorage.getItem('userid')),
-            // profilePic: this.state.user.picture,
+            createdby: this.props.match.params.id,
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,
@@ -85,9 +83,10 @@ export default class NewPost extends Component {
         axios.post('http://localhost:3000/postings/post', posting)
             .then(response => {
                 console.log(response);
-                this.setState({
-                    isPosted: true
-                })
+                // this.setState({
+                //     isPosted: true
+                // })
+                window.location = '/mainscreen';
             })
             .catch(() => {
                 this.setState({
@@ -129,9 +128,9 @@ export default class NewPost extends Component {
 
     render() {
 
-        if (this.state.isPosted) {
-            return <Redirect to='/mainscreen' />;
-        }
+        // if (this.state.isPosted) {
+        //     return <Redirect to='/mainscreen' />;
+        // }
 
         return (
             <Container className="App" style={{ paddingBottom: '30px' }}>
