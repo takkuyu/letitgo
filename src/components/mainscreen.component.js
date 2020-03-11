@@ -10,6 +10,23 @@ import CardList from "./CardList.component";
 import Footer from "./footer.component";
 import "../styles/mainscreen.css"
 
+import { connect } from 'react-redux';
+import { registerId } from '../actions/actions'
+//tell me what state I need to listen to and send down as props.
+const mapStateToProps = state => {
+    return {
+        counter: state.counter
+    }
+}
+
+//tell me what props I should listen to that are actions that need to get dispatched.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        registerId: (value) => dispatch(registerId(value)) // onSerchChange is just a prop name to receive
+    }
+}
+
+
 const SearchBox = ({ searchChange }) => {
     return (
         <div className="searchBar">
@@ -19,7 +36,7 @@ const SearchBox = ({ searchChange }) => {
     );
 }
 
-export default class MainScreen extends Component {
+class MainScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -111,6 +128,10 @@ export default class MainScreen extends Component {
     }
 
     render() {
+        // const { counter, incrementValue } = this.props;
+
+        console.log(this.props.counter)
+
         return (
             <div>
                 <Container className="App">
@@ -127,3 +148,6 @@ export default class MainScreen extends Component {
         );
     }
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
