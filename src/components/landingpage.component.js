@@ -23,19 +23,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class LandingPage extends React.Component {
-
-    // const counter = useSelector(state => state.counter);
-    // console.log(counter);
-    // const dispatch = useDispatch();
-
-    // constructor(){
-
-    // }
-
-    
     render(){
-        // const { incrementValue } = this.props;
         console.log(this.props.counter)
+        // this.props.registerId('abc15')
+
         return (
             <div className="landing-outer">
                 <header className="header">

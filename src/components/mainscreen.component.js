@@ -8,21 +8,14 @@ import {
 import Navbar from "./navbar.component";
 import CardList from "./CardList.component";
 import Footer from "./footer.component";
-import "../styles/mainscreen.css"
-
+import "../styles/mainscreen.css";
 import { connect } from 'react-redux';
 import { registerId } from '../actions/actions'
+
 //tell me what state I need to listen to and send down as props.
 const mapStateToProps = state => {
     return {
-        counter: state.counter
-    }
-}
-
-//tell me what props I should listen to that are actions that need to get dispatched.
-const mapDispatchToProps = (dispatch) => {
-    return {
-        registerId: (value) => dispatch(registerId(value)) // onSerchChange is just a prop name to receive
+        userid: state.userid
     }
 }
 
@@ -52,29 +45,31 @@ class MainScreen extends Component {
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
 
-        if(JSON.parse(sessionStorage.getItem('userid')) == null){ // go back to landing page if the session variable is not set
+        if (JSON.parse(sessionStorage.getItem('userId')) == null) { // go back to landing page if the session variable is not set
             console.log('not set')
             window.location = '/';
         }
+
+        console.log(this.props.userid)
     }
 
     componentDidMount() {
         axios.get('http://localhost:3000/postings/') // get all the postings on postings table
             .then(response => {
+                // console.log(response)
                 this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
                 axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
                     .then(response => {
-                        this.setState({ 
+                        this.setState({
                             currentUser: {
-                                username:response.data.username,
-                                id:response.data._id
+                                username: response.data.username,
+                                id: response.data._id
                             }
                         })
                     })
                     .catch((error) => { console.log(error) });
             })
-            .catch((error) => { console.log(error) });
-
+            .catch(err => console.log(err));
     }
 
     onSearchChange = (event) => {
@@ -87,7 +82,7 @@ class MainScreen extends Component {
             return;
         }
 
-        const deletedId ={
+        const deletedId = {
             deletedId: id
         }
 
@@ -113,7 +108,7 @@ class MainScreen extends Component {
         return fileredPosts.map(posting => {
 
             const date = new Date(posting.createdAt);
-            const createdAt = String(date).substring(0,15);
+            const createdAt = String(date).substring(0, 15);
 
             return (
                 <CardList
@@ -121,7 +116,7 @@ class MainScreen extends Component {
                     currentUser={this.state.currentUser} // pass username, userid to cardlist component
                     key={posting._id}
                     deletePosting={this.deletePosting}
-                    createdAt = {createdAt}
+                    createdAt={createdAt}
                 />
             );
         })
@@ -130,7 +125,7 @@ class MainScreen extends Component {
     render() {
         // const { counter, incrementValue } = this.props;
 
-        console.log(this.props.counter)
+        // console.log(this.props.counter)
 
         return (
             <div>
@@ -150,4 +145,4 @@ class MainScreen extends Component {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(mapStateToProps)(MainScreen);
