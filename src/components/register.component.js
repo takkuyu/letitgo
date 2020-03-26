@@ -7,9 +7,22 @@ import {
     Button,
 } from 'reactstrap';
 
+import { registerId } from '../actions/actions'
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => {
+    return {
+        userid: state.userid
+    }
+}
 
-export default class Register extends Component {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        registerId: (value) => dispatch(registerId(value)) // onSerchChange is just a prop name to receive
+    }
+}
+
+class Register extends Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +30,6 @@ export default class Register extends Component {
             username: '',
             email: '',
             password: '',
-            isProperInfo: false
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetUsername = this.onSetUsername.bind(this);
@@ -39,14 +51,12 @@ export default class Register extends Component {
         axios.post('http://localhost:3000/users/register', user)
             .then(response => {
                 console.log(response);
-                sessionStorage.setItem('userid', JSON.stringify(response.data));
+                sessionStorage.setItem('userid', JSON.stringify(response.data)); // response.data returns _id of the user from db
 
-                this.setState({
-                    isProperInfo: true
-                })
-                // return(
-                //     <Redirect to="/mainscreen" />
-                // );
+                this.props.registerId(response.data);
+
+                window.location = '/mainscreen';
+
             })
             .catch((error) => { console.log(error) });
     }
@@ -71,11 +81,6 @@ export default class Register extends Component {
 
 
     render() {
-
-        if (this.state.isProperInfo) {
-            return <Redirect to='/mainscreen' />;
-        }
-
         return (
             <Container className="App">
 
@@ -138,3 +143,6 @@ export default class Register extends Component {
         );
     }
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -8,9 +8,22 @@ import {
 } from 'reactstrap';
 // import MainScreen from './mainscreen.component';
 
+import { registerId } from '../actions/actions'
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => {
+    return {
+        userid: state.userid
+    }
+}
 
-export default class Signin extends Component {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        registerId: (value) => dispatch(registerId(value)) 
+    }
+}
+
+class Signin extends Component {
 
     constructor(props) {
         super(props);
@@ -18,12 +31,10 @@ export default class Signin extends Component {
             username: '',
             email: '',
             password: '',
-            isProperUser: false
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetEmail = this.onSetEmail.bind(this);
         this.onSetPassword = this.onSetPassword.bind(this);
-
     }
 
 
@@ -38,20 +49,11 @@ export default class Signin extends Component {
 
         axios.post('http://localhost:3000/users/signin', user)
             .then(response => {
-
-                if (response.data) {
-
-                    sessionStorage.setItem('userid', JSON.stringify(response.data._id));
-                    this.setState({
-                        isProperUser: true,
-                        username: response.data.username
-                    })
-
-                    user.username = response.data.username;
-
-                    axios.post('http://localhost:3000/login/post', user)
-                        .then(response => console.log(response));
-
+                if (response.data.userId) {
+                    this.props.registerId(response.data.userId);
+                    sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
+                    // localStorage.setItem('token', response.data.token);
+                    window.location = '/mainscreen';
                 }
             })
             .catch((error) => { console.log(error) });
@@ -73,22 +75,8 @@ export default class Signin extends Component {
 
 
     render() {
-
-        if (this.state.isProperUser) {
-            return (
-                <Redirect to={{
-                    pathname: '/mainscreen',
-                    state: {
-                        username: this.state.username,
-                        email: this.state.email
-                    }
-                }} />
-            );
-        }
-
         return (
             <Container className="App">
-
                 <header className="header">
                     <div className="container">
                         <div className="header_content d-flex align-items-center">
@@ -103,7 +91,6 @@ export default class Signin extends Component {
                         </div>
                     </div>
                 </header>
-
                 <h2>Sign In</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>
@@ -130,7 +117,7 @@ export default class Signin extends Component {
                             />
                         </FormGroup>
                     </Col>
-                    <Button >Submit</Button>
+                    <Button>Submit</Button>
                     <p className="my-1">
                         Don't have an account? <Link to='/register'>Sign Up</Link>
                     </p>
@@ -139,3 +126,6 @@ export default class Signin extends Component {
         );
     }
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);
