@@ -13,7 +13,7 @@ import thunkMiddleware from 'redux-thunk';
 // const persistConfig ={
 //     key:'root',
 //     storage,
-//     whitelist:['userid']
+//     whitelist:['userid'] 
 // }
 // const persistedReducer = persistReducer(persistConfig, allReducers)
 
@@ -26,6 +26,7 @@ const store = createStore(
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
+//test line
 
 // const persistor = persistStore(store);
 
