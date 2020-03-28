@@ -20,9 +20,7 @@ export default class NewPost extends Component {
             condition: '',
             description: '',
             loading: false,
-            // isPosted: false,
             errorInputs: false,
-            // user: {},
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
@@ -31,17 +29,9 @@ export default class NewPost extends Component {
         this.onSetCondition = this.onSetCondition.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-    }
 
-    // componentDidMount() {
-    //     axios.get('http://localhost:3000/users/' + this.props.match.params.id)
-    //         .then(response => {
-    //             this.setState({
-    //                 user: response.data
-    //             })
-    //         })
-    //         .catch((error) => { console.log(error) });
-    // }
+
+    }
 
     uploadImage = async e => {
         const files = e.target.files
@@ -70,8 +60,9 @@ export default class NewPost extends Component {
     onSubmit(e) {
         e.preventDefault();
 
+
         const posting = {
-            createdby: this.props.match.params.id,
+            // createdby: this.props.match.params.id,
             title: this.state.title,
             location: this.state.location,
             price: this.state.price,
@@ -80,12 +71,9 @@ export default class NewPost extends Component {
             description: this.state.description,
         }
 
-        axios.post('http://localhost:3000/postings/post', posting)
+        axios.post('http://localhost:3000/postings/post', posting, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
             .then(response => {
                 console.log(response);
-                // this.setState({
-                //     isPosted: true
-                // })
                 window.location = '/mainscreen';
             })
             .catch(() => {
@@ -127,11 +115,6 @@ export default class NewPost extends Component {
 
 
     render() {
-
-        // if (this.state.isPosted) {
-        //     return <Redirect to='/mainscreen' />;
-        // }
-
         return (
             <Container className="App" style={{ paddingBottom: '30px' }}>
                 <Navbar />

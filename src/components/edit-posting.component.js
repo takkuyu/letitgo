@@ -32,15 +32,15 @@ export default class EditPosting extends Component {
 
     componentDidMount() {
 
-        axios.get('http://localhost:3000/postings/' + this.props.match.params.id)
+        axios.get('http://localhost:3000/postings/' + this.props.match.params.id, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
             .then(response => {
                 this.setState({
-                    title: response.data.title,
-                    location: response.data.location,
-                    price: response.data.price,
-                    condition: response.data.condition,
-                    image: response.data.image,
-                    description: response.data.description,
+                    title: response.data.posting.title,
+                    location: response.data.posting.location,
+                    price: response.data.posting.price,
+                    condition: response.data.posting.condition,
+                    image: response.data.posting.image,
+                    description: response.data.posting.description,
                 })
             })
             .catch((error) => {
@@ -111,13 +111,16 @@ export default class EditPosting extends Component {
             image: this.state.image,
             description: this.state.description,
         }
-        axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting)
+        axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
             .then(res => console.log(res.data))
-            .catch(console.log);
+            .catch(()=>{
+                alert('Oops, please sign in again for better security');
+                window.location = '/';
+                return
+            });
 
         window.location = '/mainscreen';
     }
-
 
     render() {
         return (
