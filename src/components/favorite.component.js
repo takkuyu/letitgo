@@ -8,35 +8,29 @@ import Navbar from "./navbar.component";
 import Footer from "./footer.component";
 
 
-const FavoriteList = ({ createdDay, like, currentUser, deleteLike }) => {
-    return(
-    <Col md={'4'}>
-        <div className="product">
-            <div className="favorite_container">
-                <p className="posted-date" >Added on:<span>{createdDay}</span></p>
-            </div>
-            <div className="product_image">
-                <Link to={{
-                    pathname: `/postings/comments/${like._id}`,
-                    state: {
-                        currentUsername: currentUser.username,
-                        currentUserid: currentUser.id,
-                    }
-                }}>
-                    <img src={like.image} alt="" />
-                </Link>
-            </div>
-            <div className="product_content">
-                <div className="product_title">{like.title}</div>
-                <div className="product_price">${like.price}</div>
-                <div className="location_container" style={{ marginTop: '10px' }}>
-                    <div className='location'>Location:</div>
-                    <span>{like.location}</span>
+const FavoriteList = ({ createdDay, like, deleteLike }) => {
+    return (
+        <Col md={'4'}>
+            <div className="product">
+                <div className="favorite_container">
+                    <p className="posted-date" >Added on:<span>{createdDay}</span></p>
                 </div>
-                <span style={{ cursor: 'pointer', color: "red" }} onClick={() => deleteLike(like._id)}>Unlike</span>
+                <div className="product_image">
+                    <Link to={`/postings/comments/${like._id}`}>
+                        <img src={like.image} alt="" />
+                    </Link>
+                </div>
+                <div className="product_content">
+                    <div className="product_title">{like.title}</div>
+                    <div className="product_price">${like.price}</div>
+                    <div className="location_container" style={{ marginTop: '10px' }}>
+                        <div className='location'>Location:</div>
+                        <span>{like.location}</span>
+                    </div>
+                    <span style={{ cursor: 'pointer', color: "red" }} onClick={() => deleteLike(like._id)}>Unlike</span>
+                </div>
             </div>
-        </div>
-    </Col >
+        </Col >
     );
 };
 
@@ -48,10 +42,6 @@ export default class Favorite extends Component {
 
         this.state = {
             likes: [],
-            currentUser:{
-                username:'',
-                id:''
-            }
         }
         this.deleteLike = this.deleteLike.bind(this);
         this.postingList = this.postingList.bind(this);
@@ -59,39 +49,28 @@ export default class Favorite extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/users/' + this.props.match.params.id) // get currentUser id from URL 
+        axios.get('http://localhost:3000/users/authenticate', { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then((res) => {
-                this.setState({
-                    currentUser:{
-                        username: res.data.username,
-                        id: res.data._id
-                    }
-                })
                 const favorites = res.data.favorites;
                 this.getLikesById(favorites)
             })
-            .catch(console.log)
+            .catch(console.log);
     }
 
     async getLikesById(favorites) {
-        const res = await Promise.all(favorites.map(favorite => axios.get('http://localhost:3000/postings/' + favorite).then(resp => resp.data)))
+        const res = await Promise.all(favorites.map(favorite => axios.get('http://localhost:3000/postings/' + favorite, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }).then(resp => resp.data.posting)))
         this.setState({
             likes: res
         })
     }
 
     deleteLike(id) {
-        const deleteId = {
-            deleteId:id
-        }
-
-        axios.post('http://localhost:3000/users/deleteLike/' + this.props.match.params.id, deleteId)
+        axios.post('http://localhost:3000/users/unliked', { deleteId: id }, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(response => console.log(response.data));
 
         this.setState({
             likes: this.state.likes.filter(el => el._id !== id) // this filter returns all the elements in the db whose id does not match the deleted id.
         })
-
     }
 
     postingList() {
@@ -104,7 +83,6 @@ export default class Favorite extends Component {
                 <FavoriteList
                     createdDay={createdDay}
                     like={like}
-                    currentUser={this.state.currentUser}
                     key={like._id}
                     deleteLike={this.deleteLike}
                 />

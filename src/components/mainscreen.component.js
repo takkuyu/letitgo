@@ -6,16 +6,27 @@ import {
 } from 'reactstrap';
 
 import Navbar from "./navbar.component";
-import CardList from "./CardList.component";
+import Card from "./card.component";
 import Footer from "./footer.component";
-import "../styles/mainscreen.css";
+import "../styles/mainscreen.css"
+// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerId } from '../actions/actions'
+import { storePostings, storeUserId, storeSearchField } from '../actions/actions';
 
 //tell me what state I need to listen to and send down as props.
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
-        userid: state.userid
+        userid: state.user.id,
+        postings: state.postings,
+        searchfield: state.inputs.searchfield,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storePostings: (value) => dispatch(storePostings(value)),
+        storeUserId: (value) => dispatch(storeUserId(value)),
+        storeSearchField: (value) => dispatch(storeSearchField(value)),
     }
 }
 
@@ -30,50 +41,48 @@ const SearchBox = ({ searchChange }) => {
 }
 
 class MainScreen extends Component {
-
     constructor(props) {
         super(props);
-        this.state = {
-            postings: [],
-            searchfield: '',
-            currentUser: {
-                username: '',
-                id: ''
-            }
-        };
+        // this.state = {
+        //     postings: [],
+        //     searchfield: '',
+        //     userid: '',
+        // };
 
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
 
-        if (JSON.parse(sessionStorage.getItem('userId')) == null) { // go back to landing page if the session variable is not set
-            console.log('not set')
-            window.location = '/';
-        }
+        // if(JSON.parse(sessionStorage.getItem('userid')) == null){ // go back to landing page if the session variable is not set
+        //     console.log('not set')
+        //     window.location = '/';
+        // }
 
-        console.log(this.props.userid)
+        // console.log(this.props.userid)
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/postings/') // get all the postings on postings table
+        // this._isMounted = true;
+
+        axios.get('http://localhost:3000/postings/', { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }) // get all the postings on postings table
             .then(response => {
-                // console.log(response)
-                this.setState({ postings: response.data }) // get all the info of postings and set it to the posting state.
-                axios.get('http://localhost:3000/users/' + JSON.parse(sessionStorage.getItem('userid')))
-                    .then(response => {
-                        this.setState({
-                            currentUser: {
-                                username: response.data.username,
-                                id: response.data._id
-                            }
-                        })
-                    })
-                    .catch((error) => { console.log(error) });
+                // this.setState({
+                //     postings: response.data.postings,
+                //     userid: response.data.userid
+                // });
+
+                this.props.storePostings(response.data.postings);
+                this.props.storeUserId(response.data.userid);
             })
-            .catch(err => console.log(err));
+            .catch(() => {
+                //If the token was deleted or does not exist, redirect to root 
+                window.location = '/';
+            });
     }
 
     onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value });
+        // this.setState({ searchfield: event.target.value });
+        this.props.storeSearchField(event.target.value);
+
     }
 
     deletePosting(id) {
@@ -82,11 +91,8 @@ class MainScreen extends Component {
             return;
         }
 
-        const deletedId = {
-            deletedId: id
-        }
 
-        axios.post('http://localhost:3000/users/deleteLikeFromAll', deletedId)
+        axios.post('http://localhost:3000/users/deleteLikeFromAll', { deletedId: id })
             .then(console.log)
             .catch(console.log);
 
@@ -95,14 +101,16 @@ class MainScreen extends Component {
                 console.log(res.data)
             });
 
-        this.setState({
-            postings: this.state.postings.filter(el => el._id !== id)
-        })
+        // this.setState({
+        //     postings: this.props.postings.filter(el => el._id !== id)
+        // })
+
+        this.props.storePostings(this.props.postings.filter(el => el._id !== id));
     }
 
     postingList() {
-        const fileredPosts = this.state.postings.filter(posting => {
-            return posting.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        const fileredPosts = this.props.postings.filter(posting => {
+            return posting.title.toLowerCase().includes(this.props.searchfield.toLowerCase());
         });
 
         return fileredPosts.map(posting => {
@@ -111,9 +119,9 @@ class MainScreen extends Component {
             const createdAt = String(date).substring(0, 15);
 
             return (
-                <CardList
+                <Card
                     posting={posting}
-                    currentUser={this.state.currentUser} // pass username, userid to cardlist component
+                    userid={this.props.userid} // pass username, userid to cardlist component
                     key={posting._id}
                     deletePosting={this.deletePosting}
                     createdAt={createdAt}
@@ -123,9 +131,8 @@ class MainScreen extends Component {
     }
 
     render() {
-        // const { counter, incrementValue } = this.props;
-
-        // console.log(this.props.counter)
+        // console.log(this.props.userid)
+        // console.log(this.props.searchfield)
 
         return (
             <div>
@@ -144,5 +151,4 @@ class MainScreen extends Component {
     }
 }
 
-
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

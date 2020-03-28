@@ -33,7 +33,7 @@ export default class Profile extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/users/' + this.props.match.params.id)
+         axios.get('http://localhost:3000/users/authenticate', { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
             .then((res) => {
                 this.setState({
                     user: res.data,
@@ -43,7 +43,7 @@ export default class Profile extends Component {
                     createdDay: String(new Date(res.data.createdAt)).substring(0,15)
                 })
             })
-            .catch(console.log)
+            .catch(()=> window.location = '/')
     }
 
     uploadImage = async e => {
@@ -78,16 +78,11 @@ export default class Profile extends Component {
             newEmail: this.state.newEmail,
             newPic: this.state.newPic,
         }
-        axios.post('http://localhost:3000/users/edit/' + this.props.match.params.id, newUserInfo)
-            .then(res => console.log(res.data))
+        axios.post('http://localhost:3000/users/update', newUserInfo, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
+            .then(console.log)
             .catch(console.log);
 
-        // this.setState({
-        //     isClicked: !this.state.isClicked
-        // })
-
-        // <Redirect to="/profile/:id"/>
-        window.location = `/profile/${this.props.match.params.id}`;
+        window.location = '/profile';
 
     }
 

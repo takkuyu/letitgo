@@ -19,7 +19,9 @@ export default class Comment extends Component {
             liked: false, // check if the posting is alreay liked by the current user 
             exist: true, // check if the post still exist. if it's deleted it shows appropriate message on screen.
             nameArray: [],
-            createdAt:''
+            createdAt: '',
+            userid: '',
+            username: ''
         }
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -28,20 +30,23 @@ export default class Comment extends Component {
         this.addToFavorite = this.addToFavorite.bind(this);
         this.isLikedAlready = this.isLikedAlready.bind(this);
         this.getAuthorById = this.getAuthorById.bind(this);
-        // console.log(this.props.location.state)
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        axios.get("http://localhost:3000/postings/" + this.props.match.params.id)
+        axios.get("http://localhost:3000/postings/" + this.props.match.params.id, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(res => {
+                console.log(res.data)
                 this.setState({
-                    posting: res.data,
-                    comments: res.data.comments,
-                    createdAt: String(new Date(res.data.createdAt)).substring(0, 15)
+                    posting: res.data.posting,
+                    userid: res.data.userid,
+                    comments: res.data.posting.comments,
+                    createdAt: String(new Date(res.data.posting.createdAt)).substring(0, 15)
                 })
+                // if (res.data.userid !== res.data.posting.createdby) {
                 this.isLikedAlready(this.props.match.params.id);
-                this.getAuthorById(res.data.comments);
+                // }
+                this.getAuthorById(res.data.posting.comments);
             })
             .catch(() => {
                 this.setState({
@@ -51,47 +56,51 @@ export default class Comment extends Component {
     }
 
     async getAuthorById(comments) {
-        try{
-        const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
-        this.setState({
-            nameArray: nameArray
-        });
-        } catch(err){
+        try {
+            const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
+            this.setState({
+                nameArray: nameArray
+            });
+        } catch (err) {
             console.log(err)
         }
     }
 
     isLikedAlready(id) {
-        const userId = {
-            userId: this.props.location.state.currentUserid
-        }
-        axios.post('http://localhost:3000/users/checkLiked/' + id, userId)
-            .then(res => {
-                if (res.data) {
+        axios.get('http://localhost:3000/users/' + this.state.userid)
+            .then(user => {
+                const result = user.data.favorites.filter(favorite => favorite === id)
+                if (result.length > 0) {
                     this.setState({
-                        liked: true // indicates the posting was found on that user database, so turn this flag to true.
-                    })
+                        liked: true, // indicates the posting was found on that user database, so turn this flag to true.
+                        username: user.data.username
+                    });
+                } else {
+                    // console.log('not liked')
+                    this.setState({
+                        username: user.data.username
+                    });
                 }
-            })
+            });
     }
 
     getComments(nameArray) {
         let i = 0;
         return this.state.comments.map(com => {
-            if(nameArray[i] === this.props.location.state.currentUsername){
+            if (nameArray[i] === this.state.username) {
                 return (
-                    <ListGroupItem  key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} 
-                    style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black',textAlign:'right', padding:'5px 20px' }}>
-                        <p style={{ fontSize: '15px', fontWeight:'bold', color:'#ff0000', paddingBottom:'3px', lineHeight:'15px'}}>{nameArray[i++]}</p >
+                    <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)}
+                        style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black', textAlign: 'right', padding: '5px 20px' }}>
+                        <p style={{ fontSize: '15px', fontWeight: 'bold', color: '#ff0000', paddingBottom: '3px', lineHeight: '15px' }}>{nameArray[i++]}</p >
                         {com.comment}
                     </ListGroupItem>
                 );
-            }else{
+            } else {
                 return (
-                    <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)} 
-                    style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black', padding:'5px 20px' }}>
-                       <p style={{ fontSize: '15px', fontWeight:'bold', color:'#44a038', paddingBottom:'3px', lineHeight:'15px'}}>{nameArray[i++]}</p>
-                       {com.comment}
+                    <ListGroupItem key={new Date().getTime().toString(36) + '-' + Math.random().toString(36)}
+                        style={{ border: 'none', borderBottom: 'rgba(0,0,0,0.4) 1px solid', borderRadius: '0', fontWeight: 'bold', color: 'black', padding: '5px 20px' }}>
+                        <p style={{ fontSize: '15px', fontWeight: 'bold', color: '#44a038', paddingBottom: '3px', lineHeight: '15px' }}>{nameArray[i++]}</p>
+                        {com.comment}
                     </ListGroupItem>
                 );
             }
@@ -103,19 +112,15 @@ export default class Comment extends Component {
         if (this.state.comment === '') {
             return;
         }
-        const comment = {
-            author: this.props.location.state.currentUserid,
-            comment: this.state.comment
-        }
-        axios.post('http://localhost:3000/postings/update/comments/' + this.state.posting._id, comment)
+        axios.post('http://localhost:3000/postings/update/comments/' + this.state.posting._id, { comment: this.state.comment }, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(() => {
-                axios.get('http://localhost:3000/postings/' + this.state.posting._id)
+                axios.get('http://localhost:3000/postings/' + this.state.posting._id, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
                     .then(response => {
                         this.setState({
-                            comments: response.data.comments,
+                            comments: response.data.posting.comments,
                             comment: ''
                         })
-                        this.getAuthorById(response.data.comments);
+                        this.getAuthorById(response.data.posting.comments);
                     })
                     .catch(console.log);
             })
@@ -129,10 +134,7 @@ export default class Comment extends Component {
     }
 
     addToFavorite(id) {
-        const favoriteId = {
-            favoriteId: id
-        }
-        axios.post('http://localhost:3000/users/favorite/' + this.props.location.state.currentUserid, favoriteId)
+        axios.post('http://localhost:3000/users/favorite/' + this.state.userid, { favoriteId: id })
             .then(response => {
                 console.log(response);
                 this.setState({
@@ -143,6 +145,7 @@ export default class Comment extends Component {
     }
 
     render() {
+        // console.log(this.state.posting)
         return (
             <Container>
                 <Navbar />
@@ -179,7 +182,7 @@ export default class Comment extends Component {
 
                                             <div>
                                                 {
-                                                    this.state.posting.createdby === this.props.location.state.currentUserid ?
+                                                    this.state.posting.createdby === this.state.userid ?
                                                         (<div style={{ marginTop: '12px' }}>
                                                             <p className='posted-date'>You posted this item on: <span>{this.state.createdAt}</span></p>
                                                             <div className="button favorite_button" style={{ marginTop: '0px' }}><Link to={"/update/" + this.state.posting._id}>Edit</Link></div>

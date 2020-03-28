@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        registerId: (value) => dispatch(registerId(value)) 
+        // registerId: (value) => dispatch(registerId(value)) 
     }
 }
 
@@ -49,10 +49,10 @@ class Signin extends Component {
 
         axios.post('http://localhost:3000/users/signin', user)
             .then(response => {
-                if (response.data.userId) {
-                    this.props.registerId(response.data.userId);
-                    sessionStorage.setItem('userId', JSON.stringify(response.data.userId));
-                    // localStorage.setItem('token', response.data.token);
+                if (response.data.token) {
+                    // this.props.registerId(response.data.userId);
+                    // sessionStorage.setItem('userid', JSON.stringify(response.data.userId));
+                    sessionStorage.setItem('token', response.data.token);
                     window.location = '/mainscreen';
                 }
             })

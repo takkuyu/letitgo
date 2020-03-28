@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        registerId: (value) => dispatch(registerId(value)) // onSerchChange is just a prop name to receive
+        // registerId: (value) => dispatch(registerId(value)) // onSerchChange is just a prop name to receive
     }
 }
 
@@ -51,11 +51,12 @@ class Register extends Component {
         axios.post('http://localhost:3000/users/register', user)
             .then(response => {
                 console.log(response);
-                sessionStorage.setItem('userid', JSON.stringify(response.data)); // response.data returns _id of the user from db
+                // sessionStorage.setItem('userid', JSON.stringify(response.data)); // response.data returns _id of the user from db
+                sessionStorage.setItem('token', response.data.token);
 
-                this.props.registerId(response.data);
+                // this.props.registerId(response.data);
 
-                window.location = '/mainscreen';
+                // window.location = '/mainscreen';
 
             })
             .catch((error) => { console.log(error) });
