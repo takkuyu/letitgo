@@ -36,7 +36,6 @@ export default class Comment extends Component {
         window.scrollTo(0, 0);
         axios.get("http://localhost:3000/postings/" + this.props.match.params.id, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(res => {
-                console.log(res.data)
                 this.setState({
                     posting: res.data.posting,
                     userid: res.data.userid,
@@ -57,7 +56,13 @@ export default class Comment extends Component {
 
     async getAuthorById(comments) {
         try {
-            const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => resp.data.username)))        // const name = await res.then((response) => response.data.username)
+            const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => {
+                //When the user was deleted, it assigns alternate name.
+                if(resp.data === null){
+                    return 'Deleted User'
+                }
+                return resp.data.username
+            })))  
             this.setState({
                 nameArray: nameArray
             });
