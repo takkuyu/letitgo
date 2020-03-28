@@ -6,8 +6,27 @@ import {
 } from 'reactstrap';
 import "../styles/mainscreen.css"
 import "../styles/cardlist.css"
+import { connect } from 'react-redux';
+import { storeUsername, storeUserId, storeUserPic } from '../actions/actions';
 
-export default class Card extends Component {
+//tell me what state I need to listen to and send down as props.
+const mapStateToProps = (state) => {
+    return {
+        this_userid: state.user.this_userid,
+        this_username: state.user.this_username,
+        userPic: state.user.userPic,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeUsername: (value) => dispatch(storeUsername(value)),
+        storeUserId: (value) => dispatch(storeUserId(value)),
+        storeUserPic: (value) => dispatch(storeUserPic(value)),
+    }
+}
+
+class Card extends Component {
 
     constructor(props) {
         super(props);
@@ -16,6 +35,7 @@ export default class Card extends Component {
             username: '',
             userPic: ''
         }
+
     }
 
     componentDidMount() {
@@ -29,12 +49,18 @@ export default class Card extends Component {
                     username: res.data.username,
                     userPic: res.data.picture,
                 })
+
+                // this.props.storeUsername(res.data.username);
+                // this.props.storeUserId(res.data._id);
+                // this.props.storeUserPic(res.data.picture);
             })
             .catch(console.log)
     }
 
     render() {
 
+        // console.log(this.state.username)
+        // console.log('render')
         return (
             <Col md={'4'}>
                 <div className="product" >
@@ -69,3 +95,4 @@ export default class Card extends Component {
     }
 };
 
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

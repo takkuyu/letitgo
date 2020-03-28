@@ -11,12 +11,11 @@ import Footer from "./footer.component";
 import "../styles/mainscreen.css"
 // import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { storePostings, storeUserId, storeSearchField } from '../actions/actions';
+import { storePostings, storeCurrentUserId, storeSearchField, requestPostings } from '../actions/actions';
 
-//tell me what state I need to listen to and send down as props.
 const mapStateToProps = (state) => {
     return {
-        userid: state.user.id,
+        current_userid: state.user.current_userid,
         postings: state.postings,
         searchfield: state.inputs.searchfield,
     }
@@ -25,8 +24,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         storePostings: (value) => dispatch(storePostings(value)),
-        storeUserId: (value) => dispatch(storeUserId(value)),
+        storeCurrentUserId: (value) => dispatch(storeCurrentUserId(value)),
         storeSearchField: (value) => dispatch(storeSearchField(value)),
+        requestPostings: () => dispatch(requestPostings()),
     }
 }
 
@@ -48,35 +48,26 @@ class MainScreen extends Component {
         //     searchfield: '',
         //     userid: '',
         // };
-
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-
-        // if(JSON.parse(sessionStorage.getItem('userid')) == null){ // go back to landing page if the session variable is not set
-        //     console.log('not set')
-        //     window.location = '/';
-        // }
-
-        // console.log(this.props.userid)
     }
 
     componentDidMount() {
         // this._isMounted = true;
-
-        axios.get('http://localhost:3000/postings/', { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }) // get all the postings on postings table
-            .then(response => {
-                // this.setState({
-                //     postings: response.data.postings,
-                //     userid: response.data.userid
-                // });
-
-                this.props.storePostings(response.data.postings);
-                this.props.storeUserId(response.data.userid);
-            })
-            .catch(() => {
-                //If the token was deleted or does not exist, redirect to root 
-                window.location = '/';
-            });
+        this.props.requestPostings();
+        // axios.get('http://localhost:3000/postings/', { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }) // get all the postings on postings table
+        //     .then(response => {
+        //         // this.setState({
+        //         //     postings: response.data.postings,
+        //         //     userid: response.data.userid
+        //         // });
+        //         this.props.storePostings(response.data.postings);
+        //         this.props.storeCurrentUserId(response.data.userid);
+        //     })
+        //     .catch(() => {
+        //         //If the token was deleted or does not exist, redirect to root 
+        //         window.location = '/';
+        //     });
     }
 
     onSearchChange = (event) => {
@@ -121,7 +112,7 @@ class MainScreen extends Component {
             return (
                 <Card
                     posting={posting}
-                    userid={this.props.userid} // pass username, userid to cardlist component
+                    userid={this.props.current_userid} // pass username, userid to cardlist component
                     key={posting._id}
                     deletePosting={this.deletePosting}
                     createdAt={createdAt}
