@@ -11,7 +11,6 @@ export default class Comment extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             posting: [],
             comment: '',
@@ -47,10 +46,15 @@ export default class Comment extends Component {
                 // }
                 this.getAuthorById(res.data.posting.comments);
             })
-            .catch(() => {
-                this.setState({
-                    exist: false
-                })
+            .catch((err) => {
+                console.log(err)
+                if (err.response.status === 403) {
+                    window.location = '/';
+                } else if (err.response.status === 400) {
+                    this.setState({
+                        exist: false
+                    })
+                }
             });
     }
 
@@ -58,11 +62,11 @@ export default class Comment extends Component {
         try {
             const nameArray = await Promise.all(comments.map(comment => axios.get('http://localhost:3000/users/' + comment.author).then(resp => {
                 //When the user was deleted, it assigns alternate name.
-                if(resp.data === null){
+                if (resp.data === null) {
                     return 'Deleted User'
                 }
                 return resp.data.username
-            })))  
+            })))
             this.setState({
                 nameArray: nameArray
             });

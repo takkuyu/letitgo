@@ -6,7 +6,20 @@ import {
 } from 'reactstrap';
 import Navbar from "./navbar.component";
 import Footer from "./footer.component";
+import { connect } from 'react-redux';
+import { storePostings } from '../actions/actions';
 
+const mapStateToProps = (state) => {
+    return {
+        postings: state.postings,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storePostings: (value) => dispatch(storePostings(value)),
+    }
+}
 
 const FavoriteList = ({ createdDay, like, deleteLike }) => {
     return (
@@ -34,15 +47,14 @@ const FavoriteList = ({ createdDay, like, deleteLike }) => {
     );
 };
 
-
-export default class Favorite extends Component {
+class Favorite extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            likes: [],
-        }
+        // this.state = {
+        //     likes: [],
+        // }
         this.deleteLike = this.deleteLike.bind(this);
         this.postingList = this.postingList.bind(this);
         this.getLikesById = this.getLikesById.bind(this);
@@ -54,27 +66,37 @@ export default class Favorite extends Component {
                 const favorites = res.data.favorites;
                 this.getLikesById(favorites)
             })
-            .catch(console.log);
+            .catch(err => {
+                if (err.response.status === 403 ) {
+                    window.location = '/';
+                } else {
+                    console.log(err)
+                }
+            });
     }
 
     async getLikesById(favorites) {
         const res = await Promise.all(favorites.map(favorite => axios.get('http://localhost:3000/postings/' + favorite, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }).then(resp => resp.data.posting)))
-        this.setState({
-            likes: res
-        })
+        // this.setState({
+        //     likes: res
+        // })
+        this.props.storePostings(res);
+
     }
 
     deleteLike(id) {
         axios.post('http://localhost:3000/users/unliked', { deleteId: id }, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(response => console.log(response.data));
 
-        this.setState({
-            likes: this.state.likes.filter(el => el._id !== id) // this filter returns all the elements in the db whose id does not match the deleted id.
-        })
+        // this.setState({
+        //     likes: this.props.postings.filter(el => el._id !== id) // this filter returns all the elements in the db whose id does not match the deleted id.
+        // })
+
+        this.props.storePostings(this.props.postings.filter(el => el._id !== id));
     }
 
     postingList() {
-        return this.state.likes.map(like => {
+        return this.props.postings.map(like => {
 
             const date = new Date(like.createdAt);
             const createdDay = String(date).substring(0, 15);
@@ -97,7 +119,7 @@ export default class Favorite extends Component {
                 <Container className="App">
                     <Navbar />
                     <Row>
-                        {!this.state.likes.length ?
+                        {!this.props.postings.length ?
                             <div style={{ textAlign: 'center', height: 'calc(100vh - 260px)', width: '100%', lineHeight: 'calc(100vh - 260px)', fontSize: '20px' }}>
                                 There are no favorite items added
                             </div>
@@ -110,3 +132,5 @@ export default class Favorite extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorite);

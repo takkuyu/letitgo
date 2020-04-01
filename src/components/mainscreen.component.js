@@ -9,7 +9,6 @@ import Navbar from "./navbar.component";
 import Card from "./card.component";
 import Footer from "./footer.component";
 import "../styles/mainscreen.css"
-// import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { storePostings, storeCurrentUserId, storeSearchField, requestPostings } from '../actions/actions';
 
@@ -43,59 +42,29 @@ const SearchBox = ({ searchChange }) => {
 class MainScreen extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     postings: [],
-        //     searchfield: '',
-        //     userid: '',
-        // };
         this.deletePosting = this.deletePosting.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
     componentDidMount() {
-        // this._isMounted = true;
         this.props.requestPostings();
-        // axios.get('http://localhost:3000/postings/', { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } }) // get all the postings on postings table
-        //     .then(response => {
-        //         // this.setState({
-        //         //     postings: response.data.postings,
-        //         //     userid: response.data.userid
-        //         // });
-        //         this.props.storePostings(response.data.postings);
-        //         this.props.storeCurrentUserId(response.data.userid);
-        //     })
-        //     .catch(() => {
-        //         //If the token was deleted or does not exist, redirect to root 
-        //         window.location = '/';
-        //     });
     }
 
     onSearchChange = (event) => {
-        // this.setState({ searchfield: event.target.value });
         this.props.storeSearchField(event.target.value);
-
     }
 
     deletePosting(id) {
-
         if (!window.confirm('Are you sure to delete?')) {
             return;
         }
-
-
         axios.post('http://localhost:3000/users/deleteLikeFromAll', { deletedId: id })
             .then(console.log)
             .catch(console.log);
-
         axios.delete('http://localhost:3000/postings/' + id)
             .then(res => {
                 console.log(res.data)
             });
-
-        // this.setState({
-        //     postings: this.props.postings.filter(el => el._id !== id)
-        // })
-
         this.props.storePostings(this.props.postings.filter(el => el._id !== id));
     }
 
@@ -122,9 +91,6 @@ class MainScreen extends Component {
     }
 
     render() {
-        // console.log(this.props.userid)
-        // console.log(this.props.searchfield)
-
         return (
             <div>
                 <Container className="App">

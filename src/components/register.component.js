@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
@@ -7,7 +7,6 @@ import {
     Button,
 } from 'reactstrap';
 
-import { registerId } from '../actions/actions'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -56,7 +55,7 @@ class Register extends Component {
 
                 // this.props.registerId(response.data);
 
-                // window.location = '/mainscreen';
+                window.location = '/mainscreen';
 
             })
             .catch((error) => { console.log(error) });

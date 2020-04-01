@@ -2,7 +2,12 @@ const initialState = {
     current_userid: '',
     this_userid: '',
     this_username: '',
-    userPic: ''
+    this_user_email: '',
+    this_user_picture: '',
+    new_username: '',
+    new_user_email: '',
+    new_user_picture: '',
+    createdAt: '',
 }
 
 const userReducer = (state = initialState, action = {}) => {
@@ -13,8 +18,18 @@ const userReducer = (state = initialState, action = {}) => {
             return Object.assign({}, state, { this_userid: action.payload });
         case 'STORE_USER_NAME':
             return Object.assign({}, state, { this_username: action.payload });
+        case 'STORE_USER_EMAIL':
+            return Object.assign({}, state, { this_user_email: action.payload });
         case 'STORE_USER_PICTURE':
-            return Object.assign({}, state, { userPic: action.payload });
+            return Object.assign({}, state, { this_user_picture: action.payload });
+        case 'STORE_NEW_USER_NAME':
+            return Object.assign({}, state, { new_username: action.payload });
+        case 'STORE_NEW_USER_EMAIL':
+            return Object.assign({}, state, { new_user_email: action.payload });
+        case 'STORE_NEW_USER_PICTURE':
+            return Object.assign({}, state, { new_user_picture: action.payload });
+        case 'STORE_CREATED_AT':
+            return Object.assign({}, state, { createdAt: action.payload });
         default:
             return state;
     }
