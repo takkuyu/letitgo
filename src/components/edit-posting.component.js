@@ -7,20 +7,47 @@ import {
 } from 'reactstrap';
 import Navbar from "./navbar.component";
 
+import { connect } from 'react-redux';
+import { requestInputs, storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, storePrice } from '../actions/actions';
 
-export default class EditPosting extends Component {
+const mapStateToProps = (state) => {
+    return {
+        title: state.inputs.title,
+        location: state.inputs.location,
+        price: state.inputs.price,
+        image: state.inputs.image,
+        condition: state.inputs.condition,
+        description: state.inputs.description,
+        loading: state.inputs.loading,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeTitle: (value) => dispatch(storeTitle(value)),
+        storeCondition: (value) => dispatch(storeCondition(value)),
+        storeImage: (value) => dispatch(storeImage(value)),
+        storeDescription: (value) => dispatch(storeDescription(value)),
+        storeLoadning: (value) => dispatch(storeLoadning(value)),
+        storeLocation: (value) => dispatch(storeLocation(value)),
+        storePrice: (value) => dispatch(storePrice(value)),
+        requestInputs: (value) => dispatch(requestInputs(value)),
+    }
+}
+
+class EditPosting extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: '',
-            image: '',
-            location: '',
-            price: 0,
-            condition: '',
-            description: '',
-            loading: false,
-        }
+        // this.state = {
+        //     title: '',
+        //     image: '',
+        //     location: '',
+        //     price: 0,
+        //     condition: '',
+        //     description: '',
+        //     loading: false,
+        // }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeLocation = this.onChangeLocation.bind(this);
@@ -31,21 +58,21 @@ export default class EditPosting extends Component {
     }
 
     componentDidMount() {
-
-        axios.get('http://localhost:3000/postings/' + this.props.match.params.id, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
-            .then(response => {
-                this.setState({
-                    title: response.data.posting.title,
-                    location: response.data.posting.location,
-                    price: response.data.posting.price,
-                    condition: response.data.posting.condition,
-                    image: response.data.posting.image,
-                    description: response.data.posting.description,
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        this.props.requestInputs(this.props.match.params.id)
+        // axios.get('http://localhost:3000/postings/' + this.props.match.params.id, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
+        //     .then(response => {
+        //         this.setState({
+        //             title: response.data.posting.title,
+        //             location: response.data.posting.location,
+        //             price: response.data.posting.price,
+        //             condition: response.data.posting.condition,
+        //             image: response.data.posting.image,
+        //             description: response.data.posting.description,
+        //         })
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
     }
 
     uploadImage = async e => {
@@ -53,9 +80,9 @@ export default class EditPosting extends Component {
         const data = new FormData()
         data.append('file', files[0])
         data.append('upload_preset', 'myreactapp')
-        this.setState({
-            loading: true
-        })
+
+        this.props.storeLoadning(true);
+
         const res = await fetch(
             'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
             {
@@ -63,63 +90,50 @@ export default class EditPosting extends Component {
                 body: data
             }
         )
-        const file = await res.json()
-        this.setState({
-            image: file.secure_url
-        })
-        this.setState({
-            loading: false
-        })
+        const file = await res.json();
+
+        this.props.storeImage(file.secure_url);
+        this.props.storeLoadning(false);
     }
 
     onChangeTitle(e) {
-        this.setState({
-            title: e.target.value 
-        });
+        this.props.storeTitle(e.target.value);
     }
     onChangeDescription(e) {
-        this.setState({
-            description: e.target.value 
-        });
+        this.props.storeDescription(e.target.value);
     }
 
     onChangeCondition(e) {
-        this.setState({
-            condition: e.target.value
-        });
+        this.props.storeCondition(e.target.value);
     }
 
     onChangeLocation(e) {
-        this.setState({
-            location: e.target.value
-        });
+        this.props.storeLocation(e.target.value);
     }
 
     onChangePrice(e) {
-        this.setState({
-            price: e.target.value
-        });
+        this.props.storePrice(e.target.value);
     }
 
     onSubmit(e) {
         e.preventDefault();
         const posting = {
-            title: this.state.title,
-            location: this.state.location,
-            price: this.state.price,
-            condition: this.state.condition,
-            image: this.state.image,
-            description: this.state.description,
+            title: this.props.title,
+            location: this.props.location,
+            price: this.props.price,
+            condition: this.props.condition,
+            image: this.props.image,
+            description: this.props.description,
         }
-        axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
-            .then(res => console.log(res.data))
-            .catch(()=>{
-                alert('Oops, please sign in again for better security');
-                window.location = '/';
-                return
+        axios.post('http://localhost:3000/postings/update/' + this.props.match.params.id, posting, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
+            .then(() => window.location = '/mainscreen')
+            .catch((err) => {
+                if (err.response.status === 403) {
+                    window.location = '/';
+                } else {
+                    console.log(err)
+                }
             });
-
-        window.location = '/mainscreen';
     }
 
     render() {
@@ -134,7 +148,7 @@ export default class EditPosting extends Component {
                             <Input
                                 type="text"
                                 name="text"
-                                value={this.state.title}
+                                value={this.props.title}
                                 id="exampleImage"
                                 onChange={this.onChangeTitle}
                             />
@@ -146,7 +160,7 @@ export default class EditPosting extends Component {
                             <Input
                                 type="number"
                                 name="price"
-                                value={this.state.price}
+                                value={this.props.price}
                                 id="price"
                                 placeholder="Enter a price"
                                 onChange={this.onChangePrice}
@@ -156,8 +170,8 @@ export default class EditPosting extends Component {
                     <Col>
                         <FormGroup>
                             <Label for="select">Condition</Label>
-                            <Input type="select" name="select" id="select" onChange={this.onChangeCondition} defaultValue={this.state.condition}>
-                                <option value={this.state.condition} disabled>{this.state.condition}</option>
+                            <Input type="select" name="select" id="select" onChange={this.onChangeCondition} defaultValue={this.props.condition}>
+                                <option value={this.props.condition} disabled>{this.props.condition}</option>
                                 <option>New</option>
                                 <option>Very Good</option>
                                 <option>Good</option>
@@ -172,7 +186,7 @@ export default class EditPosting extends Component {
                             <Input
                                 type="text"
                                 name="location"
-                                value={this.state.location}
+                                value={this.props.location}
                                 id="location"
                                 placeholder="Enter a location"
                                 onChange={this.onChangeLocation}
@@ -189,10 +203,10 @@ export default class EditPosting extends Component {
                                 onChange={this.uploadImage}
                                 style={{ marginBottom: '10px' }}
                             />
-                            {this.state.loading ? (
+                            {this.props.loading ? (
                                 <h3>Loading...</h3>
                             ) : (
-                                    <img src={this.state.image} alt="#" style={{ width: '300px' }} />
+                                    <img src={this.props.image} alt="#" style={{ width: '300px' }} />
                                 )}
                         </FormGroup>
                     </Col>
@@ -202,7 +216,7 @@ export default class EditPosting extends Component {
                             <Input
                                 type="textarea"
                                 name="testarea"
-                                value={this.state.description}
+                                value={this.props.description}
                                 id="Description"
                                 onChange={this.onChangeDescription}
                                 style={{
@@ -217,3 +231,5 @@ export default class EditPosting extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPosting);

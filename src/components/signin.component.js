@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 // import MainScreen from './mainscreen.component';
 
-import { registerId } from '../actions/actions'
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {

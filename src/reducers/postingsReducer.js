@@ -4,6 +4,8 @@ const postingsReducer = (state = [], action={}) => {
             return action.payload;
         case 'STORE_POSTINGS_SUCCESS':
             return action.payload;
+        case 'CHANGE_CREATED_AT':
+            return Object.assign({}, state, { createdAt: action.payload });
         default:
             return state;
     }

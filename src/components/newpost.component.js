@@ -8,20 +8,49 @@ import {
 } from 'reactstrap';
 import Navbar from "./navbar.component";
 
-export default class NewPost extends Component {
+import { connect } from 'react-redux';
+import { storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, checkErrorInput, storePrice } from '../actions/actions';
+
+const mapStateToProps = (state) => {
+    return {
+        title: state.inputs.title,
+        location: state.inputs.location,
+        price: state.inputs.price,
+        image: state.inputs.image,
+        condition: state.inputs.condition,
+        description: state.inputs.description,
+        loading: state.inputs.loading,
+        errorInputs: state.inputs.errorInputs,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        storeTitle: (value) => dispatch(storeTitle(value)),
+        storeCondition: (value) => dispatch(storeCondition(value)),
+        storeImage: (value) => dispatch(storeImage(value)),
+        storeDescription: (value) => dispatch(storeDescription(value)),
+        storeLoadning: (value) => dispatch(storeLoadning(value)),
+        storeLocation: (value) => dispatch(storeLocation(value)),
+        checkErrorInput: (value) => dispatch(checkErrorInput(value)),
+        storePrice: (value) => dispatch(storePrice(value)),
+    }
+}
+
+class NewPost extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: '',
-            location: '',
-            price: 0,
-            image: '',
-            condition: '',
-            description: '',
-            loading: false,
-            errorInputs: false,
-        }
+        // this.state = {
+        //     title: '',
+        //     location: '',
+        //     price: 0,
+        //     image: '',
+        //     condition: '',
+        //     description: '',
+        //     loading: false,
+        //     errorInputs: false,
+        // }
         this.onSubmit = this.onSubmit.bind(this);
         this.onSetTitle = this.onSetTitle.bind(this);
         this.onSetLocation = this.onSetLocation.bind(this);
@@ -29,8 +58,6 @@ export default class NewPost extends Component {
         this.onSetCondition = this.onSetCondition.bind(this);
         this.onSetDescription = this.onSetDescription.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-
-
     }
 
     uploadImage = async e => {
@@ -38,9 +65,9 @@ export default class NewPost extends Component {
         const data = new FormData()
         data.append('file', files[0])
         data.append('upload_preset', 'myreactapp')
-        this.setState({
-            loading: true
-        })
+
+        this.props.storeLoadning(true);
+
         const res = await fetch(
             'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
             {
@@ -49,68 +76,54 @@ export default class NewPost extends Component {
             }
         )
         const file = await res.json()
-        this.setState({
-            image: file.secure_url
-        })
-        this.setState({
-            loading: false
-        })
+
+        this.props.storeImage(file.secure_url);
+        this.props.storeLoadning(false);
     }
 
     onSubmit(e) {
         e.preventDefault();
 
-
         const posting = {
-            // createdby: this.props.match.params.id,
-            title: this.state.title,
-            location: this.state.location,
-            price: this.state.price,
-            condition: this.state.condition,
-            image: this.state.image,
-            description: this.state.description,
+            title: this.props.title,
+            location: this.props.location,
+            price: this.props.price,
+            condition: this.props.condition,
+            image: this.props.image,
+            description: this.props.description,
         }
 
-        axios.post('http://localhost:3000/postings/post', posting, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
-            .then(response => {
-                console.log(response);
+        axios.post('http://localhost:3000/postings/post', posting, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
+            .then(() => {
                 window.location = '/mainscreen';
             })
-            .catch(() => {
-                this.setState({
-                    errorInputs: true
-                })
+            .catch(err => {
+                if (err.response.status === 400) {
+                    this.props.checkErrorInput(true);
+                } else if (err.response.status === 403) { // When the token is invalid or does not exist
+                    window.location = '/';
+                }
             });
     }
 
     onSetTitle(e) {
-        this.setState({
-            title: e.target.value
-        });
+        this.props.storeTitle(e.target.value);
     }
 
     onSetLocation(e) {
-        this.setState({
-            location: e.target.value
-        });
+        this.props.storeLocation(e.target.value);
     }
 
     onSetPrice(e) {
-        this.setState({
-            price: e.target.value
-        });
+        this.props.storePrice(e.target.value);
     }
 
     onSetCondition(e) {
-        this.setState({
-            condition: e.target.value
-        });
+        this.props.storeCondition(e.target.value);
     }
 
     onSetDescription(e) {
-        this.setState({
-            description: e.target.value
-        });
+        this.props.storeDescription(e.target.value);
     }
 
 
@@ -179,10 +192,10 @@ export default class NewPost extends Component {
                                 onChange={this.uploadImage}
                                 style={{ marginBottom: '10px' }}
                             />
-                            {this.state.loading ? (
+                            {this.props.loading ? (
                                 <h3>Loading...</h3>
                             ) : (
-                                    <img src={this.state.image} alt="" style={{ width: '300px' }} />
+                                    <img src={this.props.image} alt="" style={{ width: '300px' }} />
                                 )}
                         </FormGroup>
                     </Col>
@@ -202,7 +215,7 @@ export default class NewPost extends Component {
                         </FormGroup>
                     </Col>
                     {
-                        this.state.errorInputs ?
+                        this.props.errorInputs ?
                             <h4 style={{ color: '#ff0000' }}>One or more inputs are empty ! Please fill in all the inputs.</h4>
                             :
                             <div></div>
@@ -212,4 +225,8 @@ export default class NewPost extends Component {
             </Container>
         );
     }
+
 }
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPost);

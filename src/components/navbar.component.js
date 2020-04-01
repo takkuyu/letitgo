@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "../styles/nav.css"
 
+function removeToken(){
+  sessionStorage.removeItem('token')
+}
+
 const Navbar = () => {
   return (
     <header className="header">
@@ -11,10 +15,10 @@ const Navbar = () => {
           <nav className="main_nav">
             <ul>
               <li><Link to="/mainscreen">Home</Link></li>
-              <li><Link to= "/newpost">New Post</Link></li>
+              <li><Link to="/newpost">New Post</Link></li>
               <li><Link to="/favorite">Favorite</Link></li>
               <li><Link to="/profile">Account</Link></li>
-              <li><Link to="/">Logout</Link></li>
+              <li onClick={removeToken}><Link to="/" >Logout</Link></li>
             </ul>
           </nav>
         </div>

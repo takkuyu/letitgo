@@ -10,40 +10,53 @@ import {
 } from 'reactstrap';
 import '../styles/profile.css'
 
-export default class Profile extends Component {
+import { connect } from 'react-redux';
+import { requestUser, storeNewUsername, storeNewUserEmail, storeNewUserPic, storeLoadning } from '../actions/actions';
+
+const mapStateToProps = (state) => {
+    return {
+        this_username: state.user.this_username,
+        this_user_email: state.user.this_user_email,
+        this_user_picture: state.user.this_user_picture,
+        new_username: state.user.new_username,
+        new_user_email: state.user.new_user_email,
+        new_user_picture: state.user.new_user_picture,
+        createdAt: state.user.createdAt,
+        loading: state.inputs.loading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        requestUser: () => dispatch(requestUser()),
+        storeNewUsername: (value) => dispatch(storeNewUsername(value)),
+        storeNewUserEmail: (value) => dispatch(storeNewUserEmail(value)),
+        storeNewUserPic: (value) => dispatch(storeNewUserPic(value)),
+        storeLoadning: (value) => dispatch(storeLoadning(value)),
+    }
+}
+class Profile extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            user: {},
             isClicked: false,
-            newName: '',
-            newEmail: '',
-            newPic: '',
-            loading: false,
-            createdDay:''
+            // user: {},
+            // newName: '',
+            // newEmail: '',
+            // newPic: '',
+            // loading: false,
+            // createdDay: ''
         }
-
         this.setProfile = this.setProfile.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
-
     }
 
     componentDidMount() {
-         axios.get('http://localhost:3000/users/authenticate', { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
-            .then((res) => {
-                this.setState({
-                    user: res.data,
-                    newName: res.data.username,
-                    newEmail: res.data.email,
-                    newPic: res.data.picture,
-                    createdDay: String(new Date(res.data.createdAt)).substring(0,15)
-                })
-            })
-            .catch(()=> window.location = '/')
+        this.props.requestUser();
     }
 
     uploadImage = async e => {
@@ -51,9 +64,8 @@ export default class Profile extends Component {
         const data = new FormData()
         data.append('file', files[0])
         data.append('upload_preset', 'myreactapp')
-        this.setState({
-            loading: true
-        })
+    
+        this.props.storeLoadning(true)
         const res = await fetch(
             'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
             {
@@ -62,58 +74,45 @@ export default class Profile extends Component {
             }
         )
         const file = await res.json()
-        this.setState({
-            newPic: file.secure_url
-        })
-        this.setState({
-            loading: false
-        })
+
+        this.props.storeNewUserPic(file.secure_url)
+        this.props.storeLoadning(false)
     }
 
     setProfile(e) {
-
         e.preventDefault();
         const newUserInfo = {
-            newName: this.state.newName,
-            newEmail: this.state.newEmail,
-            newPic: this.state.newPic,
+            newName: this.props.new_username,
+            newEmail: this.props.new_user_email,
+            newPic: this.props.new_user_picture,
         }
-        axios.post('http://localhost:3000/users/update', newUserInfo, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem('token')}`} })
+        axios.post('http://localhost:3000/users/update', newUserInfo, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
             .then(console.log)
             .catch(console.log);
-
         window.location = '/profile';
-
     }
 
     onChangeUsername(e) {
-        this.setState({
-            newName: e.target.value
-        });
+        this.props.storeNewUsername(e.target.value)
     }
 
     onChangeEmail(e) {
-        this.setState({
-            newEmail: e.target.value
-        });
+        this.props.storeNewUserEmail(e.target.value)
     }
 
 
     render() {
-
-
-
         return (
             <div>
                 <Navbar />
                 <div className="App profile-container">
                     {!this.state.isClicked ?
                         <div className="maincontent" >
-                            <div className="bg-image" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.state.user.picture})` }}></div>
-                            <img src={this.state.user.picture} alt='' />
+                            <div className="bg-image" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.props.this_user_picture})` }}></div>
+                            <img src={this.props.this_user_picture} alt='' />
                             <div className="userinfo">
-                                <p className="username">{this.state.user.username}</p>
-                                <p className="user-email">Email: <span>{this.state.user.email}</span> | Joined on: <span>{this.state.createdDay}</span></p>
+                                <p className="username">{this.props.this_username}</p>
+                                <p className="user-email">Email: <span>{this.props.this_user_email}</span> | Joined on: <span>{this.props.createdAt}</span></p>
                                 {/* <p className="user-email">{this.state.user.createdAt}</p> */}
                                 <button onClick={() => this.setState({ isClicked: true })}>EDIT YOUR PROFILE</button>
                             </div>
@@ -128,7 +127,7 @@ export default class Profile extends Component {
                                         <Input
                                             type="text"
                                             name="text"
-                                            value={this.state.newName}
+                                            value={this.props.new_username}
                                             id="exampleImage"
                                             placeholder="Enter a new username"
                                             onChange={this.onChangeUsername}
@@ -141,7 +140,7 @@ export default class Profile extends Component {
                                         <Input
                                             type="email"
                                             name="email"
-                                            value={this.state.newEmail}
+                                            value={this.props.new_user_email}
                                             id="email"
                                             placeholder="Enter a new email"
                                             onChange={this.onChangeEmail}
@@ -158,14 +157,14 @@ export default class Profile extends Component {
                                             onChange={this.uploadImage}
                                             style={{ marginBottom: '10px' }}
                                         />
-                                        {this.state.loading ? (
+                                        {this.props.loading ? (
                                             <h3 style={{ height: '180px' }}>Loading...</h3>
                                         ) : (
-                                                <img className="profile-image" src={this.state.newPic} alt="" />
+                                                <img className="profile-image" src={this.props.new_user_picture} alt="" />
                                             )}
                                     </FormGroup>
                                 </Col>
-                                <Button style={{ width: '100px', marginRight:'70px', backgroundColor:'green !important' }}>Update</Button>
+                                <Button style={{ width: '100px', marginRight: '70px', backgroundColor: 'green !important' }}>Update</Button>
                                 <Button id="cancel-btn" onClick={() => { this.setState({ isClicked: false }) }}>Cancel</Button>
                             </Form>
                         </Container>
@@ -178,3 +177,4 @@ export default class Profile extends Component {
 }
 
 
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
