@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-// import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import Navbar from "./navbar.component";
-
+import Navbar from "./header.component";
 import { connect } from 'react-redux';
-import { storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, checkErrorInput, storePrice } from '../actions/actions';
+import { storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, checkErrorInput, storePrice } from '../redux/inputs/inputs.actions';
 
 const mapStateToProps = (state) => {
     return {

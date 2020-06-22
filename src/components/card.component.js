@@ -4,10 +4,8 @@ import axios from 'axios';
 import {
     Col
 } from 'reactstrap';
-import "../styles/mainscreen.css"
-import "../styles/cardlist.css"
 import { connect } from 'react-redux';
-import { storeUsername, storeUserId, storeUserPic } from '../actions/actions';
+import { storeUsername, storeUserId, storeUserPic } from '../redux/user/user.actions';
 
 //tell me what state I need to listen to and send down as props.
 const mapStateToProps = (state) => {

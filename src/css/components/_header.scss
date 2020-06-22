@@ -1,0 +1,64 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 24px 0px;
+    z-index: $z-index-high;
+    padding: $pad-and-half 2rem;
+    background-color: $purple;
+    color: $white;
+
+    .logo-text {
+        font-size: 1.5em;
+        font-weight: 700;
+        padding-right: 2rem;
+    }
+
+    .search-box{
+       flex: 1;
+       padding-right: 2rem;
+    }
+
+    &__nav {
+        padding-right: $pad;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            display: flex;
+            align-items: center;
+
+            li {
+                float: left;
+
+                &:not(:last-child) {
+                    margin-right: $pad-and-half;
+                }
+
+                &.link-btn{
+                    display: none;
+
+                    @include md{
+                        display: block;
+                    }
+                }
+
+                &.nav-toggle-btn {
+
+                    i {
+                        font-size: 1.5em;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
+            }
+        }
+    }
+}

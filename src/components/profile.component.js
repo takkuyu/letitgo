@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-// import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from "./navbar.component";
+import Navbar from "./header.component";
 import Footer from "./footer.component";
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import '../styles/profile.css'
-
 import { connect } from 'react-redux';
-import { requestUser, storeNewUsername, storeNewUserEmail, storeNewUserPic, storeLoadning } from '../actions/actions';
+import { requestUser, storeNewUsername, storeNewUserEmail, storeNewUserPic } from '../redux/user/user.actions';
+import { storeLoadning } from '../redux/inputs/inputs.actions';
 
 const mapStateToProps = (state) => {
     return {
@@ -104,7 +102,6 @@ class Profile extends Component {
     render() {
         return (
             <div>
-                <Navbar />
                 <div className="App profile-container">
                     {!this.state.isClicked ?
                         <div className="maincontent" >
@@ -170,7 +167,6 @@ class Profile extends Component {
                         </Container>
                     }
                 </div>
-                <Footer />
             </div >
         );
     }

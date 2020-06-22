@@ -1,0 +1,34 @@
+/*------------------------------------*\
+$GLOBAL ELEMENTS
+\*------------------------------------*/
+@import "generic/reset";
+@import "generic/mixins";
+@import "generic/variables";
+
+
+/*------------------------------------*\
+$BASE
+\*------------------------------------*/
+@import "base/app";
+@import "base/global";
+@import "base/main";
+@import "base/icons";
+
+
+/*------------------------------------*\
+$COMPONENTS
+\*------------------------------------*/
+@import "components/item-card";
+@import "components/header";
+@import "components/navigation";
+@import "components/footer";
+@import "components/search-box";
+@import "components/buttons";
+
+
+/*------------------------------------*\
+$PAGES
+\*------------------------------------*/
+@import "page/homepage";
+@import "page/itempage";
+@import "page/profilepage";

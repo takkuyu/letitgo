@@ -1,0 +1,32 @@
+/*------------------------------------*\
+    $MIXINS
+\*------------------------------------*/
+
+
+/* Small devices (landscape phones, 576px and up) */
+@mixin sm {
+    @media (min-width: ($bp-small)) {
+        @content;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@mixin md {
+    @media (min-width: ($bp-med)) {
+        @content;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@mixin lg {
+    @media (min-width: $bp-large) {
+        @content;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@mixin xlg {
+    @media (min-width: ($bp-xl)) {
+        @content;
+    }
+}

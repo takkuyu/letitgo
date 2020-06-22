@@ -4,8 +4,7 @@ import axios from 'axios';
 import {
     Container, ListGroup, ListGroupItem, Input, Button, Form
 } from 'reactstrap';
-import Navbar from "./navbar.component";
-import "../styles/comment.css"
+import Navbar from "./header.component";
 
 export default class Comment extends Component {
 
@@ -157,7 +156,7 @@ export default class Comment extends Component {
         // console.log(this.state.posting)
         return (
             <Container>
-                <Navbar />
+               
                 {
                     this.state.exist ?
                         <div className="product_details">

@@ -1,0 +1,34 @@
+.search-box {
+  display: flex;
+
+  input[type="search"] {
+    width: 100%;
+    height: 36px;
+    border: 3px solid $white;
+    border-top: 4px solid $white;
+    border-left: none;
+    padding: 5px;
+    border-radius: 0 5px 5px 0;
+    color: #9DBFAF;
+    background-color: $white;
+    font-size: 13px;
+
+    &:focus {
+      color: #050505;
+      outline: none;
+    }
+  }
+
+  i {
+    width: 40px;
+    height: 36px;
+    font-size: 13px;
+    line-height: 36px;
+    border: 1px solid $white;
+    background: $white;
+    text-align: center;
+    color: $grey;
+    border-radius: 5px 0 0 5px;
+  }
+
+}
