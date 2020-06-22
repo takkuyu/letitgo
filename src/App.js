@@ -1,17 +1,31 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import LandingPage from "./components/landingpage.component";
+import { BrowserRouter, Route } from 'react-router-dom';
 import Routes from './components/routes';
-import './App.css'
+import Header from './components/header.component'
+import Footer from './components/footer.component'
 
-function App() {
-  return (
-    <Router>
-      <Route path="/" exact　component={LandingPage} />
-      <Route component={Routes} />
-    </Router>
-  );
+class App extends React.Component {
+  state = {
+    headerHeight: 0
+  }
+
+  componentDidMount() {
+    const height = document.getElementById('header').clientHeight;
+    this.setState({ headerHeight: height })
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Header />
+        <main className="main" style={{ paddingTop: this.state.headerHeight }}>
+          <Route component={Routes} />
+        </main>
+        <Footer />
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;

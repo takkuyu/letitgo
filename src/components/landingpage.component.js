@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import "../styles/landingpage.css"
 import Footer from "./footer.component";
-import "../styles/nav.css"
-
-
 
 const LandingPage = () => {
 

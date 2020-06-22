@@ -1,0 +1,23 @@
+.navigation {
+    padding: 0 $pad-double;
+    border-bottom: 1px solid $grey-2;
+
+    &__list {
+
+        li {
+            display: inline-block;
+            padding: $pad-half 0;
+            border-bottom: 2px solid transparent;
+            border-top: 2px solid transparent;
+            font-size: $font-size-small-2;
+
+            &:not(:last-child) {
+                margin-right: $space-double;
+            }
+
+            &:hover {
+                border-bottom-color: $purple;
+            }
+        }
+    }
+}

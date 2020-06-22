@@ -4,10 +4,10 @@ import axios from 'axios';
 import {
     Container, Col, Row
 } from 'reactstrap';
-import Navbar from "./navbar.component";
+import Navbar from "./header.component";
 import Footer from "./footer.component";
 import { connect } from 'react-redux';
-import { storePostings } from '../actions/actions';
+import { storePostings } from '../redux/postings/postings.actions';
 
 const mapStateToProps = (state) => {
     return {
@@ -68,7 +68,7 @@ class Favorite extends Component {
             })
             .catch(err => {
                 if (err.response.status === 403 ) {
-                    window.location = '/';
+                    window.location = '/'; //@TODO
                 } else {
                     console.log(err)
                 }

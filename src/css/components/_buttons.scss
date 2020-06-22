@@ -1,0 +1,30 @@
+.link-btn {
+    background-color: $orange;
+    display: inline-block;
+    color: $white;
+    border-radius: 5px;
+    min-width: 4.0625rem;
+    text-align: center;
+    border: 1px solid $orange;
+
+    &.reverse-color {
+        background-color: $white;
+        color: $orange;
+        border-color: $white;
+    }
+
+    a {
+        font-weight: 600;
+        font-size: $font-size-small-2;
+        padding: $pad-half $pad;
+        display: block;
+
+        &::before{
+            padding-right: $pad-half;
+        }
+    }
+
+    &:hover {
+        opacity: .9;
+    }
+}

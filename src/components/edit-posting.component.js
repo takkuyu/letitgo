@@ -5,10 +5,9 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import Navbar from "./navbar.component";
-
 import { connect } from 'react-redux';
-import { requestInputs, storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, storePrice } from '../actions/actions';
+import { storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, requestInputs, storePrice } from '../redux/inputs/inputs.actions';
+
 
 const mapStateToProps = (state) => {
     return {
@@ -139,7 +138,7 @@ class EditPosting extends Component {
     render() {
         return (
             <Container className="App" style={{ paddingBottom: '30px' }}>
-                <Navbar />
+
                 <h2>Edit Post</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>
