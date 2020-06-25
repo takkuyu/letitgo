@@ -4,8 +4,8 @@ import axios from 'axios';
 import {
     Container, Col, Row
 } from 'reactstrap';
-import Navbar from "./header.component";
-import Footer from "./footer.component";
+import Navbar from "./header/header.component";
+import Footer from "./footer/footer.component";
 import { connect } from 'react-redux';
 import { storePostings } from '../redux/postings/postings.actions';
 

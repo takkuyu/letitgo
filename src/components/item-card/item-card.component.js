@@ -5,7 +5,7 @@ import {
     Col
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { storeUsername, storeUserId, storeUserPic } from '../redux/user/user.actions';
+import { storeUsername, storeUserId, storeUserPic } from '../../redux/user/user.actions';
 
 //tell me what state I need to listen to and send down as props.
 const mapStateToProps = (state) => {

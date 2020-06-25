@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Navbar from "./header.component";
-import Footer from "./footer.component";
+import Navbar from "./header/header.component";
+import Footer from "./footer/footer.component";
 import {
     Container, Col, Form,
     FormGroup, Label, Input,

@@ -1,9 +1,8 @@
 .footer
 {
 	width: 100%;
-	background-image: url('https://cdn.pixabay.com/photo/2016/03/11/14/55/coffee-1250405_960_720.jpg');
-	background-position:center;
-	background-size: cover;
+	background: $dark-purple;
+	color: $white;
 	
 }
 .footer_content
@@ -20,7 +19,6 @@
 	width: 30%;
 	font-size: 30px;
 	line-height: 0.75;
-	color: #1b1b1b;
 	font-weight: 700;
 }
 
@@ -30,7 +28,6 @@
 	text-align: center;
 	font-size: 14px;
 	font-weight: 400;
-	color: #1b1b1b;
 }
 .footer_social
 {
@@ -48,7 +45,6 @@
 .footer_social ul li i
 {
 	font-size: 17px;
-	color: #1b1b1b;
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -57,7 +53,6 @@
 }
 .footer_social ul li i:hover
 {
-	color: #FFFFFF;
 	cursor: pointer;
 }
 

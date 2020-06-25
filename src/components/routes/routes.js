@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Signin from "./signin.component";
-import Register from "./register.component";
-import NewPost from "./newpost.component";
-import EditPosting from "./edit-posting.component";
-import Favorite from "./favorite.component";
-import Comment from "./comment.component";
-import Profile from "./profile.component";
+import Signin from "../signin.component";
+import Register from "../register.component";
+import NewPost from "../newpost.component";
+import EditPosting from "../edit-posting.component";
+import Favorite from "../favorite.component";
+import Comment from "../comment.component";
+import Profile from "../profile.component";
 import CollectionRoute from "./collection-route.component";
 
 const Routes = () => (

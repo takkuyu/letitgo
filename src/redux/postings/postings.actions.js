@@ -1,4 +1,4 @@
-// import ShopActionTypes from './shop.types';
+import PostingsActionTypes from './postings.types';
 import axios from 'axios';
 import {storeCurrentUserId} from '../user/user.actions';
 
@@ -16,6 +16,10 @@ export const changeCreatedAt = (postings) => {
   }
 };
 
+export const fetchPostingsStart = () => ({
+    type: PostingsActionTypes.FETCH_POSTINGS_START
+  });
+
 
 // *FOP ASYNC ACTIONS*
 //Use high order function
@@ -31,3 +35,15 @@ export const requestPostingById = (id) => (dispatch) => {
             return res.data.posting.comments;
         }).catch((err) => { window.location = '/' })
 }
+
+
+export const requestPosts = () => (dispatch) => {
+    dispatch(fetchPostingsStart());
+    return axios.get('http://localhost:3000/postings')
+        .then((response) => {
+            dispatch({
+                type: PostingsActionTypes.FETCH_POSTINGS_SUCCESS,
+                payload: response.data.postings
+            })
+        }).catch(console.err)
+  }
