@@ -5,7 +5,7 @@ import {
     FormGroup, Label, Input,
     Button,
 } from 'reactstrap';
-import Navbar from "./header.component";
+import Navbar from "./header/header.component";
 import { connect } from 'react-redux';
 import { storeTitle, storeCondition, storeDescription, storeImage, storeLoadning, storeLocation, checkErrorInput, storePrice } from '../redux/inputs/inputs.actions';
 

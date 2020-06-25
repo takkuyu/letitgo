@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SearchBox from './search-box.component'
-import OverlayNavigation from './overlay-navigation.component'
+import SearchBox from '../search-box.component'
+import OverlayNavigation from '../overlay-navigation/overlay-navigation.component'
 
 function removeToken() { // call this when logout to remove token from JWT.
   sessionStorage.removeItem('token')

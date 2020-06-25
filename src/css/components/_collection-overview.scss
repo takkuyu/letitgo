@@ -1,0 +1,36 @@
+.collection-overview {
+    margin: 1.25em 0 4em;
+
+    h2 {
+        font-size: 1.875em;
+        color: $dark-purple;
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .see-all-btn {
+        height: 100%;
+        width: 100%;
+        background: $orange;
+        color: $white;
+        height: 9.375rem;
+        max-height: 9.375rem;
+        margin: 2px 2px 0;
+        font-size: 1.125em;
+        font-weight: 700;
+
+        a {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        &:hover {
+            cursor: pointer;
+            opacity: .9;
+        }
+    }
+}

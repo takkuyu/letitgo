@@ -76,20 +76,3 @@ export const requestUser = () => (dispatch) => {
           }
       })
 }
-
-export const requestPostings = () => (dispatch) => {
-  return axios.get('http://localhost:3000/postings')
-      .then((response) => {
-          dispatch({
-              type: UserActionTypes.STORE_POSTINGS_SUCCESS,
-              payload: response.data.postings
-          })
-      }).catch((err) => {
-          //When the token is invalid or does not exist
-          if (err.response.status === 403) {
-              // window.location = '/';
-          } else {
-              console.log(err)
-          }
-      })
-}

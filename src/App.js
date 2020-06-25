@@ -1,9 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Routes from './components/routes';
-import Header from './components/header.component'
-import Footer from './components/footer.component'
+import Routes from './components/routes/routes';
+import Header from './components/header/header.component'
+import Footer from './components/footer/footer.component'
 
 class App extends React.Component {
   state = {

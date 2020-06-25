@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
     Container, ListGroup, ListGroupItem, Input, Button, Form
 } from 'reactstrap';
-import Navbar from "./header.component";
+import Navbar from "./header/header.component";
 
 export default class Comment extends Component {
 
