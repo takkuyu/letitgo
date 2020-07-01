@@ -7,11 +7,13 @@ import EditPosting from "../edit-posting.component";
 import Favorite from "../favorite.component";
 import Comment from "../comment.component";
 import Profile from "../profile.component";
-import CollectionRoute from "./collection-route.component";
+import ShopRoute from "./shop-route.component";
+import HomePage from "../../pages/homepage/homepage.component";
 
 const Routes = () => (
     <Switch>
-        <Route path="/" exact component={CollectionRoute} />
+        <Route path="/" exact component={HomePage} />
+        <Route path="/shop" component={ShopRoute} />
         <Route path="/signin" exact component={Signin} />
         <Route path="/register" exact component={Register} />
         <Route path="/newpost" exact component={NewPost} />

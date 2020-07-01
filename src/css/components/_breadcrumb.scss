@@ -1,0 +1,23 @@
+.breadcrumb {
+    background-color: $white;
+    list-style: none;
+
+    li {
+        font-size: $font-size-small-2;
+
+        &:not(:last-child) {
+
+            &::after {
+                content: "/";
+                margin: 0 .3em;
+            }
+        }
+
+        a{
+            color: $dark-grey;
+            &:hover{
+                opacity: .8;
+            }
+        }
+    }
+}

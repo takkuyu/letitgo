@@ -1,0 +1,68 @@
+.collection-filter {
+
+    &__heading {
+        font-size: 1.5em;
+        font-weight: 500;
+        margin-bottom: $space;
+    }
+
+    .filter {
+        padding: $pad 0;
+
+        &__name {
+
+            font-weight: 600;
+            margin-bottom: $space-half;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            i {
+                float: right;
+            }
+        }
+
+        &__lists {
+
+            li {
+                font-size: $font-size-small-2;
+                cursor: pointer;
+                border-radius: 5px;
+                line-height: 1;
+
+                &:hover {
+                    background-color: rgba($color: $light-grey, $alpha: .9);
+                }
+
+
+                a {
+                    padding: .75em;
+                    display: block;
+
+                    &::before {
+                        font-family: "Font Awesome 5 Free";
+                        content: "\f111";
+                        color: $grey;
+                        position: relative;
+                        border-radius: 50%;
+                        height: $font-size-small-2;
+                        width: $font-size-small-2;
+                        display: inline-block;
+                        margin-right: $space-half;
+                    }
+                }
+
+                &.active {
+                    a {
+                        &::before {
+                            content: "\f058";
+                            font-weight: 900;
+                            color: $purple;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

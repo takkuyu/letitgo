@@ -6,7 +6,7 @@ import CollectionPage from "../../pages/collection/collectionpage.component";
 import { requestPosts } from '../../redux/postings/postings.actions'
 import WithSpinner from '../with-spinner/with-spinner.component';
 
-const HomepageWithSpinner = WithSpinner(HomePage);
+// const HomepageWithSpinner = WithSpinner(HomePage);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class CollectionRoute extends React.Component {
@@ -16,6 +16,7 @@ class CollectionRoute extends React.Component {
 
     componentDidMount() {
         this.fetchPostings();
+        console.log('shop route componentDidMount')
     }
 
     async fetchPostings() {
@@ -27,19 +28,20 @@ class CollectionRoute extends React.Component {
     render() {
         const { match } = this.props;
         const { isLoading } = this.state;
-        console.log('rednde')
+        console.log('shop route render')
 
         return (
             <>
-                <Route
+                {/* <Route
                     path={`${match.url}`}
                     exact
                     render={props => (
                         <HomepageWithSpinner isLoading={isLoading} {...props} />
                     )}
-                />
+                /> */}
                 <Route
-                    path={`/shop/:category`}
+                    path={`${match.url}/:category`}
+                    key={this.props.location.key}
                     exact
                     render={props => <CollectionPageWithSpinner isLoading={isLoading} {...props} />}
                 />

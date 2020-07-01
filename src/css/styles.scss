@@ -26,6 +26,10 @@ $COMPONENTS
 @import "components/search-box";
 @import "components/buttons";
 @import "components/collection-overview";
+@import "components/top-short-content";
+@import "components/breadcrumb";
+@import "components/sortby-drop-down-menu";
+@import "components/collection-filter";
 
 
 /*------------------------------------*\
@@ -34,3 +38,4 @@ $PAGES
 @import "page/homepage";
 @import "page/itempage";
 @import "page/profilepage";
+@import "page/collectionpage";

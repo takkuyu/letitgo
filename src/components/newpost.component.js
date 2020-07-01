@@ -86,7 +86,7 @@ class NewPost extends Component {
             title: this.props.title,
             location: this.props.location,
             price: this.props.price,
-            condition: this.props.condition,
+            condition: this.props.condition.toLowerCase(),//@todo : check if this works
             image: this.props.image,
             description: this.props.description,
         }
