@@ -1,25 +1,28 @@
 import PostingsActionTypes from './postings.types';
 import axios from 'axios';
-import {storeCurrentUserId} from '../user/user.actions';
+import { storeCurrentUserId } from '../user/user.actions';
 
-// FOR POSTINGS REDUCER
 export const storePostings = (postings) => {
-  return {
-      type: 'STORE_POSTINGS',
-      payload: postings
-  }
+    return {
+        type: 'STORE_POSTINGS',
+        payload: postings
+    }
 };
 export const changeCreatedAt = (postings) => {
-  return {
-      type: 'CHANGE_CREATED_AT',
-      payload: postings
-  }
+    return {
+        type: 'CHANGE_CREATED_AT',
+        payload: postings
+    }
 };
 
 export const fetchPostingsStart = () => ({
     type: PostingsActionTypes.FETCH_POSTINGS_START
-  });
+});
 
+export const storeFilter = (filter) => ({
+    type: PostingsActionTypes.STORE_FILTER,
+    payload: filter
+})
 
 // *FOP ASYNC ACTIONS*
 //Use high order function
@@ -46,4 +49,4 @@ export const requestPosts = () => (dispatch) => {
                 payload: response.data.postings
             })
         }).catch(console.err)
-  }
+}

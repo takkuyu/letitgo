@@ -1,21 +1,7 @@
 .homepage {
 
-  &__short-content{
-    text-align: center;
-    padding: $pad-half;
-    font-size: $font-size-small;
-
-    p{
-
-      &::before{
-        padding-right: $pad-half;
-        color: $purple;
-      }
-    }
-  }
-
   &__top {
-    background-color: #f5f5f6;
+    background-color: $light-grey;
     margin-bottom: $space-quad;
 
     &-wrapper {

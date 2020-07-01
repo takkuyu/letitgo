@@ -8,16 +8,16 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectPostsByCategory } from '../../redux/postings/postings.selectors'
 
-const CollectionOverview = ({ postsByCategory, category }) => {
+const CollectionOverview = ({ postsByCategory, category, isPostsLoaded }) => {
     return (
         <div className="collection-overview" >
             <h2>{category.heading}</h2>
             <Row>
                 {
-                    postsByCategory.map((post, index) => index < 5 ? <SmallItemCard post={post} key={index} /> : '')
+                    isPostsLoaded ? postsByCategory.map((post, index) => index < 5 ? <SmallItemCard post={post} key={index} /> : '') : <></>
                 }
                 <Col sm={3} md={2}>
-                    <p class="see-all-btn"><Link to={`/${category.linkUrl}`}>See all</Link></p>
+                    <p className="see-all-btn"><Link to={`/${category.linkUrl}`}>See all</Link></p>
                 </Col>
             </Row>
         </div >
@@ -25,7 +25,7 @@ const CollectionOverview = ({ postsByCategory, category }) => {
 }
 
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
-    postsByCategory: selectPostsByCategory(ownProps.category.category),
+    postsByCategory: selectPostsByCategory(ownProps.category.category)
 })
 
 export default connect(mapStateToProps)(CollectionOverview);

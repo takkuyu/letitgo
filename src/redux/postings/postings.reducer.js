@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     posts: null,
     isLoading: true,
     errorMessage: undefined,
+    filter: {}
 };
 
 const postingsReducer = (state = INITIAL_STATE, action) => {
@@ -26,8 +27,13 @@ const postingsReducer = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 errorMessage: action.payload
             };
-        case PosttingsActionTypes.CHANGE_CREATED_AT:
-            return Object.assign({}, state, { createdAt: action.payload });
+        case PosttingsActionTypes.STORE_FILTER:
+            return {
+                ...state,
+                filter: action.payload
+            };
+        // case PosttingsActionTypes.CHANGE_CREATED_AT:
+        //     return Object.assign({}, state, { createdAt: action.payload });
         default:
             return state;
     }

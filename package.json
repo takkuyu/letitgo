@@ -9,6 +9,7 @@
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
     "node-sass": "^4.14.1",
+    "query-string": "^6.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-images-upload": "^1.2.7",
