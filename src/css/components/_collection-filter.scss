@@ -8,6 +8,11 @@
 
     .filter {
         padding: $pad 0;
+        border-top: 1px solid $light-grey-2;
+
+        &:last-child {
+            border-bottom: 1px solid $light-grey-2;
+        }
 
         &__name {
 

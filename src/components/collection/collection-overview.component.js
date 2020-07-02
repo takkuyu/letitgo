@@ -14,7 +14,7 @@ const CollectionOverview = ({ postsByCategory, category, isPostsLoaded }) => {
             <h2>{category.heading}</h2>
             <Row>
                 {
-                    isPostsLoaded ? postsByCategory.map((post, index) => index < 5 ? <SmallItemCard post={post} key={index} /> : '') : <></>
+                    isPostsLoaded ? postsByCategory.map((post, index) => index < 5 ? <SmallItemCard post={post} key={index} md={2}/> : '') : <></>
                 }
                 <Col sm={3} md={2}>
                     <p className="see-all-btn"><Link to={`/${category.linkUrl}`}>See all</Link></p>
