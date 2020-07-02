@@ -9,7 +9,7 @@ const Filter = ({ filter, match, location }) => {
     const formattedFilterName = filter.name.toLowerCase();
     return (
         <div className="filter" >
-            <p className="filter__name">{filter.label}<i className="fas fa-chevron-down"></i></p>
+            <p className="filter__name">{filter.label}</p>
             <ul className="filter__lists ">
                 {
                     filter.lists.map((list, index) => {

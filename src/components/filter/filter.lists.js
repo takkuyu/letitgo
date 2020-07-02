@@ -48,7 +48,7 @@ const filtersLists = [
                 label: '$200 and up',
                 value: {
                     pmin: 200,
-                    pmax: undefined
+                    pmax: 999999999
                 }
             },
         ]
@@ -102,7 +102,7 @@ const filtersLists = [
             },
             {
                 id: 1,
-                label: 'FREE',
+                label: 'Free',
                 value: 'free'
             },
         ]

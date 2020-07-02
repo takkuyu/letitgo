@@ -71,25 +71,9 @@ class Signin extends Component {
     }
 
 
-
-
     render() {
         return (
             <Container className="App">
-                <header className="header">
-                    <div className="container">
-                        <div className="header_content d-flex align-items-center">
-                            <div className="logo"><Link to="/" style={{ color: '#ff0000' }}>Letitgo.</Link></div>
-                            <nav className="main_nav">
-                                <ul>
-                                    <li><Link to="/">Home</Link></li>
-                                    <li><Link to="/signin">Login</Link></li>
-                                    <li><Link to="/register">Register</Link></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
                 <h2>Sign In</h2>
                 <Form className="form" onSubmit={this.onSubmit}>
                     <Col>

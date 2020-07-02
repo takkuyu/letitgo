@@ -51,7 +51,7 @@ function filterItems(items, filters) {
 export const selectIsPostsLoaded = createSelector(
   [selectPostings],
   postings => {
-    console.log('selectIsPostsLoaded -> ' + !!postings.posts)
+    // console.log('selectIsPostsLoaded -> ' + !!postings.posts)
     return !!postings.posts
   }
 );
