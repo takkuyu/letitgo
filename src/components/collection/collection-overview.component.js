@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectPostsByCategory } from '../../redux/postings/postings.selectors'
+import { selectPostsByCategory2 } from '../../redux/postings/postings.selectors'
 
 const CollectionOverview = ({ postsByCategory, category, isPostsLoaded }) => {
     return (
@@ -25,7 +25,7 @@ const CollectionOverview = ({ postsByCategory, category, isPostsLoaded }) => {
 }
 
 const mapStateToProps = (state, ownProps) => createStructuredSelector({
-    postsByCategory: selectPostsByCategory(ownProps.category.category)
+    postsByCategory: selectPostsByCategory2(ownProps.category.category)
 })
 
 export default connect(mapStateToProps)(CollectionOverview);

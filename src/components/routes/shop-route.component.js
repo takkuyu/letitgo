@@ -16,10 +16,9 @@ class CollectionRoute extends React.Component {
 
     componentDidMount() {
         this.fetchPostings();
-        console.log(this.props.location.search.category)
         // console.log('shop route componentDidMount')
     }
-
+    
     async fetchPostings() {
         const { requestPosts } = this.props;
         await requestPosts();
@@ -30,21 +29,20 @@ class CollectionRoute extends React.Component {
         const { match } = this.props;
         const { isLoading } = this.state;
         // console.log('shop route render')
-        console.log(match)
 
         return (
             <>
                 <Route
-                    path={`${match.url}/:category`}
+                    path={`${match.url}`}
                     key={this.props.location.key}
                     exact
-                    render={props => <CollectionPageWithSpinner isLoading={isLoading} {...props} />}
+                    render={props => <CollectionPageWithSpinner isLoading={isLoading} category={match.params.category} {...props} />}
                 />
                 <Route
-                    path={`${match.url}/:category/:id`}
+                    path={`${match.url}/:id`}
                     exact
                     render={props => (
-                        <ItempageWithSpinner isLoading={isLoading} {...props} />
+                        <ItempageWithSpinner isLoading={isLoading} category={match.params.category} {...props} />
                     )}
                 />
             </>

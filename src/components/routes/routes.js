@@ -13,7 +13,7 @@ import HomePage from "../../pages/homepage/homepage.component";
 const Routes = () => (
     <Switch>
         <Route path="/" exact component={HomePage} />
-        <Route path="/shop" component={ShopRoute} />
+        <Route path="/shop/:category" component={ShopRoute} />
         <Route path="/signin" exact component={Signin} />
         <Route path="/register" exact component={Register} />
         <Route path="/newpost" exact component={NewPost} />

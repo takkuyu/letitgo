@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import {
     Row, Col, Container
 } from 'reactstrap';
@@ -23,13 +22,11 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const CollectionPage = ({ collectionItems, match, location }) => {
-    // console.log('CollectionPage render')
-    // console.log(location.search)
+const CollectionPage = ({ collectionItems, match, location, category }) => {
     return (
         <div className="collection-page" >
             <Container>
-                <Breadcrumb paths={match.params} capitalizeFirstLetter={capitalizeFirstLetter} match={match} />
+                <Breadcrumb paths={match.params} capitalizeFirstLetter={capitalizeFirstLetter} category={category} />
                 <Row>
                     <Col md={3}>
                         <div className="collection-page__filter" >
@@ -43,7 +40,7 @@ const CollectionPage = ({ collectionItems, match, location }) => {
                     </Col>
                     <Col md={9}>
                         <div className="collection-page__main" >
-                            <h1>{getTitleFromCategory(match.params.category)}</h1>
+                            <h1>{getTitleFromCategory(category)}</h1>
                             <div className="collection-page__main-content">
                                 <Row>
                                     {
@@ -61,9 +58,10 @@ const CollectionPage = ({ collectionItems, match, location }) => {
 
 const mapStateToProps = (state, ownProps) => {
     console.log('mapStateToProps')
+    console.log(ownProps)
     const filters = queryString.parse(ownProps.location.search);
     return {
-        collectionItems: selectPostsByCategory(ownProps.match.params.category, filters)(state),
+        collectionItems: selectPostsByCategory(ownProps.category, filters)(state),
     }
 }
 

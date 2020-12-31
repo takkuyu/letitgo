@@ -2,8 +2,8 @@ import PosttingsActionTypes from './postings.types';
 
 const INITIAL_STATE = {
     posts: null,
-    isLoading: true,
     errorMessage: undefined,
+    isFetching: false,
     filter: {}
 };
 
@@ -19,12 +19,13 @@ const postingsReducer = (state = INITIAL_STATE, action) => {
         case PosttingsActionTypes.FETCH_POSTINGS_SUCCESS:
             return {
                 ...state,
+                isFetching: false,
                 posts: action.payload
             };
-        case PosttingsActionTypes.FETCH__POSTINGS_FAILURE:
+        case PosttingsActionTypes.FETCH_POSTINGS_FAILURE:
             return {
                 ...state,
-                isLoading: false,
+                isFetching: false,
                 errorMessage: action.payload
             };
         case PosttingsActionTypes.STORE_FILTER:
