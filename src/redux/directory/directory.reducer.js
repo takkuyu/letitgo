@@ -2,41 +2,41 @@ const INITIAL_STATE = {
   categories: [
     {
       category: 'Women',
-      heading:'Deals for her',
+      heading: 'Deals for her',
       id: 1,
-      linkUrl: 'shop/women'
+      linkUrl: 'shop/women',
     },
     {
       category: 'Men',
-      heading:'Deals for him',
+      heading: 'Deals for him',
       id: 2,
-      linkUrl: 'shop/men'
+      linkUrl: 'shop/men',
     },
     {
       category: 'Electrics',
-      heading:'Deals for the tech obsessed',
+      heading: 'Deals for the tech obsessed',
       id: 3,
-      linkUrl: 'shop/electrics'
+      linkUrl: 'shop/electrics',
     },
     {
       category: 'Vehicles',
-      heading:'Deals for drivers',
+      heading: 'Deals for drivers',
       id: 4,
-      linkUrl: 'shop/vehicles'
+      linkUrl: 'shop/vehicles',
     },
     {
       category: 'Home',
-      heading:'Furniture & Kitchen',
+      heading: 'Furniture & Kitchen',
       id: 5,
-      linkUrl: 'shop/home'
+      linkUrl: 'shop/home',
     },
     {
       category: 'Other',
-      heading:'',
+      heading: '',
       id: 6,
-      linkUrl: 'shop/other'
+      linkUrl: 'shop/other',
     },
-  ]
+  ],
 };
 
 const directoryReducer = (state = INITIAL_STATE, action) => {

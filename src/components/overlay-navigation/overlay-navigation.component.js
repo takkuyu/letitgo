@@ -2,10 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const OverlayNavigation = () => {
-  return (
-    <>
-    </>
-  );
-}
+  return <></>;
+};
 
 export default OverlayNavigation;
