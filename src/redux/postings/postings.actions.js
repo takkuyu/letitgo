@@ -3,26 +3,26 @@ import axios from 'axios';
 import { storeCurrentUserId } from '../user/user.actions';
 
 export const storePostings = (postings) => {
-    return {
-        type: 'STORE_POSTINGS',
-        payload: postings
-    }
+  return {
+    type: 'STORE_POSTINGS',
+    payload: postings,
+  };
 };
 export const changeCreatedAt = (postings) => {
-    return {
-        type: 'CHANGE_CREATED_AT',
-        payload: postings
-    }
+  return {
+    type: 'CHANGE_CREATED_AT',
+    payload: postings,
+  };
 };
 
 export const fetchPostingsStart = () => ({
-    type: PostingsActionTypes.FETCH_POSTINGS_START
+  type: PostingsActionTypes.FETCH_POSTINGS_START,
 });
 
 export const storeFilter = (filter) => ({
-    type: PostingsActionTypes.STORE_FILTER,
-    payload: filter
-})
+  type: PostingsActionTypes.STORE_FILTER,
+  payload: filter,
+});
 
 // *FOP ASYNC ACTIONS*
 //Use high order function
@@ -40,15 +40,19 @@ export const storeFilter = (filter) => ({
 // }
 
 export const requestPosts = () => (dispatch) => {
-    dispatch(fetchPostingsStart());
-    return axios.get('http://localhost:3000/postings')
-        .then((res) => {
-            dispatch({
-                type: PostingsActionTypes.FETCH_POSTINGS_SUCCESS,
-                payload: res.data
-            })
-        }).catch((err) => dispatch({
-            type: PostingsActionTypes.FETCH_POSTINGS_FAILURE,
-            payload: err
-        }))
-}
+  dispatch(fetchPostingsStart());
+  return axios
+    .get('http://localhost:3000/postings')
+    .then((res) => {
+      dispatch({
+        type: PostingsActionTypes.FETCH_POSTINGS_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch({
+        type: PostingsActionTypes.FETCH_POSTINGS_FAILURE,
+        payload: err,
+      })
+    );
+};

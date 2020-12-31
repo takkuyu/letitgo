@@ -5,9 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunkMiddleware)
-  )
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
 );
 
 export default store;

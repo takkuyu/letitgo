@@ -1,2 +1,1 @@
 import { createSelector } from 'reselect';
-
