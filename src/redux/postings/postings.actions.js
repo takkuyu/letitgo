@@ -26,27 +26,29 @@ export const storeFilter = (filter) => ({
 
 // *FOP ASYNC ACTIONS*
 //Use high order function
-export const requestPostingById = (id) => (dispatch) => {
-    axios.get("http://localhost:3000/postings/" + id, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
-        .then((res) => {
-            dispatch({
-                type: 'STORE_POSTINGS_SUCCESS',
-                payload: res.data.posting
-            })
-            dispatch(storeCurrentUserId(res.data.userid))
-            dispatch(changeCreatedAt(String(new Date(res.data.posting.createdAt)).substring(0, 15)))
-            return res.data.posting.comments;
-        }).catch((err) => { window.location = '/' })
-}
-
+// export const requestPostingById = (id) => (dispatch) => {
+//     axios.get("http://localhost:3000/postings/" + id, { headers: { "Authorization": `Bearer ${sessionStorage.getItem('token')}` } })
+//         .then((res) => {
+//             dispatch({
+//                 type: 'STORE_POSTINGS_SUCCESS',
+//                 payload: res.data.posting
+//             })
+//             dispatch(storeCurrentUserId(res.data.userid))
+//             dispatch(changeCreatedAt(String(new Date(res.data.posting.createdAt)).substring(0, 15)))
+//             return res.data.posting.comments;
+//         }).catch((err) => { window.location = '/' })
+// }
 
 export const requestPosts = () => (dispatch) => {
     dispatch(fetchPostingsStart());
     return axios.get('http://localhost:3000/postings')
-        .then((response) => {
+        .then((res) => {
             dispatch({
                 type: PostingsActionTypes.FETCH_POSTINGS_SUCCESS,
-                payload: response.data.postings
+                payload: res.data
             })
-        }).catch(console.err)
+        }).catch((err) => dispatch({
+            type: PostingsActionTypes.FETCH_POSTINGS_FAILURE,
+            payload: err
+        }))
 }

@@ -11,6 +11,16 @@ export const selectPosts = createSelector(
   }
 );
 
+export const selectPostsByCategory2 = (category) =>
+  createSelector(
+    [selectPosts],
+    posts => {
+      if (!posts) return [];
+      const formatted_category = category.charAt(0).toUpperCase() + category.slice(1);
+      return posts.filter(post => post.category === formatted_category);
+    }
+  );
+
 export const selectPostsByCategory = (category, filters = {}) =>
   createSelector(
     [selectPosts],
