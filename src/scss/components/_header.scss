@@ -3,12 +3,15 @@
     top: 0;
     left: 0;
     width: 100%;
+    min-height: 5.25rem;
+    height: 5.25rem;
+    max-height: 5.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 24px 0px;
     z-index: $z-index-high;
-    padding: $pad-and-half 2rem;
+    padding: 0 2rem;
     background-color: $purple;
     color: $white;
 

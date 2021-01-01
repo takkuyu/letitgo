@@ -1,3 +1,24 @@
+.button {
+    display: inline-block;
+    line-height: 1;
+    padding: .75em 1.25em;
+    border: 0;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 400;
+    border-radius: 5px;
+    background-color: $purple;
+    color: $white;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        opacity: .9;
+    }
+}
+
 .link-btn {
     background-color: $orange;
     display: inline-block;
@@ -19,7 +40,7 @@
         padding: $pad-half $pad;
         display: block;
 
-        &::before{
+        &::before {
             padding-right: $pad-half;
         }
     }
