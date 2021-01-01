@@ -1,0 +1,223 @@
+.item-page {
+
+  &-top {
+    margin-bottom: 2em;
+
+    &__image {
+      width: 100%;
+
+      &>img {
+        border-radius: 5px;
+        width: 100%;
+        max-width: 100%;
+        height: 500px;
+        max-height: 500px;
+      }
+    }
+
+    &__content {
+
+      &-title {
+        font-size: 24px;
+        font-weight: 500;
+        color: #1b1b1b;
+      }
+
+      &-price {
+        font-size: 24px;
+        font-weight: 500;
+        color: #6c6a74;
+        margin-bottom: .75rem;
+      }
+
+      &-jumbo-button {
+        display: block;
+        margin-bottom: $space;
+        font-weight: 500;
+        background-color: $white;
+        width: 100%;
+        color: $purple;
+        border: 1px solid $purple;
+    
+        &:hover {
+          background-color: rgba(94, 109, 242, .08);
+        }
+      }
+
+      &-detail {
+        &>div {
+          font-size: 14px;
+          font-weight: 500;
+          color: #999999;
+
+          &:not(:last-child) {
+            margin-bottom: .75em;
+          }
+
+          span {
+            display: inline-block;
+            font-weight: 500;
+            color: #4C4C4C;
+            margin-left: 5px;
+          }
+        }
+      }
+
+      &-description {
+        height: 270px;
+        overflow-y: auto;
+        margin-top: 15px;
+        font-weight: 500;
+
+        &__title {
+          font-size: 16px;
+          margin-bottom: .5em;
+        }
+
+        &__textarea {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.6;
+        }
+      }
+
+      &-share {
+
+        ul {
+          margin: .5em 0;
+
+          li {
+            display: inline-block;
+
+            &:not(:last-child) {
+              margin-right: 18px;
+            }
+
+            &>a>i {
+              font-size: $font-size-med;
+              color: #b5b5b5;
+              padding: 5px;
+              transition: all 200ms ease;
+
+              &:hover {
+                color: #1b1b1b;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-bottom {
+    border-top: solid 1px #ecedf1;
+    padding: $pad-double 0;
+
+    &__seller {
+
+      &-title {
+        font-size: $font-size-med;
+        font-weight: 500;
+      }
+
+      &-photo {
+        margin-right: $space;
+
+        &>img {
+          min-height: 3.5em;
+          height: 3.5em;
+          width: 3.5em;
+          border-radius: 50%;
+        }
+      }
+
+      &-detail {
+
+        &__name {
+          font-weight: 500;
+          margin-bottom: $space-half;
+        }
+
+        &__lists {
+          font-size: $font-size-small-2;
+        }
+      }
+
+      &-stars {
+        display: flex;
+        position: relative;
+        left: -.25em;
+      }
+
+    }
+
+
+    &__message {
+
+      &-title {
+        font-size: $font-size-med;
+        font-weight: 500;
+        margin-bottom: $space;
+      }
+
+      &-options {
+        display: flex;
+        margin-bottom: $space;
+
+        &>li {
+          background-color: $purple;
+          color: $white;
+          font-size: $font-size-small;
+          font-weight: 500;
+          border-radius: 20px;
+          padding: .3em .8em;
+
+          &:not(:last-child) {
+            margin-right: $space-half;
+          }
+        }
+      }
+
+      &-input {
+
+        display: flex;
+        align-items: center;
+
+        &>input {
+          border: none;
+          appearance: none;
+          font-size: $font-size-small-2;
+          background-color: $light-grey;
+          padding: .65em $pad-half;
+          min-height: 40px;
+          height: 40px;
+          border-radius: 5px;
+          margin-right: 1em;
+          width: 100%;
+        }
+
+        .button {
+          margin-left: .5em;
+          margin-right: 1em;
+          min-height: 40px;
+          height: 40px;
+        }
+      }
+
+    }
+
+  }
+
+  &-recommendations {
+    border-top: solid 1px #ecedf1;
+    padding: $pad-double 0;
+
+    &__title {
+      font-size: 1.375em;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: $space;
+    }
+  }
+
+}
