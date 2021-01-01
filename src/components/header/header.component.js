@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from '../search-box.component';
 import OverlayNavigation from '../overlay-navigation/overlay-navigation.component';
+import { Fragment } from 'react';
 
 function removeToken() {
   // call this when logout to remove token from JWT.
@@ -10,7 +11,7 @@ function removeToken() {
 
 const Header = () => {
   return (
-    <>
+    <Fragment>
       <header className="header" id="header">
         <p className="logo-text">
           <Link to="/">Letitgo.</Link>
@@ -33,7 +34,7 @@ const Header = () => {
         </nav>
       </header>
       <OverlayNavigation />
-    </>
+    </Fragment>
   );
 };
 

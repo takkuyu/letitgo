@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { default as categories } from '../../constants/directory';
 
-const Navigation = ({ categories }) => {
+const Navigation = () => {
   return (
     <nav className="navigation">
       <ul className="navigation__list">
-        {categories.map((category, index) => (
+        {Object.values(categories).map((category, index) => (
           <li key={index}>
             <Link to={`/${category.linkUrl}`}>{category.category}</Link>
           </li>

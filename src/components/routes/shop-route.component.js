@@ -1,67 +1,66 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import Itempage from '../../pages/itempage/itempage.component';
 import CollectionPage from '../../pages/collection/collectionpage.component';
-import { requestPosts } from '../../redux/postings/postings.actions';
-import WithSpinner from '../with-spinner/with-spinner.component';
+import { useQuery, gql } from '@apollo/client';
+import { default as categories } from '../../constants/directory';
+import { ItempageContainer } from '../../pages/itempage/itempage.container';
+import Spinner from '../with-spinner/Spinner';
 
-const ItempageWithSpinner = WithSpinner(Itempage);
-const CollectionPageWithSpinner = WithSpinner(CollectionPage);
-
-class CollectionRoute extends React.Component {
-  state = {
-    isLoading: true,
-  };
-
-  componentDidMount() {
-    this.fetchPostings();
-    // console.log('shop route componentDidMount')
+const GET_POSTS_BY_CATEGORY = gql`
+  query getPostsByCategory($category:String!) {
+    postsByCategory(category: $category) {
+      pid
+      title
+      price
+      imageurl
+      location
+      category
+      condition
+      description
+      created
+    }
   }
+`;
 
-  async fetchPostings() {
-    const { requestPosts } = this.props;
-    await requestPosts();
-    this.setState({ isLoading: false });
-  }
+const CollectionRoute = ({ match, location }) => {
+  const currentCategory = match.params.category;
 
-  render() {
-    const { match } = this.props;
-    const { isLoading } = this.state;
-    // console.log('shop route render')
+  const { loading, error, data } = useQuery(GET_POSTS_BY_CATEGORY, {
+    variables: { category: categories[currentCategory]['category'] },
+  });
 
-    return (
-      <>
-        <Route
-          path={`${match.url}`}
-          key={this.props.location.key}
-          exact
-          render={(props) => (
-            <CollectionPageWithSpinner
-              isLoading={isLoading}
-              category={match.params.category}
-              {...props}
-            />
-          )}
-        />
-        <Route
-          path={`${match.url}/:id`}
-          exact
-          render={(props) => (
-            <ItempageWithSpinner
-              isLoading={isLoading}
-              category={match.params.category}
-              {...props}
-            />
-          )}
-        />
-      </>
-    );
-  }
+  if (loading) return <Spinner />;
+  if (error) return <p>Error :</p>;
+
+  return (
+    <Fragment>
+      <Route
+        path={`${match.url}`}
+        key={location.key}
+        exact
+        render={(props) => (
+          <CollectionPage
+            collectionItems={data.postsByCategory}
+            currentCategory={currentCategory}
+            currentCategoryTitle={categories[currentCategory]['category']}
+            {...props}
+          />
+        )}
+      />
+      <Route
+        path={`${match.url}/:id`}
+        exact
+        render={(props) => (
+          <ItempageContainer
+            collectionItems={data.postsByCategory}
+            currentCategory={currentCategory}
+            currentCategoryTitle={categories[currentCategory]['category']}
+            {...props}
+          />
+        )}
+      />
+    </Fragment>
+  );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  requestPosts: () => dispatch(requestPosts()),
-});
-
-export default connect(null, mapDispatchToProps)(CollectionRoute);
+export default CollectionRoute;
