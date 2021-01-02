@@ -12,108 +12,60 @@ import {
   Button,
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import {
-  requestUser,
-  storeNewUsername,
-  storeNewUserEmail,
-  storeNewUserPic,
-} from '../redux/user/user.actions';
-import { storeLoadning } from '../redux/inputs/inputs.actions';
+const Profile = () => {
 
-const mapStateToProps = (state) => {
-  return {
-    this_username: state.user.this_username,
-    this_user_email: state.user.this_user_email,
-    this_user_picture: state.user.this_user_picture,
-    new_username: state.user.new_username,
-    new_user_email: state.user.new_user_email,
-    new_user_picture: state.user.new_user_picture,
-    createdAt: state.user.createdAt,
-    loading: state.inputs.loading,
-  };
-};
+  // componentDidMount() {
+  //   this.props.requestUser();
+  // }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    requestUser: () => dispatch(requestUser()),
-    storeNewUsername: (value) => dispatch(storeNewUsername(value)),
-    storeNewUserEmail: (value) => dispatch(storeNewUserEmail(value)),
-    storeNewUserPic: (value) => dispatch(storeNewUserPic(value)),
-    storeLoadning: (value) => dispatch(storeLoadning(value)),
-  };
-};
-class Profile extends Component {
-  constructor(props) {
-    super(props);
+  // uploadImage = async (e) => {
+  //   const files = e.target.files;
+  //   const data = new FormData();
+  //   data.append('file', files[0]);
+  //   data.append('upload_preset', 'myreactapp');
 
-    this.state = {
-      isClicked: false,
-      // user: {},
-      // newName: '',
-      // newEmail: '',
-      // newPic: '',
-      // loading: false,
-      // createdDay: ''
-    };
-    this.setProfile = this.setProfile.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.uploadImage = this.uploadImage.bind(this);
-  }
+  //   this.props.storeLoadning(true);
+  //   const res = await fetch(
+  //     'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
+  //     {
+  //       method: 'POST',
+  //       body: data,
+  //     }
+  //   );
+  //   const file = await res.json();
 
-  componentDidMount() {
-    this.props.requestUser();
-  }
+  //   this.props.storeNewUserPic(file.secure_url);
+  //   this.props.storeLoadning(false);
+  // };
 
-  uploadImage = async (e) => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'myreactapp');
+  // setProfile(e) {
+  //   e.preventDefault();
+  //   const newUserInfo = {
+  //     newName: this.props.new_username,
+  //     newEmail: this.props.new_user_email,
+  //     newPic: this.props.new_user_picture,
+  //   };
+  //   axios
+  //     .post('http://localhost:3000/users/update', newUserInfo, {
+  //       headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+  //     })
+  //     .then(console.log)
+  //     .catch(console.log);
+  //   window.location = '/profile';
+  // }
 
-    this.props.storeLoadning(true);
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
-      {
-        method: 'POST',
-        body: data,
-      }
-    );
-    const file = await res.json();
+  // onChangeUsername(e) {
+  //   this.props.storeNewUsername(e.target.value);
+  // }
 
-    this.props.storeNewUserPic(file.secure_url);
-    this.props.storeLoadning(false);
-  };
+  // onChangeEmail(e) {
+  //   this.props.storeNewUserEmail(e.target.value);
+  // }
 
-  setProfile(e) {
-    e.preventDefault();
-    const newUserInfo = {
-      newName: this.props.new_username,
-      newEmail: this.props.new_user_email,
-      newPic: this.props.new_user_picture,
-    };
-    axios
-      .post('http://localhost:3000/users/update', newUserInfo, {
-        headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-      })
-      .then(console.log)
-      .catch(console.log);
-    window.location = '/profile';
-  }
-
-  onChangeUsername(e) {
-    this.props.storeNewUsername(e.target.value);
-  }
-
-  onChangeEmail(e) {
-    this.props.storeNewUserEmail(e.target.value);
-  }
-
-  render() {
-    return (
-      <div>
-        <div className="App profile-container">
-          {!this.state.isClicked ? (
+  return (
+    <div>
+      <div className="App profile-container">
+        {/* {!this.state.isClicked ? (
             <div className="maincontent">
               <div
                 className="bg-image"
@@ -128,7 +80,6 @@ class Profile extends Component {
                   Email: <span>{this.props.this_user_email}</span> | Joined on:{' '}
                   <span>{this.props.createdAt}</span>
                 </p>
-                {/* <p className="user-email">{this.state.user.createdAt}</p> */}
                 <button onClick={() => this.setState({ isClicked: true })}>
                   EDIT YOUR PROFILE
                 </button>
@@ -204,11 +155,10 @@ class Profile extends Component {
                 </Button>
               </Form>
             </Container>
-          )}
-        </div>
+          )} */}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

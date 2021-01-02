@@ -4,11 +4,21 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import './scss/styles.scss';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, gql, ApolloProvider, useQuery } from '@apollo/client';
+import { cache } from './cache';
+
+export const typeDefs = gql`
+  extend type Query {
+    isLoggedIn: Boolean!
+    isLoginModalOpen: Boolean!
+  }
+`;
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
-  cache: new InMemoryCache()
+  cache: cache,
+  typeDefs,
+  resolvers: {},
 });
 
 ReactDOM.render(

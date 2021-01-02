@@ -4,8 +4,17 @@ import Breadcrumb from '../../components/breadcrumb/breadcrumb.component';
 import star from '../../images/star.svg'
 import SmallItemCard from '../../components/item-card/small-item-card.component'
 import moment from 'moment'
+import { isLoginModalOpenVar } from '../../cache';
+import { useQuery, gql } from '@apollo/client';
+
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
 
 const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle }) => {
+  const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
 
   return (
     <Container className="item-page">
@@ -20,7 +29,12 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
           <div className="item-page-top__content">
             <div className="item-page-top__content-title">{item.title}</div>
             <div className="item-page-top__content-price">${item.price}</div>
-            <button className="item-page-top__content-jumbo-button button">Add to Wish List</button>
+            <button className="item-page-top__content-jumbo-button button" onClick={() => {
+              if (!isLoggedIn) {
+                isLoginModalOpenVar(true);
+                return
+              }
+            }}>Add to Wish List</button>
             <div className="item-page-top__content-detail">
               <div>Location:<span>{item.location}</span></div>
               <div>Posted on:<span>{moment(Number(item.created)).format("LL")}</span></div>
@@ -72,7 +86,12 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
             </ul>
             <div className="item-page-bottom__message-input">
               <input placeholder="Chat with John Doe" />
-              <button className="button">Send</button>
+              <button className="button" onClick={() => {
+                if (!isLoggedIn) {
+                  isLoginModalOpenVar(true);
+                  return
+                }
+              }}>Send</button>
             </div>
           </div>
         </Col>

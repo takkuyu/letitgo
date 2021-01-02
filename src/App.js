@@ -6,38 +6,32 @@ import Header from './components/header/header.component';
 import Footer from './components/footer/footer.component';
 import Navigation from './components/navigation/navigation.component';
 import TopShortContent from './components/top-short-content/top-short-content';
+import { Login } from './components/Login/Login';
 import {
   useQuery,
   gql
 } from "@apollo/client";
 
-const GET_USERS = gql`
-  {
-    users {
-        username
-        uid
-      }
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
   }
 `;
 
 const App = () => {
-  const { loading, error, data } = useQuery(GET_USERS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :</p>;
-
-  // console.log(data)
+  const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
         <main className="main">
           <Navigation />
           <TopShortContent />
           <Route component={Routes} />
         </main>
         <Footer />
+        <Login />
       </BrowserRouter>
     </div>
   );
