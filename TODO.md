@@ -1,0 +1,3 @@
+- Sell item
+- real time , chat pagecommunication
+- acc profile

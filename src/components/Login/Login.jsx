@@ -6,11 +6,10 @@ import {
   FormGroup,
   Label,
   Input,
-  Button,
   Row,
 } from 'reactstrap';
 import { useMutation, gql, useQuery } from '@apollo/client';
-import { isLoggedInVar, isLoginModalOpenVar } from '../../cache';
+import { isLoggedInVar, isLoginModalOpenVar } from '../../graphql/cache';
 
 const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
