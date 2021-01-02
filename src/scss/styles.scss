@@ -32,6 +32,7 @@ $COMPONENTS
 @import "components/collection-filter";
 @import "components/modal";
 @import "components/login-modal";
+@import "components/form-items";
 
 
 /*------------------------------------*\
@@ -41,3 +42,4 @@ $PAGES
 @import "page/itempage";
 @import "page/profilepage";
 @import "page/collectionpage";
+@import "page/itemsellpage";

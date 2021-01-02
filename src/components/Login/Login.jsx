@@ -103,7 +103,7 @@ export const Login = () => {
                   onChange={(e) => setFormValues({ ...formValues, password: e.target.value })}
                 />
               </FormGroup>
-              <Button className="login-action-button">Log in</Button>
+              <button className="button login-action-button">Log in</button>
               <p className="sign-up my-1">Signup is disabled in demo</p>
             </Form>
           </Col>

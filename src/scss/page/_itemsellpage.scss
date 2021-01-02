@@ -1,0 +1,28 @@
+.item-sell-page {
+
+
+  &-title {
+    margin: $space 0;
+  }
+
+  &-form {
+    padding: $pad 0 3em;
+
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      &>label {
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: $font-size-small-2;
+      }
+    
+      input, select, textarea{
+        border-color: #e2e2e2;
+        background-color: $light-grey;
+        height: 2.75rem;
+      }
+    
+    }
+  }
+}

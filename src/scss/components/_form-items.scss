@@ -1,0 +1,23 @@
+.required-field {
+  color: $error-text;
+  margin-right: .2em;
+}
+
+.form-group {
+  
+  &>label {
+    margin-bottom: .25rem;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 1.65rem;
+
+    // For IE.
+    &::-ms-expand {
+      display: none;
+    }
+  }
+}
