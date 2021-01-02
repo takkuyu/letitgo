@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './App/App';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import './scss/styles.scss';
 import { ApolloClient, gql, ApolloProvider, useQuery } from '@apollo/client';
-import { cache } from './cache';
+import { cache } from './graphql/cache';
 
 export const typeDefs = gql`
   extend type Query {

@@ -1,7 +1,6 @@
-import filtersListNames from '../components/filter/filter.names';
-import filtersLists from '../components/filter/filter.lists';
+import { filtersListNames, filtersLists } from '../constants/filter';
 
-export const filterItems = (items, filters) => {
+const filterItems = (items, filters) => {
   for (let k of Object.keys(filters)) {
     const filterType = filtersLists.find((filter) => filter.name.toLowerCase() === k);
 
@@ -30,3 +29,5 @@ export const filterItems = (items, filters) => {
   }
   return items;
 }
+
+export default filterItems;
