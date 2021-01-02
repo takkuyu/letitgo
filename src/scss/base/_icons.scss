@@ -1,7 +1,9 @@
 .icon-bars:before,
 .icon-camera:before,
 .icon-check-circle:before,
-.icon-chevron-down:after {
+.icon-chevron-down:after,
+.icon-check:before,
+.icon-user:before {
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -33,4 +35,16 @@
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f078";
+}
+
+.icon-check:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f00c";
+}
+
+.icon-user:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f007";
 }

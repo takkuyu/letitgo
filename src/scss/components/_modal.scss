@@ -1,0 +1,41 @@
+.modal-outer-container {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  overflow: hidden auto;
+
+  .modal-blanket {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 50;
+  }
+
+  .modal-container {
+    background-color: rgba(23, 43, 77, 0.5);
+    min-height: 100%;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 50px;
+
+    .modal-content {
+      vertical-align: middle;
+      display: inline-block;
+      background-color: $white;
+      position: relative;
+      z-index: $z-index-modal;
+      border: none;
+      border-radius: 5px;
+    }
+  }
+}

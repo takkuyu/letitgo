@@ -1,15 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import SearchBox from '../search-box.component';
 import OverlayNavigation from '../overlay-navigation/overlay-navigation.component';
 import { Fragment } from 'react';
+import { isLoggedInVar, isLoginModalOpenVar } from '../../cache';
 
 function removeToken() {
-  // call this when logout to remove token from JWT.
-  sessionStorage.removeItem('token');
+  localStorage.removeItem('token');
+  isLoggedInVar(false);
 }
 
-const Header = () => {
+const Header = ({ isLoggedIn, ...props }) => {
   return (
     <Fragment>
       <header className="header" id="header">
@@ -19,17 +20,38 @@ const Header = () => {
         <SearchBox />
         <nav className="header__nav">
           <ul>
-            <li className="link-btn">
-              <Link to="/newpost" className="icon-camera">
-                Sell
-              </Link>
+            <li className="link-btn reverse-color">
+              <button className="button icon-camera" onClick={() => {
+                if (!isLoggedIn) {
+                  isLoginModalOpenVar(true)
+                  return
+                }
+                props.history.push('/sell')
+              }}>Sell</button>
             </li>
             <li className="link-btn reverse-color">
-              <Link to="/signin">Log In</Link>
+              <button className="button icon-user" onClick={() => {
+                if (!isLoggedIn) {
+                  isLoginModalOpenVar(true)
+                  return
+                }
+                props.history.push('/profile')
+              }}>Account</button>
             </li>
-            <li className="nav-toggle-btn">
-              <i className="fas fa-bars"></i>
-            </li>
+            {
+              isLoggedIn ? (
+                <li className="link-btn reverse-color">
+                  <button className="button" onClick={() => {
+                    removeToken();
+                    props.history.push('/');
+                  }}>Log out</button>
+                </li>
+              ) : (
+                  <li className="link-btn reverse-color">
+                    <button className="button" onClick={() => isLoginModalOpenVar(true)}>Log In</button>
+                  </li>
+                )
+            }
           </ul>
         </nav>
       </header>
@@ -38,4 +60,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

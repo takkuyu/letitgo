@@ -1,0 +1,93 @@
+.login-modal {
+  display: flex;
+
+  &-left {
+    background-color: $purple;
+    color: $white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 1em 2em;
+
+    &-content {
+      &__title {
+        font-size: 1.75em;
+        font-weight: 500;
+        margin-bottom: $space-and-half
+      }
+
+      ul {
+        list-style: none;
+
+        &>li {
+          margin-bottom: $space-double;
+          display: flex;
+          font-weight: 400;
+
+          &::before {
+            margin-right: $space-half;
+            position: relative;
+            top: .25em;
+          }
+        }
+      }
+    }
+  }
+
+
+  &-form {
+    padding: 1em 2em;
+
+    &__title {
+      text-align: center;
+      color: $purple;
+      font-size: 2.25em;
+      font-weight: 600;
+      margin-bottom: $space-half;
+    }
+
+    &__copy {
+      text-align: center;
+      font-size: $font-size-small-2;
+      margin-bottom: $space-and-half;
+    }
+
+    &__error-message {
+      margin-bottom: $space;
+      background-color: $error;
+      color: $error-text;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: $font-size-small-2;
+    }
+
+    .login-action-button {
+      width: 100%;
+      margin: $space 0;
+      background-color: $purple;
+    }
+
+    .sign-up {
+      color: $purple;
+      text-align: center;
+      font-weight: 500;
+      font-size: $font-size-small-2;
+    }
+
+  }
+}
+
+.demo-login-credentials {
+  background-color: #505050;
+  color: $white;
+  padding: .25rem 2rem;
+  border-radius: 100px;
+  padding: .15em $pad;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
