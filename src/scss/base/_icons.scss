@@ -3,7 +3,8 @@
 .icon-check-circle:before,
 .icon-chevron-down:after,
 .icon-check:before,
-.icon-user:before {
+.icon-user:before,
+.icon-comments:before {
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -47,4 +48,10 @@
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f007";
+}
+
+.icon-comments:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f086";
 }
