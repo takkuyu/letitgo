@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import CollectionPage from '../../pages/CollectionPage/CollectionPage';
 import { useQuery, gql } from '@apollo/client';
 import { default as categories } from '../../constants/directory';
-import ItempageContainer from '../../pages/ItemPage/ItemPageContainer';
+import ItemPageContainer from '../../pages/ItemPage/ItemPageContainer';
 import Spinner from '../Spinner/Spinner';
 
 const GET_POSTS_BY_CATEGORY = gql`
@@ -11,6 +11,11 @@ const GET_POSTS_BY_CATEGORY = gql`
     postsByCategory(category: $category) {
       pid
       title
+      createdby {
+        uid
+        username
+        picture
+      }
       price
       imageurl
       location
@@ -51,7 +56,7 @@ const ShopRoute = ({ match, location }) => {
         path={`${match.url}/:id`}
         exact
         render={(props) => (
-          <ItempageContainer
+          <ItemPageContainer
             collectionItems={data.postsByCategory}
             currentCategory={currentCategory}
             currentCategoryTitle={categories[currentCategory]['category']}

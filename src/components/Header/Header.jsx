@@ -29,6 +29,15 @@ const Header = ({ isLoggedIn, ...props }) => {
               }}>Sell</button>
             </li>
             <li className="link-btn reverse-color">
+              <button className="button icon-comments" onClick={() => {
+                if (!isLoggedIn) {
+                  isLoginModalOpenVar(true)
+                  return
+                }
+                props.history.push('/messages')
+              }}>Messages</button>
+            </li>
+            <li className="link-btn reverse-color">
               <button className="button icon-user" onClick={() => {
                 if (!isLoggedIn) {
                   isLoginModalOpenVar(true)

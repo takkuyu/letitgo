@@ -1,11 +1,11 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Input } from 'reactstrap';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumbs';
 import star from '../../assets/star.svg'
-import SmallItemCard from '../../components/ItemCard/ItemCard'
+import ItemCard from '../../components/ItemCard/ItemCard'
 import moment from 'moment'
 import { isLoginModalOpenVar } from '../../graphql/cache';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
@@ -13,8 +13,56 @@ const IS_LOGGED_IN = gql`
   }
 `;
 
-const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle }) => {
+const CREATE_ROOM = gql`
+  mutation CreateRoom($to: String!, $post: String!) {
+    createRoom(to: $to, post: $post) {
+      rid
+    },
+  }
+`;
+
+const POST_MESSAGE = gql`
+  mutation PostMessage($room: String!, $to: String!, $content: String!) {
+    postMessage(room: $room, to: $to, content: $content) {
+      from
+      to
+      content
+    },
+  }
+`;
+
+const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle, ...props }) => {
   const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
+  const [chatMessage, setChatMessage] = useState('')
+
+  const [postMessage, { error: postMessageError }] = useMutation(POST_MESSAGE, {
+    onCompleted: (data) => {
+      console.log(data)
+      props.history.push('/messages')
+    },
+    onError: (err) => console.log(err),
+  });
+
+  const [createRoom, { error }] = useMutation(CREATE_ROOM, {
+    onCompleted: ({ createRoom }) => {
+      if (createRoom) {
+        postMessage({ variables: { room: createRoom.rid, to: String(item.createdby.uid), content: chatMessage } });
+      }
+    },
+    onError: (err) => console.log(err),
+  });
+
+
+  const startChat = () => {
+    if (!isLoggedIn) {
+      isLoginModalOpenVar(true);
+      return
+    }
+
+    if (chatMessage.trim() === '') return
+
+    createRoom({ variables: { to: item.createdby.uid, post: item.pid } });
+  }
 
   return (
     <Container className="item-page">
@@ -61,10 +109,10 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
             <p className="item-page-bottom__seller-title">About the seller</p>
             <div className="d-flex align-items-center mb-3 mt-3">
               <div className="item-page-bottom__seller-photo">
-                <img src={"https://cdn.pixabay.com/photo/2016/12/19/21/36/winters-1919143__340.jpg"} alt="seller photo" />
+                <img src={item.createdby.picture} alt="seller photo" />
               </div>
               <div className="item-page-bottom__seller-detail">
-                <p className="item-page-bottom__seller-detail__name">Takaya Hirose</p>
+                <p className="item-page-bottom__seller-detail__name">{item.createdby.username}</p>
                 <p className="item-page-bottom__seller-detail__lists"><b>63</b> items listed</p>
               </div>
             </div>
@@ -85,13 +133,13 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
               <li>What condition is it in?</li>
             </ul>
             <div className="item-page-bottom__message-input">
-              <input placeholder="Chat with John Doe" />
-              <button className="button" onClick={() => {
-                if (!isLoggedIn) {
-                  isLoginModalOpenVar(true);
-                  return
-                }
-              }}>Send</button>
+              <Input
+                type="text"
+                value={chatMessage}
+                onChange={(e) => setChatMessage(e.target.value)}
+                placeholder={`Chat with ${item.createdby.username}`}
+              />
+              <button className="button" onClick={startChat}>Send</button>
             </div>
           </div>
         </Col>
@@ -101,7 +149,7 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
         <Row className="item-page-recommendations__row">
           {recommendations.map((item) =>
             item && (
-              <SmallItemCard post={item} key={item.pid} md={3} currentCategory={currentCategory} />
+              <ItemCard post={item} key={item.pid} md={3} currentCategory={currentCategory} />
             )
           )}
         </Row>

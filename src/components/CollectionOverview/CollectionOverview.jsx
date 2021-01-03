@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SmallItemCard from '../ItemCard/ItemCard';
+import ItemCard from '../ItemCard/ItemCard';
 import { Row, Col } from 'reactstrap';
 
 const CollectionOverview = ({ posts, category }) => {
@@ -9,7 +9,7 @@ const CollectionOverview = ({ posts, category }) => {
       <h2>{category.heading}</h2>
       <Row>
         {
-          posts.map((post, index) => <SmallItemCard post={post} key={index} md={2} currentCategory={category.id}/>)
+          posts.map((post, index) => <ItemCard post={post} key={index} md={2} currentCategory={category.id}/>)
         }
         <Col sm={3} md={2}>
           <p className="see-all-btn">

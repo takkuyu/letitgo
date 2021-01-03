@@ -3,7 +3,7 @@ import { Row, Col, Container } from 'reactstrap';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumbs';
 import { filtersLists } from '../../constants/filter';
 import Filter from '../../components/Filter/Filter';
-import SmallItemCard from '../../components/ItemCard/ItemCard';
+import ItemCard from '../../components/ItemCard/ItemCard';
 import queryString from 'query-string';
 import filterItems from '../../utils/filterItems';
 
@@ -46,7 +46,7 @@ const CollectionPage = ({ collectionItems, currentCategory, currentCategoryTitle
                 <Row>
                   {items.map((post) =>
                     post && (
-                      <SmallItemCard post={post} key={post.pid} md={3} currentCategory={currentCategory} />
+                      <ItemCard post={post} key={post.pid} md={3} currentCategory={currentCategory} />
                     )
                   )}
                 </Row>
