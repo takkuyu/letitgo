@@ -1,100 +1,35 @@
-.profile-container .maincontent{
-    width: 100%;
-    height: calc(100vh - 260px);
-    position: relative;
-}
+.profile-page {
 
-.profile-container .edit-container{
-    width: 100%;
-    height: calc(100vh - 260px);
-    /* @TODO: has to deal with mobile layout , so fix later */
-    padding: calc((100vh - 260px - 516px)/2) 0;
-
-}
-
-.bg-image {
-    filter: blur(10px);
-    -webkit-filter: blur(10px);
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+  .cover {
+    background-image: url(https://cdn.pixabay.com/photo/2016/02/19/11/19/feet-1209636_960_720.jpg);
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat
   }
 
-.maincontent > img{
-    display: block;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    z-index: 2;
-    color: white;
-    font-weight: bold;
-    border: 5px solid #f1f1f1;
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
+  .profile-head {
+    transform: translateY(5rem);
 
-.userinfo{
-    text-align: center;
-    position: absolute;
-    top: 68%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-}
+    .img-thumbnail {
+      height: 130px;
+    }
+  }
 
-.userinfo .username{
-    color: rgba(255,255,255,0.9);
-    font-weight: bold;
-    font-size:35px;
-    padding-top: 20px;
-    /* line-height: 45px; */
-    margin:0;
-}
+  .nav-tabs {
+    margin-bottom: $space-double;
 
-.userinfo .user-email{
-    font-size: 25px;
-    /* line-height: 45px; */
-    color:rgba(255, 255, 255, 0.8);
-}
+    .nav-link {
+      font-weight: 500;
+      border: none;
 
-.userinfo .user-email span{
-    font-size: 30px;
-    color:rgba(255, 255, 255, 0.9);
-}
+      &:hover {
+        cursor: pointer;
+      }
+    }
 
-.userinfo button{
-    margin-top: 20px;
-    background-color: rgba(42, 180, 0, 0.8) !important;
-    height: 45px;
-    width: 200px;
-    border-radius:20px;
-    color: #f1f1f1;
-    border: none;
-    outline: none;
-}
-
-.userinfo button:hover{
-    background-color: rgba(42, 180, 0, 1) !important;
-}
-
-
-.profile-image{
-    display: block;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    color: white;
-    font-weight: bold;
-    border: 3px solid rgba(0, 0, 0, 0.6);
-    margin: 0 auto;
-}
-
-.edit-container #cancel-btn{
-    width: 100px;
-    background-color:black !important;
-    border-color:black;
+    .nav-link.active {
+      border: none;
+      border-bottom: 2px solid $purple;
+    }
+  }
 }

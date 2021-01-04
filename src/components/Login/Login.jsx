@@ -8,34 +8,31 @@ import {
   Input,
   Row,
 } from 'reactstrap';
-import { useMutation, gql, useQuery } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 import { isLoggedInVar, isLoginModalOpenVar } from '../../graphql/cache';
+import { useAuthDispatch, useAuthState } from '../../context/auth';
 
 const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       uid
+      username
+      email
+      picture
+      wishlist
       token
     }
   }
 `;
 
-const IS_LOGIN_MODAL_OPEN = gql`
-  query IsLoginModalOpen {
-    isLoginModalOpen @client
-  }
-`;
-
 export const Login = () => {
-  const { data: { isLoginModalOpen } } = useQuery(IS_LOGIN_MODAL_OPEN);
+  const dispatch = useAuthDispatch()
+  const { isLoggedin, isLoginModalOpen } = useAuthState();
 
   const [login, { error }] = useMutation(LOGIN_USER, {
     onCompleted({ login }) {
       if (login) {
-        localStorage.setItem('token', login.token);
-        localStorage.setItem('userId', login.uid);
-        isLoggedInVar(true);
-        isLoginModalOpenVar(false);
+        dispatch({ type: 'LOGIN', payload: login });
       }
     }
   });
@@ -60,8 +57,12 @@ export const Login = () => {
   }
 
   return (
-    isLoginModalOpen && (
-      <Modal closeModal={() => isLoginModalOpenVar(false)} modalWidth={900}>
+    (
+      (isLoginModalOpen && !isLoggedin) &&
+      <Modal
+        closeModal={() => dispatch({ type: 'TOGGLE_LOGIN_MODAL' })}
+        modalWidth={900}
+      >
         <Row className="login-modal mx-0">
           <Col sm={6} className="login-modal-left" >
             <div className="login-modal-left-content">

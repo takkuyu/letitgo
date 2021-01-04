@@ -5,15 +5,16 @@ import Profile from '../../pages/ProfilePage/ProfilePage';
 import ShopRoute from './ShopRoute';
 import HomePage from '../../pages/HomePage/HomePage';
 import MessagesPage from '../../pages/MessagesPage/MessagesPage';
+import PrivateRoute from './PrivateRoute';
 
 const Routes = () => (
   <Switch>
     <Route path="/" exact component={HomePage} />
     <Route path="/shop/:category" render={(props) => <ShopRoute {...props} />} />
-    <Route path="/sell" exact render={(props) => <ItemSellPage {...props} />} />
-    <Route path="/messages" exact render={(props) => <MessagesPage {...props} />} />
-    {/* <Route path="/update/:id" exact component={EditPosting} /> */}
-    <Route path="/profile" exact component={Profile} />
+    <PrivateRoute exact path="/sell" component={ItemSellPage} />
+    <PrivateRoute exact path="/messages" component={MessagesPage} />
+    <PrivateRoute exact path="/profile" component={Profile} />
+    {/* <PrivateRoute exact path="/update/:id" component={EditPosting}  /> */}
   </Switch>
 );
 

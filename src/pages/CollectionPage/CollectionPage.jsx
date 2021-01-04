@@ -7,7 +7,7 @@ import ItemCard from '../../components/ItemCard/ItemCard';
 import queryString from 'query-string';
 import filterItems from '../../utils/filterItems';
 
-const CollectionPage = ({ collectionItems, currentCategory, currentCategoryTitle, match, location }) => {
+const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location }) => {
   const [items, setItems] = useState([]);
   const filters = queryString.parse(location.search);
 
@@ -46,7 +46,7 @@ const CollectionPage = ({ collectionItems, currentCategory, currentCategoryTitle
                 <Row>
                   {items.map((post) =>
                     post && (
-                      <ItemCard post={post} key={post.pid} md={3} currentCategory={currentCategory} />
+                      <ItemCard post={post} key={post.pid} md={3} />
                     )
                   )}
                 </Row>

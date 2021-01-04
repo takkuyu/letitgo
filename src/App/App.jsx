@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Routes from '../components/Routes/Routes';
@@ -8,23 +8,48 @@ import Navigation from '../components/Navigation/Navigation';
 import TopShortContent from '../components/TopCopy/TopCopy.jsx';
 import { Login } from '../components/Login/Login';
 import {
-  useQuery,
+  useMutation,
   gql
 } from "@apollo/client";
+import { useAuthState, useAuthDispatch } from '../context/auth';
 
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
+const LOAD_USER = gql`
+  mutation LoadUser{
+    loadUser {
+      uid
+      username
+      email
+      picture
+      wishlist
+      token
+    }
   }
 `;
 
 const App = () => {
-  const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
+  const { user } = useAuthState();
+  const dispatch = useAuthDispatch()
+
+  const [loadUser, { error, loading }] = useMutation(LOAD_USER, {
+    onCompleted({ loadUser }) {
+      if (loadUser) {
+        dispatch({ type: 'LOAD_USER', payload: loadUser })
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (user) {
+      loadUser();
+    } else {
+      dispatch({ type: 'COMPLETE_LOADING' })
+    }
+  }, []);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} />
+        <Header />
         <main className="main">
           <Navigation />
           <TopShortContent />
