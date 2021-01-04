@@ -9,7 +9,7 @@ const CollectionOverview = ({ posts, category }) => {
       <h2>{category.heading}</h2>
       <Row>
         {
-          posts.map((post, index) => <ItemCard post={post} key={index} md={2} currentCategory={category.id}/>)
+          posts.map((post, index) => <ItemCard post={post} key={index} md={2} />)
         }
         <Col sm={3} md={2}>
           <p className="see-all-btn">

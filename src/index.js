@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App/App';
-import { store } from './redux/store';
 import './scss/styles.scss';
 import { ApolloClient, gql, ApolloProvider, createHttpLink, split } from '@apollo/client';
 import { WebSocketLink } from "@apollo/client/link/ws";
@@ -10,6 +9,7 @@ import { setContext } from '@apollo/client/link/context';
 import { cache } from './graphql/cache';
 
 import { MessageProvider } from './context/message'
+import { AuthProvider } from './context/auth';
 
 export const typeDefs = gql`
   extend type Query {
@@ -65,9 +65,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <MessageProvider>
-      <App />
-    </MessageProvider>
+    <AuthProvider>
+      <MessageProvider>
+        <App />
+      </MessageProvider>
+    </AuthProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );

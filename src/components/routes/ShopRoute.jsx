@@ -46,7 +46,6 @@ const ShopRoute = ({ match, location }) => {
         render={(props) => (
           <CollectionPage
             collectionItems={data.postsByCategory}
-            currentCategory={currentCategory}
             currentCategoryTitle={categories[currentCategory]['category']}
             {...props}
           />
@@ -58,7 +57,6 @@ const ShopRoute = ({ match, location }) => {
         render={(props) => (
           <ItemPageContainer
             collectionItems={data.postsByCategory}
-            currentCategory={currentCategory}
             currentCategoryTitle={categories[currentCategory]['category']}
             {...props}
           />

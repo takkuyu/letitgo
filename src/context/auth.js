@@ -21,15 +21,38 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
       localStorage.setItem('token', action.payload.token)
+      // @TODO: Remove this after mod.
+      localStorage.setItem('userId', action.payload.uid);
       return {
         ...state,
         user: action.payload,
+        isLoggedin: true,
+        loading: false,
       }
     case 'LOGOUT':
       localStorage.removeItem('token')
       return {
         ...state,
         user: null,
+        isLoggedin: false,
+        isLoginModalOpen: false,
+      }
+    case 'LOAD_USER':
+      return {
+        ...state,
+        user: action.payload,
+        isLoggedin: true,
+        loading: false,
+      }
+    case 'TOGGLE_LOGIN_MODAL':
+      return {
+        ...state,
+        isLoginModalOpen: !state.isLoginModalOpen,
+      }
+    case 'COMPLETE_LOADING':
+      return {
+        ...state,
+        loading: false,
       }
     default:
       throw new Error(`Unknown action type: ${action.type}`)
@@ -37,7 +60,7 @@ const authReducer = (state, action) => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user })
+  const [state, dispatch] = useReducer(authReducer, { user, isLoggedin: false, isLoginModalOpen: false, loading: true })
 
   return (
     <AuthDispatchContext.Provider value={dispatch}>

@@ -5,13 +5,8 @@ import star from '../../assets/star.svg'
 import ItemCard from '../../components/ItemCard/ItemCard'
 import moment from 'moment'
 import { isLoginModalOpenVar } from '../../graphql/cache';
-import { useQuery, gql, useMutation } from '@apollo/client';
-
-const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
+import { gql, useMutation } from '@apollo/client';
+import { useAuthState } from '../../context/auth';
 
 const CREATE_ROOM = gql`
   mutation CreateRoom($to: String!, $post: String!) {
@@ -22,7 +17,7 @@ const CREATE_ROOM = gql`
 `;
 
 const POST_MESSAGE = gql`
-  mutation PostMessage($room: String!, $to: String!, $content: String!) {
+  mutation PostMessage($room: String!, $updatedWishList: String!, $content: String!) {
     postMessage(room: $room, to: $to, content: $content) {
       from
       to
@@ -31,9 +26,19 @@ const POST_MESSAGE = gql`
   }
 `;
 
-const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle, ...props }) => {
-  const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
+const UPDATE_WISH_LIST = gql`
+  mutation updateWishList($uid: String!, $updatedWishList: [String!]!) {
+    updateWishList(uid: $uid, updatedWishList: $updatedWishList) {
+      wishlist
+    }
+  }
+`;
+
+const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => {
   const [chatMessage, setChatMessage] = useState('')
+  const { isLoggedin, user } = useAuthState();
+
+  console.log(user)
 
   const [postMessage, { error: postMessageError }] = useMutation(POST_MESSAGE, {
     onCompleted: (data) => {
@@ -52,9 +57,12 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
     onError: (err) => console.log(err),
   });
 
+  const [updateWishList, { error: removeError }] = useMutation(UPDATE_WISH_LIST, {
+    onError: (err) => console.log(err),
+  });
 
   const startChat = () => {
-    if (!isLoggedIn) {
+    if (!isLoggedin) {
       isLoginModalOpenVar(true);
       return
     }
@@ -62,6 +70,37 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
     if (chatMessage.trim() === '') return
 
     createRoom({ variables: { to: item.createdby.uid, post: item.pid } });
+  }
+
+  let actionButton;
+
+  const isWished = user.wishlist && user.wishlist.includes(Number(item.pid));
+  if (isWished) {
+    actionButton = (
+      <button className="item-page-top__content-jumbo-button button" onClick={() => {
+        if (!isLoggedin) {
+          isLoginModalOpenVar(true);
+          return
+        }
+        const updatedWishList = user.wishlist.filter(list => String(list) !== item.pid);
+        updateWishList({
+          variables: { uid: user.uid, updatedWishList }
+        })
+      }}>Remove from Wish List</button>
+    )
+  } else {
+    actionButton = (
+      <button className="item-page-top__content-jumbo-button button" onClick={() => {
+        if (!isLoggedin) {
+          isLoginModalOpenVar(true);
+          return
+        }
+        const updatedWishList = [...user.wishlist, item.pid];
+        updateWishList({
+          variables: { uid: user.uid, updatedWishList }
+        })
+      }}>Add to Wish List</button>
+    );
   }
 
   return (
@@ -77,12 +116,7 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
           <div className="item-page-top__content">
             <div className="item-page-top__content-title">{item.title}</div>
             <div className="item-page-top__content-price">${item.price}</div>
-            <button className="item-page-top__content-jumbo-button button" onClick={() => {
-              if (!isLoggedIn) {
-                isLoginModalOpenVar(true);
-                return
-              }
-            }}>Add to Wish List</button>
+            {actionButton}
             <div className="item-page-top__content-detail">
               <div>Location:<span>{item.location}</span></div>
               <div>Posted on:<span>{moment(Number(item.created)).format("LL")}</span></div>
@@ -149,7 +183,7 @@ const ItemPage = ({ item, recommendations, currentCategory, currentCategoryTitle
         <Row className="item-page-recommendations__row">
           {recommendations.map((item) =>
             item && (
-              <ItemCard post={item} key={item.pid} md={3} currentCategory={currentCategory} />
+              <ItemCard post={item} key={item.pid} md={3} />
             )
           )}
         </Row>
