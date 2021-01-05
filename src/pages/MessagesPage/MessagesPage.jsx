@@ -61,13 +61,13 @@ const MessagesPage = () => {
   return (
     <div className="messages-page p-4">
       <Row className="messages-page-row rounded-lg overflow-hidden mx-0">
-        <Col sm={5} className="px-0">
-          <div className="bg-gray px-4 py-2 bg-light">
-            <p className="h5 mb-0 py-1">Messages</p>
+        <Col sm={3} className="messages-page-row__left">
+          <div className="messages-page-row__left-top">
+            <p className="icon-comments">Messages</p>
           </div>
           <MessageRooms currentUser={user} />
         </Col>
-        <Col sm={7} className="px-0">
+        <Col sm={9} className="messages-page-row__right px-0">
           <Messages currentUser={user} messagesContRef={messagesContRef} />
         </Col>
       </Row>

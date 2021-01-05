@@ -10,6 +10,8 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import directory, { default as categories } from '../../constants/directory';
 import Spinner from '../../components/Spinner/Spinner';
 import { itemConditions } from '../../constants/post';
+import ImageFileUpload from '../../components/ImageFileUpload/ImageFileUpload';
+import classNames from 'classnames'
 
 const GET_POST = gql`
   query getPost($pid:String!) {
@@ -82,7 +84,7 @@ const ItemEditPage = ({ match, history, ...props }) => {
     shipping: false,
   })
 
-  
+
   useEffect(() => {
     if (!loading && postData) {
       setFormValues({
@@ -90,9 +92,9 @@ const ItemEditPage = ({ match, history, ...props }) => {
       })
     }
   }, [loading])
-  
+
   const [isImageLoading, setIsImageLoading] = useState(false)
-  
+
   const {
     title,
     price,
@@ -112,7 +114,11 @@ const ItemEditPage = ({ match, history, ...props }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (isImageLoading) return;
-    console.log(formValues);
+
+    if (!imageurl) {
+      alert('Image field is empty!')
+      return
+    }
 
     editPost({
       variables: {
@@ -128,26 +134,6 @@ const ItemEditPage = ({ match, history, ...props }) => {
       }
     })
   }
-
-  const uploadImage = async (e) => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'myreactapp');
-    setIsImageLoading(true);
-
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
-      {
-        method: 'POST',
-        body: data,
-      }
-    );
-    const file = await res.json();
-
-    setFormValues({ ...formValues, imageurl: file.secure_url });
-    setIsImageLoading(false);
-  };
 
   if (loading || !postData) return <Spinner />
 
@@ -228,17 +214,17 @@ const ItemEditPage = ({ match, history, ...props }) => {
         </FormGroup>
         <FormGroup>
           <Label><span className="required-field">*</span>Upload Image</Label>
-          <Input
-            type="file"
+          <ImageFileUpload
+            id="imageurl"
+            text="Upload an image"
+            accept="image/png,image/jpeg"
             name="imageurl"
-            placeholder="Upload an image"
-            onChange={uploadImage}
+            description="* File format: png or jpeg."
+            isImageLoading={isImageLoading}
+            setIsImageLoading={setIsImageLoading}
+            onChange={(fileUrl) => setFormValues({ ...formValues, imageurl: fileUrl })}
           />
-          {isImageLoading ? (
-            <p>uploading...</p>
-          ) : (
-              imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />
-            )}
+          {imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />}
         </FormGroup>
         <FormGroup>
           <Label><span className="required-field">*</span>Description</Label>
@@ -257,16 +243,22 @@ const ItemEditPage = ({ match, history, ...props }) => {
         <FormGroup>
           <Label><span className="required-field">*</span>Free Shipping
               <Input
-                type="checkbox"
-                name="shipping"
-                className="custom-checkbox"
-                checked={shipping}
-                onChange={() => setFormValues({ ...formValues, shipping: !shipping })}
+              type="checkbox"
+              name="shipping"
+              className="custom-checkbox"
+              checked={shipping}
+              onChange={() => setFormValues({ ...formValues, shipping: !shipping })}
             />
           </Label>
           <small className="d-block">* You need to pay for the shipping fees if checked.</small>
         </FormGroup>
-        <button className="button" type="submit">Update your item</button>
+        <button
+          className={classNames('button', {
+            'button-disable': isImageLoading,
+          })}
+          type="submit"
+        >
+          Update your item</button>
       </Form>
     </Container>
   );

@@ -8,10 +8,13 @@ import {
 } from 'reactstrap';
 import { gql, useMutation } from '@apollo/client';
 import { default as categories } from '../../constants/directory';
+import { useAuthState } from '../../context/auth';
+import ImageFileUpload from '../../components/ImageFileUpload/ImageFileUpload';
+import classNames from 'classnames'
 
 const CREATE_POST = gql`
   mutation CreatePost(
-    $createdby: Int!, 
+    $createdby: String!, 
     $title: String!,
     $category: String!,
     $location: String!,
@@ -39,6 +42,9 @@ const CREATE_POST = gql`
 `;
 
 const ItemSellPage = ({ ...props }) => {
+  const { user } = useAuthState();
+  const [isImageLoading, setIsImageLoading] = useState(false);
+
   const [createPost, { error }] = useMutation(CREATE_POST, {
     onCompleted({ createPost }) {
       if (createPost) {
@@ -59,7 +65,6 @@ const ItemSellPage = ({ ...props }) => {
     shipping: false,
   })
 
-  const [isImageLoading, setIsImageLoading] = useState(false)
 
   const {
     title,
@@ -80,43 +85,27 @@ const ItemSellPage = ({ ...props }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     if (isImageLoading) return;
+
+    if (!imageurl) {
+      alert('Image field is empty!')
+      return
+    }
 
     createPost({
       variables: {
-        createdby: 1,
+        createdby: user.uid,
         title: title,
         category: category,
         location: location,
         price: Number(price),
         condition: condition,
-        imageurl: "image_url",
+        imageurl: imageurl,
         description: description,
         shipping: shipping,
       }
     })
   }
-
-  const uploadImage = async (e) => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'myreactapp');
-    setIsImageLoading(true);
-
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/dh1mwdsag/image/upload',
-      {
-        method: 'POST',
-        body: data,
-      }
-    );
-    const file = await res.json();
-
-    setFormValues({ ...formValues, imageurl: file.secure_url });
-    setIsImageLoading(false);
-  };
 
   return (
     <Container className="item-sell-page">
@@ -187,21 +176,20 @@ const ItemSellPage = ({ ...props }) => {
             required
           />
         </FormGroup>
-        {/* <FormGroup>
+        <FormGroup>
           <Label><span className="required-field">*</span>Upload Image</Label>
-          <Input
-          type="file"
-          name="imageurl"
-          placeholder="Upload an image"
-          onChange={uploadImage}
-          required
+          <ImageFileUpload
+            id="imageurl"
+            text="Upload an image"
+            accept="image/png,image/jpeg"
+            name="imageurl"
+            description="* File format: png or jpeg."
+            isImageLoading={isImageLoading}
+            setIsImageLoading={setIsImageLoading}
+            onChange={(fileUrl) => setFormValues({ ...formValues, imageurl: fileUrl })}
           />
-          {isImageLoading ? (
-            <p>uploading...</p>
-            ) : (
-              imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />
-              )}
-            </FormGroup> */}
+          {imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />}
+        </FormGroup>
         <FormGroup>
           <Label><span className="required-field">*</span>Description</Label>
           <Input
@@ -227,7 +215,13 @@ const ItemSellPage = ({ ...props }) => {
           </Label>
           <small className="d-block">* You need to pay for the shipping fees if checked.</small>
         </FormGroup>
-        <button className="button" type="submit">Sell your item</button>
+        <button
+          className={classNames('button', {
+            'button-disable': isImageLoading,
+          })}
+          type="submit"
+        >
+          Sell your item</button>
       </Form>
     </Container>
   );

@@ -22,6 +22,8 @@ export const GET_ROOMS = gql`
       post{
         title
         imageurl
+        price
+        location
       }
       latestMessage
     }
@@ -58,23 +60,19 @@ const MessageRooms = ({ currentUser }) => {
                   dispatch({ type: 'SET_SELECTED_ROOM', payload: rid })
                 }
                 className={classNames(
-                  'list-group-item-action rounded-0',
+                  'list-group-item-action',
                   {
                     'active': selected,
                   }
                 )}
-                style={{
-                  border: 'none',
-                  borderBottom: '2px solid #f5f5f6'
-                }}
               >
                 <div className="media"><img src={roomUser.picture} alt="user" width="50" height="50" className="rounded-circle" />
-                  <div className="media-body ml-4">
+                  <div className="media-body ml-4 overflow-hidden">
                     <div className="d-flex align-items-center justify-content-between mb-1">
                       <h6 className="mb-0">{roomUser.username}</h6>
                       {/* <small className="small font-weight-bold">14 Dec</small> */}
                     </div>
-                    <p className="font-italic mb-0 text-small">
+                    <p className="messages-box__latest-message font-italic mb-0 text-small">
                       {latestMessage
                         ? latestMessage
                         : 'You are now connected!'}

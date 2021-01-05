@@ -34,16 +34,16 @@ const MessageForm = ({ room, currentUserId }) => {
   }
 
   return (
-    <Form className="bg-light" onSubmit={submitMessage}>
+    <Form className="message-form" onSubmit={submitMessage}>
       <div className="input-group">
         <Input
           type="text"
           placeholder="Type a message"
-          className="form-control rounded-0 border-0 py-4 bg-light"
+          className="border-0 py-4"
           onChange={(e) => setContent(e.target.value)}
           value={content}
         />
-        <div className="input-group-append">
+        <div className="input-group-append message-form-submit">
           <button id="button-addon2" type="submit" className="btn btn-link"> <i className="fa fa-paper-plane"></i></button>
         </div>
       </div>

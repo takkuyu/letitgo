@@ -6,7 +6,6 @@ import ItemCard from '../../components/ItemCard/ItemCard'
 import moment from 'moment'
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useAuthDispatch, useAuthState } from '../../context/auth';
-import { GET_POSTS_BY_CATEGORY } from '../../components/Routes/ShopRoute';
 import { GET_ROOMS } from '../../components/MessageRooms/MessageRooms';
 import { useMessageDispatch, useMessageState } from '../../context/message';
 
@@ -96,7 +95,6 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
 
   const [deletePost, { error: deleteError }] = useMutation(DELET_POST, {
     onCompleted: ({ deletePost }) => {
-      // const dir = Object.values(directory).find(dir => dir.category === deletePost.category);
       props.history.push(`/`);
     },
     onError: (err) => console.log(err),
@@ -104,7 +102,7 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
 
   useEffect(() => {
     if (!rooms && user) {
-      getRooms({ variables: { uid: user.uid } })
+      getRooms({ variables: { uid: String(user.uid) } })
     }
   }, [])
 
@@ -145,21 +143,6 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
           <span onClick={() => {
             deletePost({
               variables: { pid: item.pid },
-              // update: (store, { data }) => {
-              //   const postsData = store.readQuery({
-              //     query: GET_POSTS_BY_CATEGORY,
-              //     variables: { category: data.category }
-              //   });
-
-              //   console.log(postsData)
-
-              //   store.writeQuery({
-              //     query: GET_POSTS_BY_CATEGORY,
-              //     data: {
-              //       postsByCategory: postsData.filter(post => post.pid !== data.pid)
-              //     }
-              //   })
-              // }
             })
           }}>Or delete your item</span>
         </p>
@@ -185,7 +168,8 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
 
   let chatStarted = false;
   if (rooms && user) {
-    const roomMembers = [user.uid, item.createdby.uid]
+    const roomMembers = [user.uid, item.createdby.uid];
+    console.log(roomMembers)
     for (const room of rooms) {
       if (roomMembers.includes(room.from.uid) && roomMembers.includes(room.to.uid)) {
         chatStarted = true;
