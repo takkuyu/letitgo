@@ -5,13 +5,13 @@ const AuthStateContext = createContext()
 const AuthDispatchContext = createContext()
 
 let user = null
-const token = localStorage.getItem('token')
+const token = sessionStorage.getItem('token')
 if (token) {
   const decodedToken = jwtDecode(token)
   const expiresAt = new Date(decodedToken.exp * 1000)
 
   if (new Date() > expiresAt) {
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
   } else {
     user = decodedToken
   }
@@ -20,7 +20,7 @@ if (token) {
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      localStorage.setItem('token', action.payload.token)
+      sessionStorage.setItem('token', action.payload.token)
       return {
         ...state,
         user: action.payload,
@@ -28,7 +28,7 @@ const authReducer = (state, action) => {
         loading: false,
       }
     case 'LOGOUT':
-      localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
       return {
         ...state,
         user: null,

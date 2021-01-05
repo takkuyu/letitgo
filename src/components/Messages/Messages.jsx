@@ -1,5 +1,4 @@
-import React, { useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
 import { useMessageDispatch, useMessageState } from '../../context/message'
 import { gql, useLazyQuery } from '@apollo/client';
 import moment from 'moment'
@@ -58,16 +57,25 @@ const Messages = ({ currentUser, messagesContRef }) => {
   return (
     <Fragment>
       <div className="messages-container pb-5 chat-box bg-white" ref={messagesContRef} >
-        <div className="room-item-card d-flex mb-3">
-          <div className="room-item-card-left mr-3">
-            <img src={selectedRoom.post.imageurl} alt="item image" />
-          </div>
-          <div className="room-item-card-right">
-            <p className="room-item-card-right__title">{selectedRoom.post.title}</p>
-            <p className="room-item-card-right__price">{selectedRoom.post.price}</p>
-            <p className="room-item-card-right__location">{selectedRoom.post.location}</p>
-          </div>
-        </div>
+        {
+          selectedRoom.post ? (
+            <div className="room-item-card d-flex mb-3">
+              <div className="room-item-card-left mr-3">
+                <img src={selectedRoom.post.imageurl} alt="item image" />
+              </div>
+              <div className="room-item-card-right">
+                <p className="room-item-card-right__title">{selectedRoom.post.title}</p>
+                <p className="room-item-card-right__price">{selectedRoom.post.price} CAD</p>
+                <p className="room-item-card-right__location">{selectedRoom.post.location}</p>
+              </div>
+            </div>
+
+          ) : (
+              <div className="room-item-card d-flex mb-3">
+                Item deleted by user.
+              </div>
+            )
+        }
         <div className="px-4">
           {
             messages.map(message => {

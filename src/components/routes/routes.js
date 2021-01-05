@@ -7,6 +7,7 @@ import ShopRoute from './ShopRoute';
 import HomePage from '../../pages/HomePage/HomePage';
 import MessagesPage from '../../pages/MessagesPage/MessagesPage';
 import PrivateRoute from './PrivateRoute';
+import DemoLogin from '../DemoLogin/DemoLogin';
 
 const Routes = () => (
   <Switch>
@@ -16,6 +17,7 @@ const Routes = () => (
     <PrivateRoute exact path="/messages" component={MessagesPage} />
     <PrivateRoute exact path="/profile" component={Profile} />
     <PrivateRoute exact path="/edit/:id" component={ItemEditPage}  />
+    <Route exact path="/demo/:id" render={(props) => <DemoLogin {...props} />} />
   </Switch>
 );
 
