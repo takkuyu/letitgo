@@ -9,7 +9,7 @@ import { useAuthState } from '../../context/auth';
 const NAV_OPTIONS = { WISH: 'wish', RECENT: 'recent' };
 
 const GET_WISH_LIST = gql`
-  query getWishList($uid:Int!) {
+  query getWishList($uid:String!) {
     getWishList(uid: $uid) {
       pid
       title
@@ -25,7 +25,7 @@ const GET_WISH_LIST = gql`
 `;
 
 const GET_POSTS_BY_USER = gql`
-  query getPostsByUser($uid:Int!) {
+  query getPostsByUser($uid:String!) {
     getPostsByUser(uid: $uid) {
       pid
       title
@@ -44,13 +44,15 @@ const Profile = () => {
   const [activeNav, setActiveNav] = useState(NAV_OPTIONS.WISH);
   const { user } = useAuthState();
 
+  console.log(user)
+
   const { loading: wishListLoading, data: wishListData } = useQuery(GET_WISH_LIST, {
-    variables: { uid: 1 },
+    variables: { uid: user.uid },
     fetchPolicy:'no-cache'
   });
 
   const { loading: postsLoading, data: postsData } = useQuery(GET_POSTS_BY_USER, {
-    variables: { uid: 1 },
+    variables: { uid: user.uid },
     fetchPolicy:'no-cache'
   });
 
