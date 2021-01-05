@@ -19,5 +19,5 @@ export const cache = new InMemoryCache({
   }
 });
 
-export const isLoggedInVar = makeVar(!!localStorage.getItem('token'));
+export const isLoggedInVar = makeVar(!!sessionStorage.getItem('token'));
 export const isLoginModalOpenVar = makeVar(false);

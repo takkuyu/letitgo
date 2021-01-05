@@ -36,6 +36,8 @@ const messageReducer = (state, action) => {
 
       roomIndex = roomsCopy.findIndex((room) => room.rid === rid)
 
+      if (roomIndex === -1) return state
+
       const newRoom = {
         ...roomsCopy[roomIndex],
         messages: roomsCopy[roomIndex].messages

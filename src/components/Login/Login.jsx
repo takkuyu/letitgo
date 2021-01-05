@@ -11,7 +11,7 @@ import {
 import { useMutation, gql } from '@apollo/client';
 import { useAuthDispatch, useAuthState } from '../../context/auth';
 
-const LOGIN_USER = gql`
+export const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       uid
