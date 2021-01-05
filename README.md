@@ -1,1 +1,1 @@
-# letgo-graphql-server
+# Letitgo. GraphQL server, React client with Apollo and Postgres
