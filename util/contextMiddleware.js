@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import { PubSub } from 'apollo-server';
+const jwt = require('jsonwebtoken')
+const { PubSub } = require('apollo-server')
 
 const pubsub = new PubSub()
 
-export default (context) => {
+module.exports = (context) => {
   let token
   if (context.req && context.req.headers.authorization) {
     token = context.req.headers.authorization.split('Bearer ')[1]

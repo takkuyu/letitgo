@@ -1,10 +1,10 @@
-import { ApolloServer } from "apollo-server";
-import dotenv from 'dotenv';
-import { resolvers } from "./graphql/resolvers";
-import { typeDefs } from "./graphql/schema";
-import contextMiddleware from './util/contextMiddleware';
+const { ApolloServer } = require('apollo-server')
 
-dotenv.config();
+require('dotenv').config();
+
+const resolvers = require('./graphql/resolvers/index')
+const typeDefs = require('./graphql/typeDefs')
+const contextMiddleware = require('./util/contextMiddleware')
 
 const apolloServer = new ApolloServer({
   typeDefs,

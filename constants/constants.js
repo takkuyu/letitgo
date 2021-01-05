@@ -1,4 +1,4 @@
-export const categories = {
+module.exports = {
   WOMEN: 'Women',
   MEN: 'Men',
   ELECTRICS: 'Electrics',

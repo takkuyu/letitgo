@@ -1,10 +1,9 @@
-import knex from 'knex';
-import dotenv from 'dotenv';
+const knex = require('knex');
 
-dotenv.config();
+require('dotenv').config();
 
 // Connect to Postgres db using knex.
-const db = knex({
+module.exports = knex({
   client: "pg",
   connection: {
     host:  process.env.DB_HOST,
@@ -13,5 +12,3 @@ const db = knex({
     database: process.env.DB_NAME
   }
 });
-
-export default db;
