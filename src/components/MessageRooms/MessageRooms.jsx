@@ -3,9 +3,10 @@ import moment from 'moment'
 import { useMessageDispatch, useMessageState } from '../../context/message'
 import { gql, useQuery } from '@apollo/client';
 import classNames from 'classnames'
+import { ListGroupItem } from 'reactstrap';
 
-const GET_ROOMS = gql`
-  query getRooms($uid:Int!) {
+export const GET_ROOMS = gql`
+  query getRooms($uid:String!) {
     getRooms(uid: $uid) {
       rid
       from {
@@ -27,15 +28,14 @@ const GET_ROOMS = gql`
   }
 `;
 
-const MessageRooms = () => {
+const MessageRooms = ({ currentUser }) => {
   const dispatch = useMessageDispatch()
   const { rooms } = useMessageState();
 
   const { loading } = useQuery(GET_ROOMS, {
-    variables: { uid: Number(localStorage.getItem('userId')) },
+    variables: { uid: currentUser.uid },
     fetchPolicy: "no-cache",
     onCompleted: (data) => {
-      console.log(data.getRooms)
       dispatch({ type: 'SET_ROOMS', payload: data.getRooms });
     },
     onError: (err) => console.log(err),
@@ -49,25 +49,29 @@ const MessageRooms = () => {
     <div className="messages-box">
       <div className="list-group rounded-0">
         {
-          rooms.map(({ rid, from, to, post, latestMessage, selected }) => {
-            const user = to.uid == Number(localStorage.getItem('userId')) ? from : to;
+          rooms.map(({ rid, from, to, latestMessage, selected }) => {
+            const roomUser = to.uid === currentUser.uid ? from : to;
             return (
-              <div
+              <ListGroupItem
                 key={rid}
                 onClick={() =>
                   dispatch({ type: 'SET_SELECTED_ROOM', payload: rid })
                 }
                 className={classNames(
-                  'list-group-item list-group-item-action  rounded-0',
+                  'list-group-item-action rounded-0',
                   {
-                    'active text-white': selected,
+                    'active': selected,
                   }
                 )}
+                style={{
+                  border: 'none',
+                  borderBottom: '2px solid #f5f5f6'
+                }}
               >
-                <div className="media"><img src={user.picture} alt="user" width="50" height="50" className="rounded-circle" />
+                <div className="media"><img src={roomUser.picture} alt="user" width="50" height="50" className="rounded-circle" />
                   <div className="media-body ml-4">
                     <div className="d-flex align-items-center justify-content-between mb-1">
-                      <h6 className="mb-0">{user.username}</h6>
+                      <h6 className="mb-0">{roomUser.username}</h6>
                       {/* <small className="small font-weight-bold">14 Dec</small> */}
                     </div>
                     <p className="font-italic mb-0 text-small">
@@ -77,7 +81,7 @@ const MessageRooms = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </ListGroupItem>
             )
           })
         }

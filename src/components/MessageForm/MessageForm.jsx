@@ -12,7 +12,7 @@ const SEND_MESSAGE = gql`
   }
 `
 
-const MessageForm = ({ room }) => {
+const MessageForm = ({ room, currentUserId }) => {
   const [content, setContent] = useState('')
 
   const [postMessage] = useMutation(SEND_MESSAGE, {
@@ -22,7 +22,7 @@ const MessageForm = ({ room }) => {
   const submitMessage = (e) => {
     e.preventDefault();
 
-    const sent = (room.from.uid == localStorage.getItem('userId'));
+    const sent = (room.from.uid === currentUserId);
     const to = sent ? room.to.uid : room.from.uid;
 
     if (content.trim() === '' || !to) return

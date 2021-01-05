@@ -6,17 +6,21 @@
 
         li {
             display: inline-block;
-            padding: $pad-half 0;
             border-bottom: 2px solid transparent;
             border-top: 2px solid transparent;
             font-size: $font-size-small-2;
-
+            
             &:not(:last-child) {
                 margin-right: $space-double;
             }
-
+            
             &:hover {
                 border-bottom-color: $purple;
+            }
+            
+            &>a{
+                padding: $pad-half 0;
+                display: inline-block;
             }
         }
     }

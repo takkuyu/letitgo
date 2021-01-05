@@ -46,10 +46,12 @@ const Profile = () => {
 
   const { loading: wishListLoading, data: wishListData } = useQuery(GET_WISH_LIST, {
     variables: { uid: 1 },
+    fetchPolicy:'no-cache'
   });
 
   const { loading: postsLoading, data: postsData } = useQuery(GET_POSTS_BY_USER, {
-    variables: { uid: 1 }
+    variables: { uid: 1 },
+    fetchPolicy:'no-cache'
   });
 
   if (postsLoading || wishListLoading) return (
@@ -101,7 +103,7 @@ const Profile = () => {
             <p className={`nav-link ${activeNav === NAV_OPTIONS.WISH ? 'active' : ''}`} onClick={() => setActiveNav(NAV_OPTIONS.WISH)} >Wish List</p>
           </NavItem>
           <NavItem className="ml-3">
-            <p className={`nav-link ${activeNav === NAV_OPTIONS.RECENT ? 'active' : ''}`} onClick={() => setActiveNav(NAV_OPTIONS.RECENT)}>Recent items</p>
+            <p className={`nav-link ${activeNav === NAV_OPTIONS.RECENT ? 'active' : ''}`} onClick={() => setActiveNav(NAV_OPTIONS.RECENT)}>Your Items</p>
           </NavItem>
         </Nav>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Form,
@@ -6,28 +6,46 @@ import {
   Label,
   Input,
 } from 'reactstrap';
-import { gql, useMutation } from '@apollo/client';
-import { default as categories } from '../../constants/directory';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import directory, { default as categories } from '../../constants/directory';
+import Spinner from '../../components/Spinner/Spinner';
+import { itemConditions } from '../../constants/post';
 
-const CREATE_POST = gql`
-  mutation CreatePost(
-    $createdby: Int!, 
+const GET_POST = gql`
+  query getPost($pid:String!) {
+    getPost(pid: $pid) {
+      pid
+      title
+      price
+      category
+      condition
+      location
+      imageurl
+      description
+      shipping
+    }
+  }
+`;
+
+const EDIT_POST = gql`
+  mutation editPost(
+    $pid: String!,
     $title: String!,
-    $category: String!,
-    $location: String!,
     $price: Int!,
+    $category: String!,
     $condition: String!,
+    $location: String!,
     $imageurl: String!,
     $description: String!
     $shipping: Boolean!
     ) {
-    createPost(
-      createdby: $createdby,
+    editPost(
+      pid:  $pid, 
       title:  $title, 
-      category:$category, 
-      location: $location, 
       price:   $price,
+      category:$category, 
       condition: $condition, 
+      location: $location, 
       imageurl: $imageurl, 
       description: $description
       shipping: $shipping
@@ -38,13 +56,18 @@ const CREATE_POST = gql`
   }
 `;
 
-const ItemSellPage = ({ ...props }) => {
-  const [createPost, { error }] = useMutation(CREATE_POST, {
-    onCompleted({ createPost }) {
-      if (createPost) {
-        const category = Object.values(categories).find(category => category.category === createPost.category);
-        props.history.push(`/${category.linkUrl}`)
-      }
+
+const ItemEditPage = ({ match, history, ...props }) => {
+
+  const { loading, data: postData } = useQuery(GET_POST, {
+    variables: { pid: match.params.id },
+    fetchPolicy: 'no-cache'
+  });
+
+  const [editPost, { error }] = useMutation(EDIT_POST, {
+    onCompleted({ editPost }) {
+      const dir = Object.values(directory).find(dir => dir.category === editPost.category);
+      history.push(`/${dir.linkUrl}`);
     }
   });
 
@@ -59,8 +82,17 @@ const ItemSellPage = ({ ...props }) => {
     shipping: false,
   })
 
+  
+  useEffect(() => {
+    if (!loading && postData) {
+      setFormValues({
+        ...postData.getPost
+      })
+    }
+  }, [loading])
+  
   const [isImageLoading, setIsImageLoading] = useState(false)
-
+  
   const {
     title,
     price,
@@ -74,24 +106,23 @@ const ItemSellPage = ({ ...props }) => {
 
   const onChange = (e) => {
     const { name, value } = e.target;
-
     setFormValues({ ...formValues, [name]: value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     if (isImageLoading) return;
+    console.log(formValues);
 
-    createPost({
+    editPost({
       variables: {
-        createdby: 1,
+        pid: postData.getPost.pid,
         title: title,
         category: category,
         location: location,
         price: Number(price),
         condition: condition,
-        imageurl: "image_url",
+        imageurl: imageurl,
         description: description,
         shipping: shipping,
       }
@@ -117,6 +148,8 @@ const ItemSellPage = ({ ...props }) => {
     setFormValues({ ...formValues, imageurl: file.secure_url });
     setIsImageLoading(false);
   };
+
+  if (loading || !postData) return <Spinner />
 
   return (
     <Container className="item-sell-page">
@@ -152,10 +185,13 @@ const ItemSellPage = ({ ...props }) => {
             onChange={onChange}
             required
           >
-            <option value="">--Choose an option--</option>
             {
-              Object.values(categories).map(category => (
-                <option key={category.id}>{category.category}</option>
+              Object.values(categories).map(c => (
+                category === c.category ? (
+                  <option key={category.id} selected>{c.category}</option>
+                ) : (
+                    <option key={category.id}>{c.category}</option>
+                  )
               ))
             }
           </Input>
@@ -168,12 +204,15 @@ const ItemSellPage = ({ ...props }) => {
             onChange={onChange}
             required
           >
-            <option value="">--Choose an option--</option>
-            <option>New</option>
-            <option>Like New</option>
-            <option>Good</option>
-            <option>Fair</option>
-            <option>Poor</option>
+            {
+              Object.values(itemConditions).map(itemCondition => (
+                condition === itemCondition ? (
+                  <option key={itemCondition} selected>{itemCondition}</option>
+                ) : (
+                    <option key={itemCondition}>{itemCondition}</option>
+                  )
+              ))
+            }
           </Input>
         </FormGroup>
         <FormGroup>
@@ -187,21 +226,20 @@ const ItemSellPage = ({ ...props }) => {
             required
           />
         </FormGroup>
-        {/* <FormGroup>
+        <FormGroup>
           <Label><span className="required-field">*</span>Upload Image</Label>
           <Input
-          type="file"
-          name="imageurl"
-          placeholder="Upload an image"
-          onChange={uploadImage}
-          required
+            type="file"
+            name="imageurl"
+            placeholder="Upload an image"
+            onChange={uploadImage}
           />
           {isImageLoading ? (
             <p>uploading...</p>
-            ) : (
+          ) : (
               imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />
-              )}
-            </FormGroup> */}
+            )}
+        </FormGroup>
         <FormGroup>
           <Label><span className="required-field">*</span>Description</Label>
           <Input
@@ -219,18 +257,19 @@ const ItemSellPage = ({ ...props }) => {
         <FormGroup>
           <Label><span className="required-field">*</span>Free Shipping
               <Input
-              type="checkbox"
-              name="shipping"
-              className="custom-checkbox"
-              onChange={() => setFormValues({ ...formValues, shipping: !shipping })}
+                type="checkbox"
+                name="shipping"
+                className="custom-checkbox"
+                checked={shipping}
+                onChange={() => setFormValues({ ...formValues, shipping: !shipping })}
             />
           </Label>
           <small className="d-block">* You need to pay for the shipping fees if checked.</small>
         </FormGroup>
-        <button className="button" type="submit">Sell your item</button>
+        <button className="button" type="submit">Update your item</button>
       </Form>
     </Container>
   );
 }
 
-export default ItemSellPage;
+export default ItemEditPage;

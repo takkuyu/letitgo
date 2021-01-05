@@ -6,7 +6,7 @@ import { default as categories } from '../../constants/directory';
 import ItemPageContainer from '../../pages/ItemPage/ItemPageContainer';
 import Spinner from '../Spinner/Spinner';
 
-const GET_POSTS_BY_CATEGORY = gql`
+export const GET_POSTS_BY_CATEGORY = gql`
   query getPostsByCategory($category:String!) {
     postsByCategory(category: $category) {
       pid
@@ -23,6 +23,7 @@ const GET_POSTS_BY_CATEGORY = gql`
       condition
       description
       created
+      shipping
     }
   }
 `;
@@ -32,6 +33,7 @@ const ShopRoute = ({ match, location }) => {
 
   const { loading, error, data } = useQuery(GET_POSTS_BY_CATEGORY, {
     variables: { category: categories[currentCategory]['category'] },
+    fetchPolicy: 'no-cache'
   });
 
   if (loading) return <Spinner />;

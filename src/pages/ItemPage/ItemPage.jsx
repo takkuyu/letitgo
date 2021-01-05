@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Container, Row, Col, Input } from 'reactstrap';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumbs';
 import star from '../../assets/star.svg'
 import ItemCard from '../../components/ItemCard/ItemCard'
 import moment from 'moment'
-import { isLoginModalOpenVar } from '../../graphql/cache';
-import { gql, useMutation } from '@apollo/client';
-import { useAuthState } from '../../context/auth';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
+import { useAuthDispatch, useAuthState } from '../../context/auth';
+import { GET_POSTS_BY_CATEGORY } from '../../components/Routes/ShopRoute';
+import { GET_ROOMS } from '../../components/MessageRooms/MessageRooms';
+import { useMessageDispatch, useMessageState } from '../../context/message';
 
 const CREATE_ROOM = gql`
   mutation CreateRoom($to: String!, $post: String!) {
@@ -17,7 +19,7 @@ const CREATE_ROOM = gql`
 `;
 
 const POST_MESSAGE = gql`
-  mutation PostMessage($room: String!, $updatedWishList: String!, $content: String!) {
+  mutation PostMessage($room: String!, $to: String!, $content: String!) {
     postMessage(room: $room, to: $to, content: $content) {
       from
       to
@@ -29,7 +31,25 @@ const POST_MESSAGE = gql`
 const UPDATE_WISH_LIST = gql`
   mutation updateWishList($uid: String!, $updatedWishList: [String!]!) {
     updateWishList(uid: $uid, updatedWishList: $updatedWishList) {
+      uid
+      username
+      email
+      password
+      picture
+      created
+      token
       wishlist
+    }
+  }
+`;
+
+const DELET_POST = gql`
+  mutation deletePost($pid: String!) {
+    deletePost(pid: $pid) {
+      pid
+      title
+      category
+      imageurl
     }
   }
 `;
@@ -37,8 +57,18 @@ const UPDATE_WISH_LIST = gql`
 const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => {
   const [chatMessage, setChatMessage] = useState('')
   const { isLoggedin, user } = useAuthState();
+  const dispatch = useAuthDispatch();
+  const { rooms } = useMessageState();
+  const messageDispatch = useMessageDispatch()
 
-  console.log(user)
+  const [
+    getRooms,
+    { loading: roomsLoading, data: roomsData },
+  ] = useLazyQuery(GET_ROOMS, {
+    onCompleted: (data) => {
+      messageDispatch({ type: 'SET_ROOMS', payload: data.getRooms });
+    }
+  })
 
   const [postMessage, { error: postMessageError }] = useMutation(POST_MESSAGE, {
     onCompleted: (data) => {
@@ -57,13 +87,30 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
     onError: (err) => console.log(err),
   });
 
-  const [updateWishList, { error: removeError }] = useMutation(UPDATE_WISH_LIST, {
+  const [updateWishList, { error: updateError }] = useMutation(UPDATE_WISH_LIST, {
+    onCompleted: ({ updateWishList }) => {
+      dispatch({ type: 'UPDATE_USER', payload: updateWishList })
+    },
     onError: (err) => console.log(err),
   });
 
+  const [deletePost, { error: deleteError }] = useMutation(DELET_POST, {
+    onCompleted: ({ deletePost }) => {
+      // const dir = Object.values(directory).find(dir => dir.category === deletePost.category);
+      props.history.push(`/`);
+    },
+    onError: (err) => console.log(err),
+  });
+
+  useEffect(() => {
+    if (!rooms && user) {
+      getRooms({ variables: { uid: user.uid } })
+    }
+  }, [])
+
   const startChat = () => {
     if (!isLoggedin) {
-      isLoginModalOpenVar(true);
+      dispatch({ type: 'TOGGLE_LOGIN_MODAL' })
       return
     }
 
@@ -74,33 +121,77 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
 
   let actionButton;
 
-  const isWished = user.wishlist && user.wishlist.includes(Number(item.pid));
+  const isWished = user && user.wishlist && user.wishlist.includes(item.pid);
+  const isCreatedBy = (user && item.createdby.uid === user.uid);
+
   if (isWished) {
     actionButton = (
-      <button className="item-page-top__content-jumbo-button button" onClick={() => {
-        if (!isLoggedin) {
-          isLoginModalOpenVar(true);
-          return
-        }
-        const updatedWishList = user.wishlist.filter(list => String(list) !== item.pid);
+      <button className="item-page-top__content-jumbo-button item-page-top__content-jumbo-button__filled button" onClick={() => {
+        const updatedWishList = user.wishlist.filter(list => list !== item.pid);
         updateWishList({
           variables: { uid: user.uid, updatedWishList }
         })
       }}>Remove from Wish List</button>
     )
+  } else if (isCreatedBy) {
+    actionButton = (
+      <div>
+        <button
+          className="item-page-top__content-jumbo-button item-page-top__content-jumbo-button__filled button mb-1"
+          onClick={() => {
+            props.history.push(`/edit/${item.pid}`)
+          }}>Edit your item</button>
+        <p className="item-page-top__content-delete">
+          <span onClick={() => {
+            deletePost({
+              variables: { pid: item.pid },
+              // update: (store, { data }) => {
+              //   const postsData = store.readQuery({
+              //     query: GET_POSTS_BY_CATEGORY,
+              //     variables: { category: data.category }
+              //   });
+
+              //   console.log(postsData)
+
+              //   store.writeQuery({
+              //     query: GET_POSTS_BY_CATEGORY,
+              //     data: {
+              //       postsByCategory: postsData.filter(post => post.pid !== data.pid)
+              //     }
+              //   })
+              // }
+            })
+          }}>Or delete your item</span>
+        </p>
+      </div>
+    )
   } else {
     actionButton = (
       <button className="item-page-top__content-jumbo-button button" onClick={() => {
         if (!isLoggedin) {
-          isLoginModalOpenVar(true);
+          dispatch({ type: 'TOGGLE_LOGIN_MODAL' })
           return
         }
         const updatedWishList = [...user.wishlist, item.pid];
+
+        console.log(updatedWishList)
+
         updateWishList({
           variables: { uid: user.uid, updatedWishList }
         })
       }}>Add to Wish List</button>
     );
+  }
+
+  let chatStarted = false;
+  if (rooms && user) {
+    const roomMembers = [user.uid, item.createdby.uid]
+    for (const room of rooms) {
+      if (roomMembers.includes(room.from.uid) && roomMembers.includes(room.to.uid)) {
+        chatStarted = true;
+        break
+      }
+    }
   }
 
   return (
@@ -115,7 +206,7 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
         <Col lg={5} className="pl-4">
           <div className="item-page-top__content">
             <div className="item-page-top__content-title">{item.title}</div>
-            <div className="item-page-top__content-price">${item.price}</div>
+            <div className="item-page-top__content-price">${item.price} {item.shipping && <span className="free-shipping-text">Free Shipping</span>}</div>
             {actionButton}
             <div className="item-page-top__content-detail">
               <div>Location:<span>{item.location}</span></div>
@@ -162,19 +253,34 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
           <div className="item-page-bottom__message">
             <p className="item-page-bottom__message-title">Message the seller</p>
             <ul className="item-page-bottom__message-options">
-              <li>Is it still available?</li>
-              <li>Is the price negotiable?</li>
-              <li>What condition is it in?</li>
+              <li onClick={() => setChatMessage('Is it still available?')}>Is it still available?</li>
+              <li onClick={() => setChatMessage('Is the price negotiable?')}>Is the price negotiable?</li>
+              <li onClick={() => setChatMessage('What condition is it in?')}>What condition is it in?</li>
             </ul>
-            <div className="item-page-bottom__message-input">
-              <Input
-                type="text"
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-                placeholder={`Chat with ${item.createdby.username}`}
-              />
-              <button className="button" onClick={startChat}>Send</button>
-            </div>
+            {
+              chatStarted ? (
+                <div className="item-page-bottom__message-continue">
+                  <span>Continue chatting with {item.createdby.username}</span>
+                  <button className="button" onClick={() => props.history.push('/messages')}>Continue</button>
+                </div>
+              ) : (
+                  <div className="item-page-bottom__message-input">
+                    <Input
+                      type="text"
+                      value={chatMessage}
+                      onChange={(e) => setChatMessage(e.target.value)}
+                      placeholder={`Chat with ${item.createdby.username}`}
+                    />
+                    {
+                      !isCreatedBy ? (
+                        <button className="button" onClick={startChat}>Send</button>
+                      ) : (
+                          <button className="button button-disable">Send</button>
+                        )
+                    }
+                  </div>
+                )
+            }
           </div>
         </Col>
       </Row>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useMessageDispatch, useMessageState } from '../../context/message'
 import { gql, useLazyQuery } from '@apollo/client';
@@ -19,15 +19,13 @@ const GET_MESSAGES = gql`
   }
 `
 
-const Messages = props => {
+const Messages = ({ currentUser, messagesContRef }) => {
   const { rooms } = useMessageState()
   const dispatch = useMessageDispatch()
 
   const selectedRoom = rooms?.find((room) => room.selected === true)
 
   const messages = selectedRoom?.messages
-
-  const currentUserId = Number(localStorage.getItem('userId'));
 
   const [
     getMessages,
@@ -36,7 +34,6 @@ const Messages = props => {
 
   useEffect(() => {
     if (selectedRoom && !selectedRoom.messages) {
-      console.log("getMessages")
       getMessages({ variables: { rid: selectedRoom.rid } })
     }
   }, [selectedRoom])
@@ -54,15 +51,15 @@ const Messages = props => {
   }, [messagesData])
 
   if (!messages || messagesLoading) return (
-    <div className="px-4 py-5 chat-box bg-white"></div>
+    <div className="messages-container px-4 py-5 chat-box bg-white" ref={messagesContRef}></div>
   )
 
   return (
     <Fragment>
-      <div className="px-4 py-5 chat-box bg-white">
+      <div className="messages-container px-4 py-5 chat-box bg-white" ref={messagesContRef} >
         {
           messages.map(message => {
-            const sent = message.from == currentUserId;
+            const sent = message.from === currentUser.uid;
             const received = !sent
             const userImage = selectedRoom.from.uid == message.from ? selectedRoom.from.picture : selectedRoom.to.picture;
 
@@ -98,7 +95,7 @@ const Messages = props => {
           })
         }
       </div>
-      <MessageForm room={selectedRoom} />
+      <MessageForm room={selectedRoom} currentUserId={currentUser.uid} />
     </Fragment>
   )
 }

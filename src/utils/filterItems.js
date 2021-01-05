@@ -20,7 +20,7 @@ const filterItems = (items, filters) => {
         break;
       case filtersListNames.SHIPPING:
         items = items.filter(
-          (item) => item.shipping.toLowerCase() === filterValue
+          (item) => item.shipping === filterValue
         );
         break;
       default:

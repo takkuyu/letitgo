@@ -9,7 +9,12 @@ const ItemCard = ({ post, md, ...props }) => {
     <Col sm={3} md={md}>
       <div
         className="small-item-card"
-        onClick={() => props.history.push(`/${dir.linkUrl}/${post.pid}`)}
+        onClick={() => {
+          props.history.push(`/${dir.linkUrl}/${post.pid}`);
+          window.scrollTo({
+            top: 0
+          });
+        }}
       >
         <div className="small-item-card__image">
           <img src={post.imageurl} alt="post" />
@@ -19,6 +24,7 @@ const ItemCard = ({ post, md, ...props }) => {
         <p className="small-item-card__price">
           <b>${post.price}</b>
         </p>
+        {post.shipping && <div className="free-shipping-text">Free shipping</div>}
       </div>
     </Col>
   );

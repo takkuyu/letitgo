@@ -8,7 +8,7 @@ import { useAuthState, useAuthDispatch } from '../../context/auth';
 const Header = ({ isLoggedIn, ...props }) => {
   const { isLoggedin } = useAuthState();
   const dispatch = useAuthDispatch()
-  
+
   const onClick = (path) => {
     if (!isLoggedin) {
       dispatch({ type: 'TOGGLE_LOGIN_MODAL' })
@@ -31,23 +31,23 @@ const Header = ({ isLoggedIn, ...props }) => {
         <SearchBox />
         <nav className="header__nav">
           <ul>
-            <li className="link-btn reverse-color">
-              <button className="button icon-camera" onClick={() => onClick('/sell')}>Sell</button>
+            <li>
+              <button className="button btn-color-orange icon-camera" onClick={() => onClick('/sell')}>Sell</button>
             </li>
-            <li className="link-btn reverse-color">
-              <button className="button icon-comments" onClick={() => onClick('/messages')}>Messages</button>
+            <li>
+              <button className="button btn-color-orange icon-comments" onClick={() => onClick('/messages')}>Messages</button>
             </li>
-            <li className="link-btn reverse-color">
-              <button className="button icon-user" onClick={() => onClick('/profile')}>Account</button>
+            <li>
+              <button className="text-button icon-user" onClick={() => onClick('/profile')}>Account</button>
             </li>
             {
               isLoggedin ? (
-                <li className="link-btn reverse-color">
-                  <button className="button" onClick={logout}>Log out</button>
+                <li>
+                  <button className="text-button" onClick={logout}>Log out</button>
                 </li>
               ) : (
-                  <li className="link-btn reverse-color">
-                    <button className="button" onClick={() => dispatch({ type: 'TOGGLE_LOGIN_MODAL' })}>Log In</button>
+                  <li>
+                    <button className="text-button" onClick={() => dispatch({ type: 'TOGGLE_LOGIN_MODAL' })}>Log In</button>
                   </li>
                 )
             }

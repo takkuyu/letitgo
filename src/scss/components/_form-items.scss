@@ -20,4 +20,12 @@
       display: none;
     }
   }
+
+  .custom-checkbox {
+    position: relative;
+    top: .1rem;
+    margin: 0 0 0 $space;
+    height: 14px;
+    width: 14px;
+  }
 }
