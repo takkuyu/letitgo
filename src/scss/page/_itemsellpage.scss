@@ -16,13 +16,15 @@
         text-transform: uppercase;
         font-size: $font-size-small-2;
       }
-    
-      input, select, textarea{
+
+      input:not(.form-check-input),
+      select,
+      textarea {
         border-color: #e2e2e2;
         background-color: $light-grey;
         height: 2.75rem;
       }
-    
+
     }
   }
 }

@@ -30,7 +30,7 @@ const App = () => {
   const { user } = useAuthState();
   const dispatch = useAuthDispatch()
 
-  const [loadUser, { error, loading }] = useMutation(LOAD_USER, {
+  const [loadUser, { error, loading: userLoading }] = useMutation(LOAD_USER, {
     onCompleted({ loadUser }) {
       if (loadUser) {
         dispatch({ type: 'LOAD_USER', payload: loadUser })

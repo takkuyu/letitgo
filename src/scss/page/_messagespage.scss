@@ -1,5 +1,29 @@
 .messages-page {
 
+  &-row  {
+    border: 2px solid $light-grey;
+
+    .bg-primary {
+      background-color: $purple !important;
+    }
+    
+    .btn-link {
+      color: $purple;
+    }
+
+    .list-group-item {
+      cursor: pointer;
+      &.active {
+        background-color: #f8f9fa;
+        color: $black;
+      }
+    }
+
+    .messages-container {
+      padding-bottom: 4rem !important;
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -22,7 +46,7 @@
 
   .messages-box,
   .chat-box {
-    height: 510px;
+    height: 600px;
     overflow-y: scroll;
   }
 

@@ -5,7 +5,7 @@
     border: 0;
     text-align: center;
     cursor: pointer;
-    font-weight: 400;
+    font-weight: 500;
     border-radius: 5px;
     background-color: $purple;
     color: $white;
@@ -17,21 +17,32 @@
     &:hover {
         opacity: .9;
     }
+
+    &.btn-color-orange {
+        background-color: $orange;
+    }
+
+    &::before {
+        margin-right: .3rem;
+    }
+
+
+    &-disable {
+        background-color: $grey;
+        cursor: not-allowed !important;
+    }
 }
 
-.link-btn {
-    background-color: $orange;
+.text-button {
     display: inline-block;
     color: $white;
-    border-radius: 5px;
-    min-width: 4.0625rem;
-    text-align: center;
-    border: 1px solid $orange;
+    border: none;
+    background-color: transparent;
+    padding: .75em .25em;
+    font-weight: 500;
 
-    &.reverse-color {
-        background-color: $white;
-        color: $orange;
-        border-color: $white;
+    &::before {
+        margin-right: .3rem;
     }
 
     a {
@@ -48,4 +59,9 @@
     &:hover {
         opacity: .9;
     }
+
+    &:focus {
+        outline: none;
+    }
+
 }

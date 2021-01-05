@@ -9,7 +9,6 @@ import {
   Row,
 } from 'reactstrap';
 import { useMutation, gql } from '@apollo/client';
-import { isLoggedInVar, isLoginModalOpenVar } from '../../graphql/cache';
 import { useAuthDispatch, useAuthState } from '../../context/auth';
 
 const LOGIN_USER = gql`
@@ -33,6 +32,7 @@ export const Login = () => {
     onCompleted({ login }) {
       if (login) {
         dispatch({ type: 'LOGIN', payload: login });
+        window.location.href = '/'
       }
     }
   });

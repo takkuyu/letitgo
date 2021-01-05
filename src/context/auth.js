@@ -21,8 +21,6 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
       localStorage.setItem('token', action.payload.token)
-      // @TODO: Remove this after mod.
-      localStorage.setItem('userId', action.payload.uid);
       return {
         ...state,
         user: action.payload,
@@ -43,6 +41,14 @@ const authReducer = (state, action) => {
         user: action.payload,
         isLoggedin: true,
         loading: false,
+      }
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload
+        },
       }
     case 'TOGGLE_LOGIN_MODAL':
       return {

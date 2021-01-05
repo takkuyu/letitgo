@@ -107,7 +107,7 @@ export const filtersLists = [
       {
         id: 1,
         label: 'Free',
-        value: 'free',
+        value: true,
       },
     ],
   },
