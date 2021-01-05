@@ -19,7 +19,7 @@ export const typeDefs = gql`
 `;
 
 let httpLink = createHttpLink({
-  uri: 'http://localhost:4000/',
+  uri: '/graphql/',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -34,10 +34,12 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-httpLink = authLink.concat(httpLink)
+httpLink = authLink.concat(httpLink);
+
+const host = window.location.host;
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/`,
+  uri: `ws://${host}:4000/`,
   options: {
     reconnect: true,
     connectionParams: {
