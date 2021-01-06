@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import CollectionOverview from '../../components/CollectionOverview/CollectionOverview';
 import { default as categories } from '../../constants/directory';

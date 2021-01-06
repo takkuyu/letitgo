@@ -169,7 +169,6 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
   let chatStarted = false;
   if (rooms && user) {
     const roomMembers = [user.uid, item.createdby.uid];
-    console.log(roomMembers)
     for (const room of rooms) {
       if (roomMembers.includes(room.from.uid) && roomMembers.includes(room.to.uid)) {
         chatStarted = true;

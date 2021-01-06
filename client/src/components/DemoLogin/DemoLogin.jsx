@@ -23,6 +23,8 @@ const DemoLogin = ({ match, ...props }) => {
     login({ variables: { email: 'bob@gmail.com', password: '123123' } });
   }, [])
 
+  if(error) return <p>An error occured.</p>
+
   return <div></div>
 }
 
