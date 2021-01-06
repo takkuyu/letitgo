@@ -46,6 +46,22 @@ module.exports = {
         throw err
       }
     },
+    createRoom: async (_, { to, post }, { user }) => {
+      try {
+        if (!user) throw new AuthenticationError('Unauthenticated')
+        const [room] = await db("rooms")
+          .returning("*")
+          .insert({
+            from: user.uid,
+            to,
+            post,
+          });
+        return room
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    },
   },
   Subscription: {
     newMessage: {
