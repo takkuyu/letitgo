@@ -51,5 +51,12 @@ module.exports = {
         throw err
       }
     },
+    updateWishList: async (_, { uid, updatedWishList }) => {
+      const [user] = await db('users')
+        .returning("*")
+        .where('uid', uid)
+        .update({ wishlist: updatedWishList });
+      return user
+    },
   },
 }
