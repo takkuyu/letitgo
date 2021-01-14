@@ -1,17 +1,35 @@
 .profile-page {
+  padding: $pad-half;
+
+  @include sm {
+    padding: 1.5rem;
+  }
 
   .cover {
     background-image: url(https://cdn.pixabay.com/photo/2016/02/19/11/19/feet-1209636_960_720.jpg);
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat
+    background-repeat: no-repeat;
+    padding-left: $pad;
+    padding-right: $pad;
+
+    @include sm {
+      padding-left: $pad-and-half;
+      padding-right: $pad-and-half;
+    }
   }
 
   .profile-head {
     transform: translateY(5rem);
 
     .img-thumbnail {
-      height: 130px;
+      height: 110px;
+      width: 110px;
+
+      @include sm {
+        height: 130px;
+        width: 130px;
+      }
     }
   }
 

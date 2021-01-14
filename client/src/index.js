@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App/App';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/styles.scss';
 
 import { MessageProvider } from './context/message'

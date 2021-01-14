@@ -1,12 +1,16 @@
 .item-page {
-
   &-top {
     margin-bottom: 2em;
 
     &__image {
       width: 100%;
+      margin-bottom: $space;
 
-      &>img {
+      @include lg {
+        margin-bottom: 0;
+      }
+
+      & > img {
         border-radius: 5px;
         width: 100%;
         max-width: 100%;
@@ -16,7 +20,6 @@
     }
 
     &__content {
-
       &-title {
         font-size: 24px;
         font-weight: 500;
@@ -27,7 +30,7 @@
         font-size: 24px;
         font-weight: 500;
         color: #6c6a74;
-        margin-bottom: .75rem;
+        margin-bottom: 0.75rem;
         display: flex;
         align-items: center;
 
@@ -47,7 +50,7 @@
         border: 1px solid $purple;
 
         &:hover {
-          background-color: rgba(94, 109, 242, .08);
+          background-color: rgba(94, 109, 242, 0.08);
         }
 
         &__filled {
@@ -56,7 +59,7 @@
 
           &:hover {
             background-color: $purple;
-            opacity: .9;
+            opacity: 0.9;
           }
         }
       }
@@ -67,25 +70,25 @@
         text-decoration: underline;
         text-align: center;
 
-        &>span {
+        & > span {
           cursor: pointer;
         }
       }
 
       &-detail {
-        &>div {
+        & > div {
           font-size: 14px;
           font-weight: 500;
           color: #999999;
 
           &:not(:last-child) {
-            margin-bottom: .75em;
+            margin-bottom: 0.75em;
           }
 
           span {
             display: inline-block;
             font-weight: 500;
-            color: #4C4C4C;
+            color: #4c4c4c;
             margin-left: 5px;
           }
         }
@@ -99,7 +102,7 @@
 
         &__title {
           font-size: 16px;
-          margin-bottom: .5em;
+          margin-bottom: 0.5em;
         }
 
         &__textarea {
@@ -110,9 +113,8 @@
       }
 
       &-share {
-
         ul {
-          margin: .5em 0;
+          margin: 0.5em 0;
 
           li {
             display: inline-block;
@@ -121,7 +123,7 @@
               margin-right: 18px;
             }
 
-            &>a>i {
+            & > a > i {
               font-size: $font-size-med;
               color: #b5b5b5;
               padding: 5px;
@@ -142,6 +144,11 @@
     padding: $pad-double 0;
 
     &__seller {
+      margin-bottom: $space-double;
+
+      @include lg {
+        margin-bottom: 0;
+      }
 
       &-title {
         font-size: $font-size-med;
@@ -151,7 +158,7 @@
       &-photo {
         margin-right: $space;
 
-        &>img {
+        & > img {
           min-height: 3.5em;
           height: 3.5em;
           width: 3.5em;
@@ -160,7 +167,6 @@
       }
 
       &-detail {
-
         &__name {
           font-weight: 500;
           margin-bottom: $space-half;
@@ -174,14 +180,11 @@
       &-stars {
         display: flex;
         position: relative;
-        left: -.25em;
+        left: -0.25em;
       }
-
     }
 
-
     &__message {
-
       &-title {
         font-size: $font-size-med;
         font-weight: 500;
@@ -191,15 +194,28 @@
       &-options {
         display: flex;
         margin-bottom: $space;
+        flex-direction: column;
 
-        &>li {
+        @include lg {
+          flex-direction: row;
+        }
+
+        & > li {
           background-color: $purple;
           color: $white;
           font-size: $font-size-small;
           font-weight: 500;
           border-radius: 20px;
-          padding: .3em .8em;
+          padding: 0.5em 1em;
+          width: 100%;
           cursor: pointer;
+          margin-bottom: $space;
+
+          @include lg {
+            width: auto;
+            margin-bottom: 0;
+            padding: 0.3em 0.8em;
+          }
 
           &:not(:last-child) {
             margin-right: $space-half;
@@ -208,32 +224,39 @@
       }
 
       &-continue {
-        display: flex;
-        align-items: center;
 
-        &>span {
-          border: none;
+        @include sm {
+          display: flex;
+          align-items: center;
+        }
+
+        & > p {
           padding: 0 $pad-half;
-          min-height: 40px;
-          height: 40px;
-          line-height: 40px;
-          border-radius: 5px;
           margin-right: 1em;
           width: 100%;
+          line-height: 40px;
+
+          @include sm {
+            min-height: 40px;
+            height: 40px;
+          }
         }
       }
 
       &-input {
 
-        display: flex;
-        align-items: center;
+        @include sm {
+          display: flex;
+          align-items: center;
+          text-align: unset;
+        }
 
-        &>input {
+        & > input {
           border: none;
           appearance: none;
           font-size: $font-size-small-2;
           background-color: $light-grey;
-          padding: .65em $pad-half;
+          padding: 0.65em $pad-half;
           min-height: 40px;
           height: 40px;
           border-radius: 5px;
@@ -242,15 +265,18 @@
         }
 
         .button {
-          margin-left: .5em;
-          margin-right: 1em;
           min-height: 40px;
           height: 40px;
+          margin-top: $space;
+          
+          @include sm {
+            margin-top: 0;
+            margin-left: 0.5em;
+            margin-right: 1em;
+          }
         }
       }
-
     }
-
   }
 
   &-recommendations {
@@ -264,5 +290,4 @@
       margin-bottom: $space;
     }
   }
-
 }

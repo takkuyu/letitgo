@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
-const Filter = ({ filter, match, location }) => {
+const Filter = ({ filter, match, location, closeModal }) => {
   const parsed = queryString.parse(location.search);
   const formattedFilterName = filter.name.toLowerCase();
   return (
@@ -31,6 +31,7 @@ const Filter = ({ filter, match, location }) => {
                   ? 'active'
                   : ''
               }
+              onClick={() => { if (closeModal) { closeModal() } }}
             >
               <Link
                 to={`${match.url}?${queryString.stringify(newQueryString)}`}

@@ -3,6 +3,7 @@ import { Row, Col, Container } from 'reactstrap';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumbs';
 import { filtersLists } from '../../constants/filter';
 import Filter from '../../components/Filter/Filter';
+import MobileFilter from '../../components/Filter/MobileFIlter';
 import ItemCard from '../../components/ItemCard/ItemCard';
 import queryString from 'query-string';
 import filterItems from '../../utils/filterItems';
@@ -21,10 +22,13 @@ const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location
     <div className="collection-page">
       <Container>
         <Breadcrumb
-          pathes={[currentCategoryTitle]}
+          pathes={[{
+            label: currentCategoryTitle,
+            link: ''
+          }]}
         />
         <Row>
-          <Col md={3}>
+          <Col sm={4} md={3} className="collection-page__filter">
             <div className="collection-page__filter">
               <div className="collection-filter">
                 <p className="collection-filter__heading">Filter by:</p>
@@ -39,14 +43,17 @@ const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location
               </div>
             </div>
           </Col>
-          <Col md={9}>
+          <Col sm={8} md={9}>
             <div className="collection-page__main">
-              <h1>{currentCategoryTitle}</h1>
+              <div className="d-flex justify-content-between align-items-center">
+                <h1 className="mb-0">{currentCategoryTitle}</h1>
+                <MobileFilter />
+              </div>
               <div className="collection-page__main-content">
                 <Row>
                   {items.map((post) =>
                     post && (
-                      <ItemCard post={post} key={post.pid} md={3} />
+                      <ItemCard post={post} key={post.pid} sm={6} md={3} />
                     )
                   )}
                 </Row>

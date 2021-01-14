@@ -3,10 +3,16 @@ import { Col } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import directory from '../../constants/directory';
 
-const ItemCard = ({ post, md, ...props }) => {
+const defaultProps = {
+  xs: 6,
+  sm: 3,
+  md: 6,
+};
+
+const ItemCard = ({ post, xs, sm, md, ...props }) => {
   const dir = Object.values(directory).find(dir => dir.category === post.category);
   return (
-    <Col sm={3} md={md}>
+    <Col xs={xs} sm={sm} md={md}>
       <div
         className="small-item-card"
         onClick={() => {
@@ -29,5 +35,7 @@ const ItemCard = ({ post, md, ...props }) => {
     </Col>
   );
 };
+
+ItemCard.defaultProps = defaultProps;
 
 export default withRouter(ItemCard);

@@ -4,7 +4,6 @@ import { gql, useLazyQuery } from '@apollo/client';
 import moment from 'moment'
 import classNames from 'classnames'
 import MessageForm from '../MessageForm/MessageForm';
-import { Fragment } from 'react';
 
 const GET_MESSAGES = gql`
   query getMessages($rid: String!) {
@@ -18,7 +17,7 @@ const GET_MESSAGES = gql`
   }
 `
 
-const Messages = ({ currentUser, messagesContRef }) => {
+const Messages = ({ currentUser, messagesContRef, messagesActive }) => {
   const { rooms } = useMessageState()
   const dispatch = useMessageDispatch()
 
@@ -50,13 +49,19 @@ const Messages = ({ currentUser, messagesContRef }) => {
   }, [messagesData])
 
   if (!messages || messagesLoading) return (
-    <div className="messages-container px-4 py-5 chat-box bg-white" ref={messagesContRef}></div>
+    <div
+      className={classNames("messages-container chat-box bg-white",
+        { "messages-mobile-view-inactive": !messagesActive })}
+      ref={messagesContRef}>
+    </div>
   )
 
-  console.log(selectedRoom)
   return (
-    <Fragment>
-      <div className="messages-container pb-5 chat-box bg-white" ref={messagesContRef} >
+    <div className={!messagesActive ? "messages-mobile-view-inactive" : ""}>
+      <div
+        className="messages-container chat-box bg-white"
+        ref={messagesContRef}
+      >
         {
           selectedRoom.post ? (
             <div className="room-item-card d-flex mb-3">
@@ -85,8 +90,9 @@ const Messages = ({ currentUser, messagesContRef }) => {
 
               return (
                 <div
+
                   key={message.mid}
-                  className={classNames('media w-50 mb-3', {
+                  className={classNames('media mb-3', {
                     'ml-auto': sent,
                     'mr-auto': received,
                   })}
@@ -117,7 +123,7 @@ const Messages = ({ currentUser, messagesContRef }) => {
         </div>
       </div>
       <MessageForm room={selectedRoom} currentUserId={currentUser.uid} />
-    </Fragment>
+    </div>
   )
 }
 

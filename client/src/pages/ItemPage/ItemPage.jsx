@@ -53,12 +53,12 @@ const DELET_POST = gql`
   }
 `;
 
-const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => {
+const ItemPage = ({ item, recommendations, currentCategoryTitle, currentCategory, ...props }) => {
   const [chatMessage, setChatMessage] = useState('')
   const { isLoggedin, user } = useAuthState();
   const dispatch = useAuthDispatch();
   const { rooms } = useMessageState();
-  const messageDispatch = useMessageDispatch()
+  const messageDispatch = useMessageDispatch();
 
   const [
     getRooms,
@@ -179,7 +179,18 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
 
   return (
     <Container className="item-page">
-      <Breadcrumb pathes={[currentCategoryTitle, item.title]} />
+      <Breadcrumb
+        pathes={[
+          {
+            label: currentCategoryTitle,
+            link: `/shop/${currentCategory}`,
+          },
+          {
+            label: item.title,
+            link: '',
+          }
+        ]}
+      />
       <Row className="item-page-top">
         <Col lg={7} className="pr-4">
           <div className="item-page-top__image">
@@ -243,7 +254,7 @@ const ItemPage = ({ item, recommendations, currentCategoryTitle, ...props }) => 
             {
               chatStarted ? (
                 <div className="item-page-bottom__message-continue">
-                  <span>Continue chatting with {item.createdby.username}</span>
+                  <p>Continue chatting with {item.createdby.username}</p>
                   <button className="button" onClick={() => props.history.push('/messages')}>Continue</button>
                 </div>
               ) : (

@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="footer_content">
               <div className="footer_logo">Letitgo.</div>
               <div className="copyright">
-                © 2020 - Developed by Takaya Hirose
+                © 2021 - Developed by Takaya Hirose
               </div>
               <div className="footer_social">
                 <ul>

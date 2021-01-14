@@ -4,13 +4,18 @@
   &-left {
     background-color: $purple;
     color: $white;
-    display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     padding: 1em 2em;
+
+    display: none;
+
+    @include sm {
+      display: flex;
+    }
 
     &-content {
       &__title {

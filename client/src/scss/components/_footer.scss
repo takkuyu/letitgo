@@ -1,73 +1,61 @@
-.footer
-{
-	width: 100%;
-	background: $dark-purple;
-	color: $white;
-	
+.footer {
+  width: 100%;
+  background: $dark-purple;
+  color: $white;
+	padding: $pad-half 0;
 }
-.footer_content
-{
-	width: 100%;
-	height: 130px;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-
+.footer_content {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
-.footer_logo
-{
-	width: 30%;
-	font-size: 30px;
-	line-height: 0.75;
-	font-weight: 700;
+.footer_logo {
+  width: 30%;
+  font-size: 30px;
+  line-height: 0.75;
+  font-weight: 700;
 }
 
-.copyright
-{
-	width: 40%;
-	text-align: center;
-	font-size: 14px;
-	font-weight: 400;
+.copyright {
+  width: 40%;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
 }
-.footer_social
-{
-	width: 30%;
-	text-align: right;
+.footer_social {
+  width: 30%;
+  text-align: right;
 }
-.footer_social ul li
-{
-	display: inline-block;
+.footer_social ul li {
+  display: inline-block;
 }
-.footer_social ul li:not(:last-child)
-{
-	margin-right: 26px;
+.footer_social ul li:not(:last-child) {
+  margin-right: 26px;
 }
-.footer_social ul li i
-{
-	font-size: 17px;
-	-webkit-transition: all 200ms ease;
-	-moz-transition: all 200ms ease;
-	-ms-transition: all 200ms ease;
-	-o-transition: all 200ms ease;
-	transition: all 200ms ease;
+.footer_social ul li i {
+  font-size: 17px;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
 }
-.footer_social ul li i:hover
-{
-	cursor: pointer;
+.footer_social ul li i:hover {
+  cursor: pointer;
 }
 
-@media screen and (max-width:575px){
-	.footer_logo{
-		width:100%;
-		text-align: center;
-	}
-	.copyright
-	{
-		width:100%;
-	}
-	.footer_social
-{
-	width: 100%;
-	text-align: center;
-}
+@media screen and (max-width: 575px) {
+  .footer_logo {
+    width: 100%;
+    text-align: center;
+  }
+  .copyright {
+    width: 100%;
+  }
+  .footer_social {
+    width: 100%;
+    text-align: center;
+  }
 }

@@ -1,6 +1,11 @@
 .navigation {
     padding: 0 $pad-double;
     border-bottom: 1px solid $light-grey;
+    display: none;
+
+    @include md {
+        display: block;
+    }
 
     &__list {
 

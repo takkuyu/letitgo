@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Routes from '../components/Routes/Routes';
 import Header from '../components/Header/Header';

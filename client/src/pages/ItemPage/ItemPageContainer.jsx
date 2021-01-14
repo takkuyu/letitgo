@@ -1,8 +1,8 @@
 import React from 'react'
 import ItemPage from './ItemPage'
 
-const ItempageContainer = ({ collectionItems, match, ...props }) => {
-  const targetItemId = match.params.id;
+const ItempageContainer = ({ collectionItems, ...props }) => {
+  const targetItemId = props.match.params.id;
 
   const item = collectionItems.find(item => item.pid === targetItemId);
 

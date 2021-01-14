@@ -26,7 +26,11 @@
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    padding: 50px;
+    padding: 25px;
+    
+    @include md {
+      padding: 50px;
+    }
 
     .modal-content {
       vertical-align: middle;

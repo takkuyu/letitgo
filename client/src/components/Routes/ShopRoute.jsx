@@ -60,6 +60,7 @@ const ShopRoute = ({ match, location }) => {
           <ItemPageContainer
             collectionItems={data.postsByCategory}
             currentCategoryTitle={categories[currentCategory]['category']}
+            currentCategory={currentCategory}
             {...props}
           />
         )}

@@ -60,17 +60,15 @@ const Profile = () => {
     <Spinner />
   )
 
-  console.log(user)
-
   return (
-    <div className="profile-page mx-auto p-4">
+    <div className="profile-page mx-auto">
       <div className="rounded overflow-hidden">
 
-        <div className="px-4 pt-0 pb-4 cover">
+        <div className="pt-0 pb-4 cover">
           <div className="media align-items-end profile-head">
             <div className="profile mr-3">
-              <img src={user.picture} alt="user image" width="130" height="130" className="rounded mb-2 img-thumbnail" />
-              <a href="" className="btn btn-outline-dark btn-sm btn-block">Edit profile</a>
+              <img src={user.picture} alt="user image" className="rounded mb-2 img-thumbnail" />
+              <button className="btn-under-construction btn btn-outline-dark btn-sm btn-block">Edit profile</button>
             </div>
             <div className="media-body mb-5 text-white">
               <h4 className="mt-0 mb-0">{user.username}</h4>

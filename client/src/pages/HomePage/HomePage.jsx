@@ -16,6 +16,7 @@ const GET_POSTS_OVERVIEW = gql`
       imageurl
       location
       category
+      shipping
     }
   }
 `;

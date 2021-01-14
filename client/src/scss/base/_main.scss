@@ -1,4 +1,8 @@
 .main {
     flex: 1;
-    padding-top: 5.25rem;
+    padding-top: 4rem;
+    
+    @include md {
+        padding-top: 5.25rem;
+    }
 }

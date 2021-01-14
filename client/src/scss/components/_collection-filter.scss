@@ -1,73 +1,90 @@
 .collection-filter {
+  display: none;
 
-    &__heading {
-        font-size: 1.5em;
-        font-weight: 500;
-        margin-bottom: $space;
+  @include sm {
+    display: block;
+  }
+
+  &__heading {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: $space;
+  }
+}
+
+.filter {
+  padding: $pad-half 0;
+  border-top: 1px solid $light-grey-2;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  @include sm {
+    padding: $pad 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    margin-bottom: $space-half;
+
+    &:hover {
+      cursor: pointer;
     }
 
-    .filter {
-        padding: $pad 0;
-        border-top: 1px solid $light-grey-2;
-
-        &:last-child {
-            border-bottom: 1px solid $light-grey-2;
-        }
-
-        &__name {
-
-            font-weight: 600;
-            margin-bottom: $space-half;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            i {
-                float: right;
-            }
-        }
-
-        &__lists {
-
-            li {
-                font-size: $font-size-small-2;
-                cursor: pointer;
-                border-radius: 5px;
-                line-height: 1;
-
-                &:hover {
-                    background-color: rgba($color: $light-grey, $alpha: .9);
-                }
-
-
-                a {
-                    padding: .75em;
-                    display: block;
-
-                    &::before {
-                        font-family: "Font Awesome 5 Free";
-                        content: "\f111";
-                        color: $grey;
-                        position: relative;
-                        border-radius: 50%;
-                        height: $font-size-small-2;
-                        width: $font-size-small-2;
-                        display: inline-block;
-                        margin-right: $space-half;
-                    }
-                }
-
-                &.active {
-                    a {
-                        &::before {
-                            content: "\f058";
-                            font-weight: 900;
-                            color: $purple;
-                        }
-                    }
-                }
-            }
-        }
+    i {
+      float: right;
     }
+  }
+
+  &__lists {
+    li {
+      font-size: $font-size-small-2;
+      cursor: pointer;
+      border-radius: 5px;
+      line-height: 1;
+
+      &:hover {
+        background-color: rgba($color: $light-grey, $alpha: 0.9);
+      }
+
+      a {
+        padding: 0.75em;
+        display: block;
+
+        &::before {
+          font-family: 'Font Awesome 5 Free';
+          content: '\f111';
+          color: $grey;
+          position: relative;
+          border-radius: 50%;
+          height: $font-size-small-2;
+          width: $font-size-small-2;
+          display: inline-block;
+          margin-right: $space-half;
+        }
+      }
+
+      &.active {
+        a {
+          &::before {
+            content: '\f058';
+            font-weight: 900;
+            color: $purple;
+          }
+        }
+      }
+    }
+  }
+}
+
+.mobile-filter {
+  @include sm {
+    display: none;
+  }
+
+  & > .button {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
 }

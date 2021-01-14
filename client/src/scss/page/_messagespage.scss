@@ -1,22 +1,43 @@
 .messages-page {
+  @include md {
+    padding: $pad-and-half;
+  }
 
   &-row {
-    border: 2px solid $light-grey;
+    @include md {
+      border: 2px solid $light-grey;
+    }
 
     &__left {
-
       &-top {
         font-weight: 500;
-        margin-bottom: 1rem;
         font-size: 1.2em;
-        padding: 0 .5rem;
+        padding: 0 0.5rem;
         color: $purple;
         display: flex;
         justify-content: space-between;
 
-        &>p {
+        .messages-copy {
+          margin-bottom: 1rem;
+
           &::before {
             margin-right: $space;
+          }
+        }
+
+        .back-button {
+          cursor: pointer;
+          display: none !important;
+        }
+
+        &.messages-active {
+          @include md-up {
+            .messages-copy {
+              display: none;
+            }
+            .back-button {
+              display: block !important;
+            }
           }
         }
       }
@@ -24,6 +45,16 @@
       padding: 1rem;
 
       .messages-box {
+        height: 700px;
+        overflow-y: auto;
+
+        &__mobile-inactive {
+          display: none;
+
+          @include md {
+            display: block;
+          }
+        }
 
         &__latest-message {
           white-space: nowrap;
@@ -42,20 +73,48 @@
         margin-bottom: 5px;
         padding: 0 10px;
 
-        &>a{
+        & > a {
           text-decoration: underline;
         }
       }
     }
 
-
     &__right {
       border-left: 2px solid $light-grey;
       position: relative;
 
+      .messages-mobile-view-inactive {
+        display: none;
+
+        @include md {
+          display: block;
+        }
+      }
+
       .messages-container {
         padding-bottom: 4rem !important;
         position: relative;
+
+        &__mobile-inactive {
+          display: none;
+        }
+
+        &.chat-box-inactive {
+          display: none;
+        }
+
+        &.chat-box {
+          height: 700px;
+          overflow-y: auto;
+
+          .media {
+            width: 75%;
+            
+            @include md {
+              width: 50%;
+            }
+          }
+        }
 
         .room-item-card {
           padding: $pad-half;
@@ -66,7 +125,7 @@
           background-color: $white;
 
           &-left {
-            &>img {
+            & > img {
               min-height: 4.75em;
               height: 4.75em;
               min-width: 4.75em;
@@ -79,7 +138,7 @@
 
             &__title {
               font-size: 1em;
-              margin-bottom: .5rem;
+              margin-bottom: 0.5rem;
             }
 
             &__price,
@@ -96,15 +155,20 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        padding: .75rem;
-        
+        padding: 0.75rem;
+        background-color: $white;
+
         input {
           border-radius: 30px !important;
           background-color: $light-grey;
         }
 
         &-submit {
-          width: 4rem;
+          width: 2.5rem;
+          
+          @include md {
+            width: 4rem;
+          }
 
           button {
             margin: 0 auto;
@@ -112,10 +176,10 @@
             border-radius: 50% !important;
 
             &:hover {
-              background-color: rgba(94, 109, 242, .13);
+              background-color: rgba(94, 109, 242, 0.13);
             }
 
-            &:focus{
+            &:focus {
               box-shadow: none;
             }
           }
@@ -135,7 +199,7 @@
       cursor: pointer;
       border: none;
       margin-bottom: $space-half;
-      padding: .5rem;
+      padding: 0.5rem;
       border-radius: 5px;
 
       &.active {
@@ -143,8 +207,6 @@
         color: $black;
       }
     }
-
-
   }
 
   ::-webkit-scrollbar {
@@ -165,12 +227,6 @@
 
   .text-small {
     font-size: 0.9rem;
-  }
-
-  .messages-box,
-  .chat-box {
-    height: 700px;
-    overflow-y: auto;
   }
 
   .rounded-lg {

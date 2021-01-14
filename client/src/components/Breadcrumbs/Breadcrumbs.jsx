@@ -3,14 +3,22 @@ import { Link } from 'react-router-dom';
 
 const Breadcrumb = ({ pathes }) => {
   return (
-    <ul className="breadcrumb">
-      <li><Link to="/">Home</Link></li>
+    <div className="breadcrumb">
+      <span><Link to="/">Home</Link></span>
       {
         pathes.map(path => (
-          <li key={path} >{path}</li>
+          <span key={path.label} >
+            {
+              path.link ? (
+                <Link to={path.link}>{path.label}</Link>
+              ) : (
+                  path.label
+                )
+            }
+          </span>
         ))
       }
-    </ul>
+    </div>
   );
 };
 

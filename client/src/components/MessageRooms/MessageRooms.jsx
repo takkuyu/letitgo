@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import { useMessageDispatch, useMessageState } from '../../context/message'
 import { gql, useQuery } from '@apollo/client';
 import classNames from 'classnames'
@@ -30,7 +29,7 @@ export const GET_ROOMS = gql`
   }
 `;
 
-const MessageRooms = ({ currentUser }) => {
+const MessageRooms = ({ currentUser, setMessagesActive, messagesActive }) => {
   const dispatch = useMessageDispatch()
   const { rooms } = useMessageState();
 
@@ -48,7 +47,7 @@ const MessageRooms = ({ currentUser }) => {
   if (rooms.length === 0) return <p>No users found</p>
 
   return (
-    <div className="messages-box">
+    <div className={classNames('messages-box', {'messages-box__mobile-inactive': messagesActive})}>
       <div className="list-group rounded-0">
         {
           rooms.map(({ rid, from, to, latestMessage, selected }) => {
@@ -56,9 +55,10 @@ const MessageRooms = ({ currentUser }) => {
             return (
               <ListGroupItem
                 key={rid}
-                onClick={() =>
+                onClick={() => {
                   dispatch({ type: 'SET_SELECTED_ROOM', payload: rid })
-                }
+                  setMessagesActive()
+                }}
                 className={classNames(
                   'list-group-item-action',
                   {
