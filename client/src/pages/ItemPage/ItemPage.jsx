@@ -167,6 +167,10 @@ const ItemPage = ({
         <p className="item-page-top__content-delete">
           <span
             onClick={() => {
+              if (user.email === 'natasha@gmail.com') {
+                alert('You cannot delete this item for demo purpose !')
+                return;
+              }
               deletePost({
                 variables: { pid: item.pid },
               });
@@ -187,8 +191,6 @@ const ItemPage = ({
             return;
           }
           const updatedWishList = [...user.wishlist, item.pid];
-
-          console.log(updatedWishList);
 
           updateWishList({
             variables: { uid: user.uid, updatedWishList },

@@ -89,7 +89,7 @@ const MessageRooms = ({ currentUser, setMessagesActive, messagesActive }) => {
         })}
       </div>
       <p className="demo-link">
-        * To demo Realtime Chat, click{' '}
+        * To try Realtime Chat, click{' '}
         <a href="/demo/2" target="_blank">
           here to login as another user.
         </a>

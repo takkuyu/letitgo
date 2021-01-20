@@ -109,9 +109,7 @@ const Profile = () => {
           <div className="p-4 rounded shadow-sm bg-light">
             <p>
               I love to buy different designer pieces and when I get bored with
-              them I sell them so they find new homes where they can be
-              treasured like they were by me. I collect some items too and never
-              use them lol so you will also find brand new items on my page. All
+              them I sell them so most of my items are almost new. I collect mens clothings, shoes, etc. All
               my listings are 100% authentic guaranteed. Thanks for stopping by!
             </p>
           </div>
@@ -147,7 +145,7 @@ const Profile = () => {
             ) : (
               <Fragment>
                 {wishListData.getWishList.map((item) => (
-                  <ItemCard key={item.pid} post={item} md={3} />
+                  <ItemCard key={item.pid} post={item} md={3} lg={2} />
                 ))}
               </Fragment>
             )
@@ -156,7 +154,7 @@ const Profile = () => {
           ) : (
             <Fragment>
               {postsData.getPostsByUser.map((item) => (
-                <ItemCard key={item.pid} post={item} md={3} />
+                <ItemCard key={item.pid} post={item} md={3} lg={2} />
               ))}
             </Fragment>
           )}

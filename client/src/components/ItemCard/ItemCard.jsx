@@ -7,14 +7,15 @@ const defaultProps = {
   xs: 6,
   sm: 3,
   md: 6,
+  lg: 2,
 };
 
-const ItemCard = ({ post, xs, sm, md, ...props }) => {
+const ItemCard = ({ post, xs, sm, md, lg, ...props }) => {
   const dir = Object.values(directory).find(
     (dir) => dir.category === post.category
   );
   return (
-    <Col xs={xs} sm={sm} md={md}>
+    <Col xs={xs} sm={sm} md={md} lg={lg}>
       <div
         className="small-item-card"
         onClick={() => {

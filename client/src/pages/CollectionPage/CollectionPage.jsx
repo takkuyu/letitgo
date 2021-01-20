@@ -61,7 +61,7 @@ const CollectionPage = ({
                   {items.map(
                     (post) =>
                       post && (
-                        <ItemCard post={post} key={post.pid} sm={6} md={3} />
+                        <ItemCard post={post} key={post.pid} sm={6} md={3} lg={3} />
                       )
                   )}
                 </Row>

@@ -41,10 +41,10 @@ export const Login = () => {
     e.preventDefault();
 
     // @TODO: Uncomment this for production.
-    // if (formValues.email !== 'demo' || formValues.password !== 'demo') {
-    //   setErrorMessage('Unknown user. Use "demo" for email and password for your demo.');
-    //   return;
-    // }
+    if (formValues.email !== 'demo' || formValues.password !== 'demo') {
+      setErrorMessage('Unknown user. Use "demo" for email and password for your demo.');
+      return;
+    }
 
     login({
       variables: { email: formValues.email, password: formValues.password },

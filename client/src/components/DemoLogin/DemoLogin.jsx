@@ -20,7 +20,7 @@ const DemoLogin = ({ match, ...props }) => {
   });
 
   useEffect(() => {
-    login({ variables: { email: 'bob@gmail.com', password: '123123' } });
+    login({ variables: { email: 'natasha@gmail.com', password: '123123' } });
   }, []);
 
   if (error) return <p>An error occured.</p>;
