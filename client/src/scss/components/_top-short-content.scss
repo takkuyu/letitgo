@@ -1,14 +1,13 @@
-  .top-short-content {
-      text-align: center;
-      padding: $pad-half;
-      font-size: $font-size-small;
-      border-bottom: 1px solid $light-grey;
+.top-short-content {
+  text-align: center;
+  padding: $pad-half;
+  font-size: $font-size-small;
+  border-bottom: 1px solid $light-grey;
 
-      p {
-
-          &::before {
-              padding-right: $pad-half;
-              color: $purple;
-          }
-      }
+  p {
+    &::before {
+      padding-right: $pad-half;
+      color: $purple;
+    }
   }
+}

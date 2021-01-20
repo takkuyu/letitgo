@@ -11,12 +11,12 @@ export const Container = styled.div`
 `;
 
 export const Label = styled.label`
-  color: ${(props) => props.isLoading ? '#bababa' : '#5E6C84'};
+  color: ${(props) => (props.isLoading ? '#bababa' : '#5E6C84')};
   cursor: pointer;
   display: inline-block;
   font-weight: 500;
   font-size: 14px;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   padding: 10px 12px;
   background: #f5f5f6;
   border: 1px solid #e2e2e2;
@@ -33,7 +33,7 @@ export const Label = styled.label`
 
 export const Description = styled.p`
   font-weight: 500;
-  margin-top:5px;
+  margin-top: 5px;
   font-size: 12px;
   color: '#8993a4';
 `;

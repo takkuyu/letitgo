@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { gql, useMutation } from '@apollo/client'
-import { Form, Input } from 'reactstrap'
+import React, { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { Form, Input } from 'reactstrap';
 
 const SEND_MESSAGE = gql`
   mutation PostMessage($room: String!, $to: String!, $content: String!) {
@@ -10,28 +10,28 @@ const SEND_MESSAGE = gql`
       content
     }
   }
-`
+`;
 
 const MessageForm = ({ room, currentUserId }) => {
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState('');
 
   const [postMessage] = useMutation(SEND_MESSAGE, {
     onError: (err) => console.log(err),
-  })
+  });
 
   const submitMessage = (e) => {
     e.preventDefault();
 
-    const sent = (room.from.uid === currentUserId);
+    const sent = room.from.uid === currentUserId;
     const to = sent ? room.to.uid : room.from.uid;
 
-    if (content.trim() === '' || !to) return
+    if (content.trim() === '' || !to) return;
 
-    setContent('')
+    setContent('');
 
     // mutation for sending the message
-    postMessage({ variables: { room: room.rid, to, content } })
-  }
+    postMessage({ variables: { room: room.rid, to, content } });
+  };
 
   return (
     <Form className="message-form" onSubmit={submitMessage}>
@@ -44,15 +44,15 @@ const MessageForm = ({ room, currentUserId }) => {
           value={content}
         />
         <div className="input-group-append message-form-submit">
-          <button id="button-addon2" type="submit" className="btn btn-link"> <i className="fa fa-paper-plane"></i></button>
+          <button id="button-addon2" type="submit" className="btn btn-link">
+            <i className="fa fa-paper-plane"></i>
+          </button>
         </div>
       </div>
     </Form>
-  )
-}
+  );
+};
 
-MessageForm.propTypes = {
+MessageForm.propTypes = {};
 
-}
-
-export default MessageForm
+export default MessageForm;

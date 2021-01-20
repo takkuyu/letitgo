@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Modal = ({
-  children,
-  closeModal,
-  modalWidth
-}) => {
+const Modal = ({ children, closeModal, modalWidth }) => {
   return (
     <div className="modal-outer-container">
       <div className="modal-blanket" onClick={closeModal}></div>
       <div className="modal-container">
-        <div className="modal-content" style={{
-          maxWidth: `${modalWidth}px`
-        }}>
+        <div
+          className="modal-content"
+          style={{
+            maxWidth: `${modalWidth}px`,
+          }}
+        >
           {children}
         </div>
       </div>

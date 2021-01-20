@@ -11,13 +11,20 @@ import DemoLogin from '../DemoLogin/DemoLogin';
 
 const Routes = () => (
   <Switch>
-    <Route path="/" exact render={(props) => <HomePage {...props} />}/>
-    <Route path="/shop/:category" render={(props) => <ShopRoute {...props} />} />
+    <Route path="/" exact render={(props) => <HomePage {...props} />} />
+    <Route
+      path="/shop/:category"
+      render={(props) => <ShopRoute {...props} />}
+    />
     <PrivateRoute exact path="/sell" component={ItemSellPage} />
     <PrivateRoute exact path="/messages" component={MessagesPage} />
     <PrivateRoute exact path="/profile" component={Profile} />
-    <PrivateRoute exact path="/edit/:id" component={ItemEditPage}  />
-    <Route exact path="/demo/:id" render={(props) => <DemoLogin {...props} />} />
+    <PrivateRoute exact path="/edit/:id" component={ItemEditPage} />
+    <Route
+      exact
+      path="/demo/:id"
+      render={(props) => <DemoLogin {...props} />}
+    />
   </Switch>
 );
 

@@ -1,6 +1,4 @@
 .item-sell-page {
-
-
   &-title {
     margin: $space 0;
   }
@@ -11,7 +9,7 @@
     .form-group {
       margin-bottom: 1.5rem;
 
-      &>label {
+      & > label {
         font-weight: 500;
         text-transform: uppercase;
         font-size: $font-size-small-2;
@@ -24,7 +22,6 @@
         background-color: $light-grey;
         height: 2.75rem;
       }
-
     }
   }
 }

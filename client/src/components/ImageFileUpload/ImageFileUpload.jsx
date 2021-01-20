@@ -7,8 +7,15 @@ import {
   Spinner,
 } from './ImageFileUpload.style';
 
-const ImageFileUpload = ({ id, text, onChange, description, isImageLoading, setIsImageLoading, ...props }) => {
-
+const ImageFileUpload = ({
+  id,
+  text,
+  onChange,
+  description,
+  isImageLoading,
+  setIsImageLoading,
+  ...props
+}) => {
   const uploadImage = async (e) => {
     try {
       const files = e.target.files;

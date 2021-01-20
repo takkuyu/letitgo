@@ -21,13 +21,13 @@
       &__title {
         font-size: 1.75em;
         font-weight: 500;
-        margin-bottom: $space-and-half
+        margin-bottom: $space-and-half;
       }
 
       ul {
         list-style: none;
 
-        &>li {
+        & > li {
           margin-bottom: $space-double;
           display: flex;
           font-weight: 400;
@@ -35,13 +35,12 @@
           &::before {
             margin-right: $space-half;
             position: relative;
-            top: .25em;
+            top: 0.25em;
           }
         }
       }
     }
   }
-
 
   &-form {
     padding: 1em 2em;
@@ -81,16 +80,15 @@
       font-weight: 500;
       font-size: $font-size-small-2;
     }
-
   }
 }
 
 .demo-login-credentials {
   background-color: #505050;
   color: $white;
-  padding: .25rem 2rem;
+  padding: 0.25rem 2rem;
   border-radius: 100px;
-  padding: .15em $pad;
+  padding: 0.15em $pad;
   position: fixed;
   bottom: 20px;
   left: 50%;

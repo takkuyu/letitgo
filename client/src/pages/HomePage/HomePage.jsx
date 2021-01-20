@@ -4,7 +4,7 @@ import CollectionOverview from '../../components/CollectionOverview/CollectionOv
 import { default as categories } from '../../constants/directory';
 import { useQuery, gql } from '@apollo/client';
 import Spinner from '../../components/Spinner/Spinner';
-import HeroImage from '../../assets/hero-image.png'
+import HeroImage from '../../assets/hero-image.png';
 import { useAuthDispatch, useAuthState } from '../../context/auth';
 
 const GET_POSTS_OVERVIEW = gql`
@@ -40,34 +40,35 @@ const HomePage = ({ ...props }) => {
               <button
                 onClick={() => {
                   if (isLoggedin) {
-                    props.history.push('/sell')
-                    return
+                    props.history.push('/sell');
+                    return;
                   }
-                  dispatch({ type: 'TOGGLE_LOGIN_MODAL' })
+                  dispatch({ type: 'TOGGLE_LOGIN_MODAL' });
                 }}
-                className="button btn-color-orange">
+                className="button btn-color-orange"
+              >
                 Sell now
               </button>
             </div>
-            <img
-              src={HeroImage}
-              alt="wallet"
-            />
+            <img src={HeroImage} alt="wallet" />
           </div>
         </Container>
       </div>
       <Container>
-        {Object.values(categories).map((category, index) =>
-          category.category !== 'Other' && (
-            <CollectionOverview
-              key={index}
-              category={category}
-              posts={data.postsOverview.filter(post => post.category === category.category)}
-            />
-          )
+        {Object.values(categories).map(
+          (category, index) =>
+            category.category !== 'Other' && (
+              <CollectionOverview
+                key={index}
+                category={category}
+                posts={data.postsOverview.filter(
+                  (post) => post.category === category.category
+                )}
+              />
+            )
         )}
       </Container>
     </div>
   );
-}
+};
 export default HomePage;

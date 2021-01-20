@@ -8,9 +8,9 @@ const CollectionOverview = ({ posts, category }) => {
     <div className="collection-overview">
       <h2>{category.heading}</h2>
       <Row>
-        {
-          posts.map((post, index) => <ItemCard post={post} key={index} md={2} />)
-        }
+        {posts.map((post, index) => (
+          <ItemCard post={post} key={index} md={2} />
+        ))}
         <Col sm={3} md={2}>
           <p className="see-all-btn">
             <Link to={`/${category.linkUrl}`}>See all</Link>
@@ -20,6 +20,5 @@ const CollectionOverview = ({ posts, category }) => {
     </div>
   );
 };
-
 
 export default CollectionOverview;

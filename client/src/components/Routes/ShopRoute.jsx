@@ -7,7 +7,7 @@ import ItemPageContainer from '../../pages/ItemPage/ItemPageContainer';
 import Spinner from '../Spinner/Spinner';
 
 export const GET_POSTS_BY_CATEGORY = gql`
-  query getPostsByCategory($category:String!) {
+  query getPostsByCategory($category: String!) {
     postsByCategory(category: $category) {
       pid
       title
@@ -33,7 +33,7 @@ const ShopRoute = ({ match, location }) => {
 
   const { loading, error, data } = useQuery(GET_POSTS_BY_CATEGORY, {
     variables: { category: categories[currentCategory]['category'] },
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
   });
 
   if (loading) return <Spinner />;
@@ -67,6 +67,6 @@ const ShopRoute = ({ match, location }) => {
       />
     </Fragment>
   );
-}
+};
 
 export default ShopRoute;

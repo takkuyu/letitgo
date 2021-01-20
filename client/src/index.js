@@ -4,7 +4,7 @@ import App from './App/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './scss/styles.scss';
 
-import { MessageProvider } from './context/message'
+import { MessageProvider } from './context/message';
 import { AuthProvider } from './context/auth';
 import ApolloProvider from './graphql/ApolloProvider';
 

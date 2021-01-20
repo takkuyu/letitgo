@@ -109,7 +109,7 @@
 
           .media {
             width: 75%;
-            
+
             @include md {
               width: 50%;
             }
@@ -165,7 +165,7 @@
 
         &-submit {
           width: 2.5rem;
-          
+
           @include md {
             width: 4rem;
           }

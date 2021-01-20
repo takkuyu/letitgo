@@ -1,17 +1,16 @@
-.collection-page{
-    margin-bottom: $space;
-    
-    &__main{
-        h1{
-            font-size: 2.25em;
-            margin-bottom: $space;
-        }
+.collection-page {
+  margin-bottom: $space;
 
-        &-content{
-
-            .small-item-card{
-                margin-top: $space-double;
-            }
-        }
+  &__main {
+    h1 {
+      font-size: 2.25em;
+      margin-bottom: $space;
     }
+
+    &-content {
+      .small-item-card {
+        margin-top: $space-double;
+      }
+    }
+  }
 }

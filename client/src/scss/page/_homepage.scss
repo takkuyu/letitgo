@@ -1,5 +1,4 @@
 .homepage {
-
   &__top {
     background-color: $light-grey;
     margin-bottom: $space-quad;
@@ -16,7 +15,7 @@
           &.leading {
             font-size: 52px;
             color: #252b60;
-            margin-bottom: .75rem;
+            margin-bottom: 0.75rem;
             line-height: 1;
             letter-spacing: -1.5px;
           }
@@ -28,7 +27,6 @@
             line-height: 1;
             letter-spacing: -1.5px;
           }
-
         }
       }
 
@@ -43,8 +41,6 @@
         }
       }
     }
-
-
   }
 
   .products {

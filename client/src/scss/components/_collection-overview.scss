@@ -1,41 +1,40 @@
 .collection-overview {
-    margin: 1.25em 0 4em;
+  margin: 1.25em 0 4em;
 
-    h2 {
-        font-size: 1.875em;
-        color: $dark-purple;
-        text-align: center;
-        margin-bottom: .5rem;
+  h2 {
+    font-size: 1.875em;
+    color: $dark-purple;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .see-all-btn {
+    width: 100%;
+    background: $orange;
+    color: $white;
+    height: 5rem;
+    max-height: 5rem;
+    font-size: 1.125em;
+    font-weight: 700;
+    margin-top: $space;
+
+    @include sm {
+      height: 9.375rem;
+      max-height: 9.375rem;
+      margin-top: 2rem;
     }
 
-    .see-all-btn {
-        width: 100%;
-        background: $orange;
-        color: $white;
-        height: 5rem;
-        max-height: 5rem;
-        font-size: 1.125em;
-        font-weight: 700;
-        margin-top: $space;
-
-        @include sm {
-            height: 9.375rem;
-            max-height: 9.375rem;
-            margin-top: 2rem;
-        }
-
-        a {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        &:hover {
-            cursor: pointer;
-            opacity: .9;
-        }
+    a {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.9;
+    }
+  }
 }

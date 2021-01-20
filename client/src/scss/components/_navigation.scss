@@ -1,32 +1,31 @@
 .navigation {
-    padding: 0 $pad-double;
-    border-bottom: 1px solid $light-grey;
-    display: none;
+  padding: 0 $pad-double;
+  border-bottom: 1px solid $light-grey;
+  display: none;
 
-    @include md {
-        display: block;
+  @include md {
+    display: block;
+  }
+
+  &__list {
+    li {
+      display: inline-block;
+      border-bottom: 2px solid transparent;
+      border-top: 2px solid transparent;
+      font-size: $font-size-small-2;
+
+      &:not(:last-child) {
+        margin-right: $space-double;
+      }
+
+      &:hover {
+        border-bottom-color: $purple;
+      }
+
+      & > a {
+        padding: $pad-half 0;
+        display: inline-block;
+      }
     }
-
-    &__list {
-
-        li {
-            display: inline-block;
-            border-bottom: 2px solid transparent;
-            border-top: 2px solid transparent;
-            font-size: $font-size-small-2;
-            
-            &:not(:last-child) {
-                margin-right: $space-double;
-            }
-            
-            &:hover {
-                border-bottom-color: $purple;
-            }
-            
-            &>a{
-                padding: $pad-half 0;
-                display: inline-block;
-            }
-        }
-    }
+  }
 }

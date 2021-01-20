@@ -2,9 +2,13 @@ import { filtersListNames, filtersLists } from '../constants/filter';
 
 const filterItems = (items, filters) => {
   for (let k of Object.keys(filters)) {
-    const filterType = filtersLists.find((filter) => filter.name.toLowerCase() === k);
+    const filterType = filtersLists.find(
+      (filter) => filter.name.toLowerCase() === k
+    );
 
-    const filterValue = filterType.lists.find((list) => list.id === Number(filters[k])).value;
+    const filterValue = filterType.lists.find(
+      (list) => list.id === Number(filters[k])
+    ).value;
 
     switch (filterType.name) {
       case filtersListNames.PRICE:
@@ -19,15 +23,13 @@ const filterItems = (items, filters) => {
         );
         break;
       case filtersListNames.SHIPPING:
-        items = items.filter(
-          (item) => item.shipping === filterValue
-        );
+        items = items.filter((item) => item.shipping === filterValue);
         break;
       default:
         break;
     }
   }
   return items;
-}
+};
 
 export default filterItems;

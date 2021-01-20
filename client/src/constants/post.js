@@ -4,4 +4,4 @@ export const itemConditions = {
   GOOD: 'Good',
   FAIR: 'Fair',
   POOR: 'Poor',
-}
+};

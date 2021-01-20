@@ -31,7 +31,11 @@ const Filter = ({ filter, match, location, closeModal }) => {
                   ? 'active'
                   : ''
               }
-              onClick={() => { if (closeModal) { closeModal() } }}
+              onClick={() => {
+                if (closeModal) {
+                  closeModal();
+                }
+              }}
             >
               <Link
                 to={`${match.url}?${queryString.stringify(newQueryString)}`}

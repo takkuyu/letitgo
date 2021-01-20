@@ -1,48 +1,46 @@
 .small-item-card {
+  overflow: hidden;
+  margin-top: $space-double;
+
+  &:hover {
+    cursor: pointer;
+
+    .small-item-card__image {
+      box-shadow: rgb(230, 230, 230) 0px 4px 12px 0px;
+
+      img {
+        transform: scale(1.02);
+        transition: all 0.5s;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+    }
+  }
+
+  &__image {
     overflow: hidden;
-    margin-top: $space-double;
+    height: 9.375em;
+    max-height: 9.375em;
+    margin-bottom: $space-half;
 
-    &:hover {
-        cursor: pointer;
-
-        .small-item-card__image {
-            box-shadow: rgb(230, 230, 230) 0px 4px 12px 0px;
-
-            img {
-                transform: scale(1.02);
-                transition: all .5s;
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-            }
-        }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
+  }
 
+  &__title {
+    font-size: 0.875em;
+    line-height: 1.2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
-    &__image {
-        overflow: hidden;
-        height: 9.375em;
-        max-height: 9.375em;
-        margin-bottom: $space-half;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-
-
-    &__title {
-        font-size: 0.875em;
-        line-height: 1.2;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    &__location {
-        font-size: 0.875em;
-        color: #999;
-        margin-bottom: .2rem;
-    }
+  &__location {
+    font-size: 0.875em;
+    color: #999;
+    margin-bottom: 0.2rem;
+  }
 }

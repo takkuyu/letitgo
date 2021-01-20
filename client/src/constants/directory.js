@@ -34,5 +34,5 @@ export default {
     category: 'Other',
     heading: '',
     linkUrl: 'shop/other',
-  }
+  },
 };

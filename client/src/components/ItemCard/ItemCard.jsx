@@ -10,7 +10,9 @@ const defaultProps = {
 };
 
 const ItemCard = ({ post, xs, sm, md, ...props }) => {
-  const dir = Object.values(directory).find(dir => dir.category === post.category);
+  const dir = Object.values(directory).find(
+    (dir) => dir.category === post.category
+  );
   return (
     <Col xs={xs} sm={sm} md={md}>
       <div
@@ -18,7 +20,7 @@ const ItemCard = ({ post, xs, sm, md, ...props }) => {
         onClick={() => {
           props.history.push(`/${dir.linkUrl}/${post.pid}`);
           window.scrollTo({
-            top: 0
+            top: 0,
           });
         }}
       >
@@ -30,7 +32,9 @@ const ItemCard = ({ post, xs, sm, md, ...props }) => {
         <p className="small-item-card__price">
           <b>${post.price}</b>
         </p>
-        {post.shipping && <div className="free-shipping-text">Free shipping</div>}
+        {post.shipping && (
+          <div className="free-shipping-text">Free shipping</div>
+        )}
       </div>
     </Col>
   );

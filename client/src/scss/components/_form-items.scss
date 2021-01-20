@@ -1,12 +1,11 @@
 .required-field {
   color: $error-text;
-  margin-right: .2em;
+  margin-right: 0.2em;
 }
 
 .form-group {
-  
-  &>label {
-    margin-bottom: .25rem;
+  & > label {
+    margin-bottom: 0.25rem;
   }
 
   select {
@@ -23,7 +22,7 @@
 
   .custom-checkbox {
     position: relative;
-    top: .1rem;
+    top: 0.1rem;
     margin: 0 0 0 $space;
     height: 14px;
     width: 14px;

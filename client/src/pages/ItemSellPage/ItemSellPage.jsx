@@ -1,37 +1,31 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-} from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input } from 'reactstrap';
 import { gql, useMutation } from '@apollo/client';
 import { default as categories } from '../../constants/directory';
 import { useAuthState } from '../../context/auth';
 import ImageFileUpload from '../../components/ImageFileUpload/ImageFileUpload';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
 const CREATE_POST = gql`
   mutation CreatePost(
-    $createdby: String!, 
-    $title: String!,
-    $category: String!,
-    $location: String!,
-    $price: Int!,
-    $condition: String!,
-    $imageurl: String!,
+    $createdby: String!
+    $title: String!
+    $category: String!
+    $location: String!
+    $price: Int!
+    $condition: String!
+    $imageurl: String!
     $description: String!
     $shipping: Boolean!
-    ) {
+  ) {
     createPost(
-      createdby: $createdby,
-      title:  $title, 
-      category:$category, 
-      location: $location, 
-      price:   $price,
-      condition: $condition, 
-      imageurl: $imageurl, 
+      createdby: $createdby
+      title: $title
+      category: $category
+      location: $location
+      price: $price
+      condition: $condition
+      imageurl: $imageurl
       description: $description
       shipping: $shipping
     ) {
@@ -48,10 +42,12 @@ const ItemSellPage = ({ ...props }) => {
   const [createPost, { error }] = useMutation(CREATE_POST, {
     onCompleted({ createPost }) {
       if (createPost) {
-        const category = Object.values(categories).find(category => category.category === createPost.category);
-        props.history.push(`/${category.linkUrl}`)
+        const category = Object.values(categories).find(
+          (category) => category.category === createPost.category
+        );
+        props.history.push(`/${category.linkUrl}`);
       }
-    }
+    },
   });
 
   const [formValues, setFormValues] = useState({
@@ -63,8 +59,7 @@ const ItemSellPage = ({ ...props }) => {
     imageurl: '',
     description: '',
     shipping: false,
-  })
-
+  });
 
   const {
     title,
@@ -74,8 +69,8 @@ const ItemSellPage = ({ ...props }) => {
     condition,
     imageurl,
     description,
-    shipping
-  } = formValues
+    shipping,
+  } = formValues;
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -88,8 +83,8 @@ const ItemSellPage = ({ ...props }) => {
     if (isImageLoading) return;
 
     if (!imageurl) {
-      alert('Image field is empty!')
-      return
+      alert('Image field is empty!');
+      return;
     }
 
     createPost({
@@ -103,16 +98,18 @@ const ItemSellPage = ({ ...props }) => {
         imageurl: imageurl,
         description: description,
         shipping: shipping,
-      }
-    })
-  }
+      },
+    });
+  };
 
   return (
     <Container className="item-sell-page">
       <h2 className="item-sell-page-title">Sell your item</h2>
       <Form className="item-sell-page-form" onSubmit={onSubmit}>
         <FormGroup>
-          <Label><span className="required-field">*</span>Title</Label>
+          <Label>
+            <span className="required-field">*</span>Title
+          </Label>
           <Input
             type="text"
             name="title"
@@ -123,7 +120,9 @@ const ItemSellPage = ({ ...props }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label><span className="required-field">*</span>Price</Label>
+          <Label>
+            <span className="required-field">*</span>Price
+          </Label>
           <Input
             type="number"
             name="price"
@@ -134,29 +133,21 @@ const ItemSellPage = ({ ...props }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="select"><span className="required-field">*</span>Category</Label>
-          <Input
-            type="select"
-            name="category"
-            onChange={onChange}
-            required
-          >
+          <Label for="select">
+            <span className="required-field">*</span>Category
+          </Label>
+          <Input type="select" name="category" onChange={onChange} required>
             <option value="">--Choose an option--</option>
-            {
-              Object.values(categories).map(category => (
-                <option key={category.id}>{category.category}</option>
-              ))
-            }
+            {Object.values(categories).map((category) => (
+              <option key={category.id}>{category.category}</option>
+            ))}
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label for="select"><span className="required-field">*</span>Condition</Label>
-          <Input
-            type="select"
-            name="condition"
-            onChange={onChange}
-            required
-          >
+          <Label for="select">
+            <span className="required-field">*</span>Condition
+          </Label>
+          <Input type="select" name="condition" onChange={onChange} required>
             <option value="">--Choose an option--</option>
             <option>New</option>
             <option>Like New</option>
@@ -166,7 +157,9 @@ const ItemSellPage = ({ ...props }) => {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Label><span className="required-field">*</span>Location</Label>
+          <Label>
+            <span className="required-field">*</span>Location
+          </Label>
           <Input
             type="text"
             name="location"
@@ -177,7 +170,9 @@ const ItemSellPage = ({ ...props }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label><span className="required-field">*</span>Upload Image</Label>
+          <Label>
+            <span className="required-field">*</span>Upload Image
+          </Label>
           <ImageFileUpload
             id="imageurl"
             text="Upload an image"
@@ -186,12 +181,18 @@ const ItemSellPage = ({ ...props }) => {
             description="* File format: png or jpeg."
             isImageLoading={isImageLoading}
             setIsImageLoading={setIsImageLoading}
-            onChange={(fileUrl) => setFormValues({ ...formValues, imageurl: fileUrl })}
+            onChange={(fileUrl) =>
+              setFormValues({ ...formValues, imageurl: fileUrl })
+            }
           />
-          {imageurl && <img src={imageurl} alt="item image" style={{ width: '300px' }} />}
+          {imageurl && (
+            <img src={imageurl} alt="item image" style={{ width: '300px' }} />
+          )}
         </FormGroup>
         <FormGroup>
-          <Label><span className="required-field">*</span>Description</Label>
+          <Label>
+            <span className="required-field">*</span>Description
+          </Label>
           <Input
             type="textarea"
             name="description"
@@ -205,15 +206,20 @@ const ItemSellPage = ({ ...props }) => {
           />
         </FormGroup>
         <FormGroup>
-          <Label><span className="required-field">*</span>Free Shipping
-              <Input
+          <Label>
+            <span className="required-field">*</span>Free Shipping
+            <Input
               type="checkbox"
               name="shipping"
               className="custom-checkbox"
-              onChange={() => setFormValues({ ...formValues, shipping: !shipping })}
+              onChange={() =>
+                setFormValues({ ...formValues, shipping: !shipping })
+              }
             />
           </Label>
-          <small className="d-block">* You need to pay for the shipping fees if checked.</small>
+          <small className="d-block">
+            * You need to pay for the shipping fees if checked.
+          </small>
         </FormGroup>
         <button
           className={classNames('button', {
@@ -221,10 +227,11 @@ const ItemSellPage = ({ ...props }) => {
           })}
           type="submit"
         >
-          Sell your item</button>
+          Sell your item
+        </button>
       </Form>
     </Container>
   );
-}
+};
 
 export default ItemSellPage;

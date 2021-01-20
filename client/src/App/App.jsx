@@ -6,14 +6,11 @@ import Footer from '../components/Footer/Footer';
 import Navigation from '../components/Navigation/Navigation';
 import TopShortContent from '../components/TopCopy/TopCopy.jsx';
 import { Login } from '../components/Login/Login';
-import {
-  useMutation,
-  gql
-} from "@apollo/client";
+import { useMutation, gql } from '@apollo/client';
 import { useAuthState, useAuthDispatch } from '../context/auth';
 
 const LOAD_USER = gql`
-  mutation LoadUser{
+  mutation LoadUser {
     loadUser {
       uid
       username
@@ -27,21 +24,21 @@ const LOAD_USER = gql`
 
 const App = () => {
   const { user } = useAuthState();
-  const dispatch = useAuthDispatch()
+  const dispatch = useAuthDispatch();
 
   const [loadUser, { error, loading: userLoading }] = useMutation(LOAD_USER, {
     onCompleted({ loadUser }) {
       if (loadUser) {
-        dispatch({ type: 'LOAD_USER', payload: loadUser })
+        dispatch({ type: 'LOAD_USER', payload: loadUser });
       }
-    }
+    },
   });
 
   useEffect(() => {
     if (user) {
       loadUser();
     } else {
-      dispatch({ type: 'COMPLETE_LOADING' })
+      dispatch({ type: 'COMPLETE_LOADING' });
     }
   }, []);
 
@@ -59,6 +56,6 @@ const App = () => {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

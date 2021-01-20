@@ -8,24 +8,31 @@ import ItemCard from '../../components/ItemCard/ItemCard';
 import queryString from 'query-string';
 import filterItems from '../../utils/filterItems';
 
-const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location }) => {
+const CollectionPage = ({
+  collectionItems,
+  currentCategoryTitle,
+  match,
+  location,
+}) => {
   const [items, setItems] = useState([]);
   const filters = queryString.parse(location.search);
 
   useEffect(() => {
     const filteredItems = filterItems(collectionItems, filters);
 
-    setItems(filteredItems)
-  }, [])
+    setItems(filteredItems);
+  }, []);
 
   return (
     <div className="collection-page">
       <Container>
         <Breadcrumb
-          pathes={[{
-            label: currentCategoryTitle,
-            link: ''
-          }]}
+          pathes={[
+            {
+              label: currentCategoryTitle,
+              link: '',
+            },
+          ]}
         />
         <Row>
           <Col sm={4} md={3} className="collection-page__filter">
@@ -51,10 +58,11 @@ const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location
               </div>
               <div className="collection-page__main-content">
                 <Row>
-                  {items.map((post) =>
-                    post && (
-                      <ItemCard post={post} key={post.pid} sm={6} md={3} />
-                    )
+                  {items.map(
+                    (post) =>
+                      post && (
+                        <ItemCard post={post} key={post.pid} sm={6} md={3} />
+                      )
                   )}
                 </Row>
               </div>
@@ -65,6 +73,5 @@ const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location
     </div>
   );
 };
-
 
 export default CollectionPage;

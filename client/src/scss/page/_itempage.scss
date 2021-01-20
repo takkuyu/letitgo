@@ -224,7 +224,6 @@
       }
 
       &-continue {
-
         @include sm {
           display: flex;
           align-items: center;
@@ -244,7 +243,6 @@
       }
 
       &-input {
-
         @include sm {
           display: flex;
           align-items: center;
@@ -268,7 +266,7 @@
           min-height: 40px;
           height: 40px;
           margin-top: $space;
-          
+
           @include sm {
             margin-top: 0;
             margin-left: 0.5em;

@@ -7,7 +7,14 @@ const Navigation = ({ closeOverlayHeader }) => {
     <nav className="navigation">
       <ul className="navigation__list">
         {Object.values(categories).map((category, index) => (
-          <li key={index} onClick={() => { if (closeOverlayHeader) { closeOverlayHeader() } }}>
+          <li
+            key={index}
+            onClick={() => {
+              if (closeOverlayHeader) {
+                closeOverlayHeader();
+              }
+            }}
+          >
             <Link to={`/${category.linkUrl}`}>{category.category}</Link>
           </li>
         ))}

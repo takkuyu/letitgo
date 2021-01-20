@@ -1,98 +1,96 @@
 .button {
-    display: inline-block;
-    line-height: 1;
-    padding: .75em 1.25em;
-    border: 0;
-    text-align: center;
-    cursor: pointer;
-    font-weight: 500;
-    border-radius: 5px;
-    background-color: $purple;
-    color: $white;
+  display: inline-block;
+  line-height: 1;
+  padding: 0.75em 1.25em;
+  border: 0;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 5px;
+  background-color: $purple;
+  color: $white;
 
-    &:focus {
-        outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 
-    &:hover {
-        opacity: .9;
-    }
+  &:hover {
+    opacity: 0.9;
+  }
 
-    &.btn-color-orange {
-        background-color: $orange;
-    }
+  &.btn-color-orange {
+    background-color: $orange;
+  }
 
-    &::before {
-        margin-right: .3rem;
-    }
+  &::before {
+    margin-right: 0.3rem;
+  }
 
+  &-disable {
+    background-color: $grey;
+    cursor: not-allowed !important;
+  }
 
-    &-disable {
-        background-color: $grey;
-        cursor: not-allowed !important;
-    }
-
-    &-outline-primary {
-        background-color: transparent;
-        color: $purple;
-        border: 1px solid $purple;
-    }
+  &-outline-primary {
+    background-color: transparent;
+    color: $purple;
+    border: 1px solid $purple;
+  }
 }
 
 .text-button {
-    display: inline-block;
-    color: $white;
-    border: none;
-    background-color: transparent;
-    padding: .75em .25em;
-    font-weight: 500;
+  display: inline-block;
+  color: $white;
+  border: none;
+  background-color: transparent;
+  padding: 0.75em 0.25em;
+  font-weight: 500;
+
+  &::before {
+    margin-right: 0.3rem;
+  }
+
+  a {
+    font-weight: 600;
+    font-size: $font-size-small-2;
+    padding: $pad-half $pad;
+    display: block;
 
     &::before {
-        margin-right: .3rem;
+      padding-right: $pad-half;
     }
+  }
 
-    a {
-        font-weight: 600;
-        font-size: $font-size-small-2;
-        padding: $pad-half $pad;
-        display: block;
+  &:hover {
+    opacity: 0.9;
+  }
 
-        &::before {
-            padding-right: $pad-half;
-        }
-    }
-
-    &:hover {
-        opacity: .9;
-    }
-
-    &:focus {
-        outline: none;
-    }
-
+  &:focus {
+    outline: none;
+  }
 }
 
 // Only for demo.
-.btn-under-construction{
-    position: relative;
-    transition: none;
-    &:hover {
-      cursor: not-allowed !important;
-      &::before {
-        content: 'NOT IMPLEMENTED';
-        font-size: 12px;
-        border-radius: 3px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: $black;
-        color: $white;
-        z-index: 100;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+.btn-under-construction {
+  position: relative;
+  transition: none;
+  &:hover {
+    cursor: not-allowed !important;
+    &::before {
+      content: 'NOT IMPLEMENTED';
+      font-size: 12px;
+      border-radius: 3px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $black;
+      color: $white;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+  }
 }

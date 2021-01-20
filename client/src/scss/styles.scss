@@ -1,44 +1,41 @@
 /*------------------------------------*\
 $GLOBAL ELEMENTS
 \*------------------------------------*/
-@import "generic/reset";
-@import "generic/mixins";
-@import "generic/variables";
-
+@import 'generic/reset';
+@import 'generic/mixins';
+@import 'generic/variables';
 
 /*------------------------------------*\
 $BASE
 \*------------------------------------*/
-@import "base/app";
-@import "base/global";
-@import "base/main";
-@import "base/icons";
-
+@import 'base/app';
+@import 'base/global';
+@import 'base/main';
+@import 'base/icons';
 
 /*------------------------------------*\
 $COMPONENTS
 \*------------------------------------*/
-@import "components/small-item-card";
-@import "components/header";
-@import "components/navigation";
-@import "components/footer";
-@import "components/search-box";
-@import "components/buttons";
-@import "components/collection-overview";
-@import "components/top-short-content";
-@import "components/breadcrumb";
-@import "components/collection-filter";
-@import "components/modal";
-@import "components/login-modal";
-@import "components/form-items";
-
+@import 'components/small-item-card';
+@import 'components/header';
+@import 'components/navigation';
+@import 'components/footer';
+@import 'components/search-box';
+@import 'components/buttons';
+@import 'components/collection-overview';
+@import 'components/top-short-content';
+@import 'components/breadcrumb';
+@import 'components/collection-filter';
+@import 'components/modal';
+@import 'components/login-modal';
+@import 'components/form-items';
 
 /*------------------------------------*\
 $PAGES
 \*------------------------------------*/
-@import "page/homepage";
-@import "page/itempage";
-@import "page/profilepage";
-@import "page/collectionpage";
-@import "page/itemsellpage";
-@import "page/messagespage";
+@import 'page/homepage';
+@import 'page/itempage';
+@import 'page/profilepage';
+@import 'page/collectionpage';
+@import 'page/itemsellpage';
+@import 'page/messagespage';

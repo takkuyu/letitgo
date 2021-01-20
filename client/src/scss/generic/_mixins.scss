@@ -2,43 +2,42 @@
     $MIXINS
 \*------------------------------------*/
 
-
 /* Small devices (landscape phones, 576px and up) */
 @mixin sm {
-    @media (min-width: ($bp-small)) {
-        @content;
-    }
+  @media (min-width: ($bp-small)) {
+    @content;
+  }
 }
 
 @mixin sm-up {
-    @media (max-width: ($bp-small - 1px)) {
-        @content;
-    }
+  @media (max-width: ($bp-small - 1px)) {
+    @content;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @mixin md {
-    @media (min-width: ($bp-med)) {
-        @content;
-    }
+  @media (min-width: ($bp-med)) {
+    @content;
+  }
 }
 
 @mixin md-up {
-    @media (max-width: ($bp-med-up)) {
-        @content;
-    }
+  @media (max-width: ($bp-med-up)) {
+    @content;
+  }
 }
 
 /* Large devices (desktops, 992px and up) */
 @mixin lg {
-    @media (min-width: $bp-large) {
-        @content;
-    }
+  @media (min-width: $bp-large) {
+    @content;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @mixin xlg {
-    @media (min-width: ($bp-xl)) {
-        @content;
-    }
+  @media (min-width: ($bp-xl)) {
+    @content;
+  }
 }

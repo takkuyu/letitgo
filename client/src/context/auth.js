@@ -1,72 +1,77 @@
-import React, { createContext, useReducer, useContext } from 'react'
-import jwtDecode from 'jwt-decode'
+import React, { createContext, useReducer, useContext } from 'react';
+import jwtDecode from 'jwt-decode';
 
-const AuthStateContext = createContext()
-const AuthDispatchContext = createContext()
+const AuthStateContext = createContext();
+const AuthDispatchContext = createContext();
 
-let user = null
-const token = sessionStorage.getItem('token')
+let user = null;
+const token = sessionStorage.getItem('token');
 if (token) {
-  const decodedToken = jwtDecode(token)
-  const expiresAt = new Date(decodedToken.exp * 1000)
+  const decodedToken = jwtDecode(token);
+  const expiresAt = new Date(decodedToken.exp * 1000);
 
   if (new Date() > expiresAt) {
-    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('token');
   } else {
-    user = decodedToken
+    user = decodedToken;
   }
-} else console.log('No token found')
+} else console.log('No token found');
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      sessionStorage.setItem('token', action.payload.token)
+      sessionStorage.setItem('token', action.payload.token);
       return {
         ...state,
         user: action.payload,
         isLoggedin: true,
         loading: false,
-      }
+      };
     case 'LOGOUT':
-      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('token');
       return {
         ...state,
         user: null,
         isLoggedin: false,
         isLoginModalOpen: false,
-      }
+      };
     case 'LOAD_USER':
       return {
         ...state,
         user: action.payload,
         isLoggedin: true,
         loading: false,
-      }
+      };
     case 'UPDATE_USER':
       return {
         ...state,
         user: {
           ...state.user,
-          ...action.payload
+          ...action.payload,
         },
-      }
+      };
     case 'TOGGLE_LOGIN_MODAL':
       return {
         ...state,
         isLoginModalOpen: !state.isLoginModalOpen,
-      }
+      };
     case 'COMPLETE_LOADING':
       return {
         ...state,
         loading: false,
-      }
+      };
     default:
-      throw new Error(`Unknown action type: ${action.type}`)
+      throw new Error(`Unknown action type: ${action.type}`);
   }
-}
+};
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user, isLoggedin: false, isLoginModalOpen: false, loading: true })
+  const [state, dispatch] = useReducer(authReducer, {
+    user,
+    isLoggedin: false,
+    isLoginModalOpen: false,
+    loading: true,
+  });
 
   return (
     <AuthDispatchContext.Provider value={dispatch}>
@@ -74,8 +79,8 @@ export const AuthProvider = ({ children }) => {
         {children}
       </AuthStateContext.Provider>
     </AuthDispatchContext.Provider>
-  )
-}
+  );
+};
 
-export const useAuthState = () => useContext(AuthStateContext)
-export const useAuthDispatch = () => useContext(AuthDispatchContext)
+export const useAuthState = () => useContext(AuthStateContext);
+export const useAuthDispatch = () => useContext(AuthDispatchContext);
