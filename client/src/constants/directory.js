@@ -17,11 +17,11 @@ export default {
     heading: 'Deals for the tech obsessed',
     linkUrl: 'shop/electrics',
   },
-  vehicles: {
-    id: 'vehicles',
-    category: 'Vehicles',
-    heading: 'Deals for drivers',
-    linkUrl: 'shop/vehicles',
+  kids: {
+    id: 'kids',
+    category: 'Kids',
+    heading: 'Deals for kids',
+    linkUrl: 'shop/kids',
   },
   home: {
     id: 'home',

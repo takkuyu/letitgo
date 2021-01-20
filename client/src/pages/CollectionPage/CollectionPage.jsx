@@ -44,7 +44,7 @@ const CollectionPage = ({ collectionItems, currentCategoryTitle, match, location
             </div>
           </Col>
           <Col sm={8} md={9}>
-            <div className="collection-page__main">
+            <div className="collection-page__main pb-5">
               <div className="d-flex justify-content-between align-items-center">
                 <h1 className="mb-0">{currentCategoryTitle}</h1>
                 <MobileFilter />

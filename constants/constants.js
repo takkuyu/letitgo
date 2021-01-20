@@ -2,7 +2,7 @@ module.exports = {
   WOMEN: 'Women',
   MEN: 'Men',
   ELECTRICS: 'Electrics',
-  VEHICLES: 'Vehicles',
+  KIDS: 'Kids',
   HOME: 'Home',
   OTHER: 'Other',
 }

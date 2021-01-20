@@ -1,7 +1,6 @@
 {
-  "name": "instragram-clone",
+  "name": "letgo-client",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.6",
     "@testing-library/jest-dom": "^4.2.4",

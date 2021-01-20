@@ -44,8 +44,6 @@ const Profile = () => {
   const [activeNav, setActiveNav] = useState(NAV_OPTIONS.WISH);
   const { user } = useAuthState();
 
-  console.log(user)
-
   const { loading: wishListLoading, data: wishListData } = useQuery(GET_WISH_LIST, {
     variables: { uid: user.uid },
     fetchPolicy:'no-cache'
