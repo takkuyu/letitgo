@@ -5,10 +5,10 @@ import {
   ApolloProvider as Provider,
   createHttpLink,
   split,
-  InMemoryCache
+  InMemoryCache,
 } from '@apollo/client';
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { getMainDefinition } from '@apollo/client/utilities'
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 
 export const typeDefs = gql`
@@ -19,7 +19,7 @@ export const typeDefs = gql`
 `;
 
 let httpLink = createHttpLink({
-  uri: '/graphql/',
+  uri: 'http://localhost:4000',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -29,9 +29,9 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 
 httpLink = authLink.concat(httpLink);
@@ -39,26 +39,26 @@ httpLink = authLink.concat(httpLink);
 const host = window.location.host;
 
 const wsLink = new WebSocketLink({
-  uri:  `ws://${host}/graphql/`,
+  uri: `ws://localhost:4000`,
   options: {
     reconnect: true,
     connectionParams: {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     },
   },
-})
+});
 
 const splitLink = split(
   ({ query }) => {
-    const definition = getMainDefinition(query)
+    const definition = getMainDefinition(query);
     return (
       definition.kind === 'OperationDefinition' &&
       definition.operation === 'subscription'
-    )
+    );
   },
   wsLink,
   httpLink
-)
+);
 
 const client = new ApolloClient({
   link: splitLink,
@@ -68,5 +68,5 @@ const client = new ApolloClient({
 });
 
 export default function ApolloProvider(props) {
-  return <Provider client={client} {...props} />
+  return <Provider client={client} {...props} />;
 }
