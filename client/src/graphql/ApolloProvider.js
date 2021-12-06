@@ -19,7 +19,7 @@ export const typeDefs = gql`
 `;
 
 let httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: '/graphql/',
 });
 
 const authLink = setContext((_, { headers }) => {
