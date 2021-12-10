@@ -39,7 +39,7 @@ httpLink = authLink.concat(httpLink);
 // const host = window.location.host;
 
 const wsLink = new WebSocketLink({
-  uri: `ws://letitgo-server.herokuapp.com/`,
+  uri: `wss://letitgo-server.herokuapp.com/`,
   options: {
     reconnect: true,
     connectionParams: {
