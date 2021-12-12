@@ -20,7 +20,7 @@
     "react-scripts": "^3.4.4",
     "reactstrap": "^8.8.1",
     "styled-components": "^5.2.1",
-    "subscriptions-transport-ws": "^0.9.18"
+    "subscriptions-transport-ws": "^0.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
