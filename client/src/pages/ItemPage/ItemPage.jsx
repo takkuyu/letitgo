@@ -252,7 +252,7 @@ const ItemPage = ({
               </div>
               <div>
                 Posted on:
-                <span>{moment(Number(item.created)).format('LL')}</span>
+                <span>{moment(item.created).format('LL')}</span>
               </div>
               <div>
                 Condition:<span>{item.condition}</span>

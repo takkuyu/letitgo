@@ -22,7 +22,7 @@ const Messages = ({ currentUser, messagesContRef, messagesActive }) => {
   const dispatch = useMessageDispatch();
 
   const selectedRoom = rooms?.find((room) => room.selected === true);
-
+  
   const messages = selectedRoom?.messages;
 
   const [
@@ -129,7 +129,7 @@ const Messages = ({ currentUser, messagesContRef, messagesActive }) => {
                     </p>
                   </div>
                   <p className="small text-muted">
-                    {moment(new Date(Number(message.created))).format(
+                    {moment(new Date(message.created)).format(
                       'h:mm A | MMM, D'
                     )}
                   </p>
